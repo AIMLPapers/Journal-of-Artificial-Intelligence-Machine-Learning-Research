@@ -20,159 +20,118 @@
         };
       </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
+   <style>
         body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
             color: #333;
         }
         .container {
-            max-width: 1050px;
-            margin: 25px auto;
-            padding: 35px;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
             background-color: #ffffff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
-            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
-        .article-header {
+        .intro-section {
+            background-color: white;
+            padding: 30px;
+            margin: -20px -20px 20px -20px; /* Extend to container edges */
+            border-radius: 8px 8px 0 0;
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 25px;
             border-bottom: 1px solid #eee;
         }
-        .article-header h1 {
-            font-size: 2.9em;
-            color: #1a5276; /* Darker Blue */
+        .intro-section h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .intro-section .catch-phrase {
+            font-size: 1.2em;
+            color: #3498db;
             margin-bottom: 15px;
-            font-weight: 700;
+            font-style: italic;
         }
-        .article-header .sub-title {
-            font-size: 1.35em;
-            color: #566573; /* Slate Gray */
-            margin-bottom: 20px;
-            font-style: normal;
-        }
-        .article-header i.fas {
-            font-size: 4em;
-            color: #1a5276;
-            margin-bottom: 20px;
+        .intro-section i.fas {
+            font-size: 3em;
+            color: #3498db;
+            margin-bottom: 15px;
         }
         h2 {
-            color: #1f618d; /* Medium Blue */
-            border-bottom: 3px solid #aed6f1; /* Lighter Blue */
-            padding-bottom: 10px;
-            margin-top: 45px;
-            font-size: 2.1em;
-            font-weight: 600;
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
         }
         h3 {
-            color: #2980b9; /* Standard Blue */
-            margin-top: 35px;
-            font-size: 1.6em;
-            font-weight: 600;
+            color: #2980b9;
+            margin-top: 25px;
         }
         p, li {
-            color: #444;
-            font-size: 1.1em;
-            text-align: justify;
+            color: #555;
         }
         strong {
-            color: #17202a; /* Very Dark Blue/Black */
-            font-weight: 600;
+            color: #2c3e50;
         }
         code {
-            background-color: #f4f6f7; /* Light Gray */
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: 'Menlo', 'Monaco', monospace;
-            font-size: 0.95em;
-            color: #b03a2e; /* Muted Red */
-            border: 1px solid #e5e8e8;
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
         }
         .formula {
             display: block;
-            background-color: #eaf2f8; /* Light Blue */
-            padding: 20px 25px;
-            margin: 25px 0;
-            border-left: 6px solid #2980b9; /* Standard Blue */
+            background-color: #eaf2f8;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
             overflow-x: auto;
-            font-size: 1.18em;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+            font-size: 1.1em;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 35px 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            font-size: 1em;
+            margin: 25px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
         }
         th, td {
-            padding: 15px 20px;
-            border: 1px solid #d6dbdf; /* Light Gray Border */
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             text-align: left;
         }
         th {
-            background-color: #2980b9; /* Standard Blue */
+            background-color: #3498db;
             color: white;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
         }
         tr:nth-child(even) {
-            background-color: #f8f9fa; /* Very Light Gray */
+            background-color: #f2f2f2;
         }
         tr:hover {
-            background-color: #eaf2f8; /* Light Blue */
+            background-color: #eaf2f8;
         }
         .svg-diagram {
             display: block;
-            margin: 35px auto;
+            margin: 20px auto;
             text-align: center;
-            padding: 25px;
-            background-color: #fdfefe; /* Almost White */
-            border-radius: 8px;
-            border: 1px solid #e5e8e8; /* Light Gray Border */
-        }
-        .svg-diagram svg {
-            max-width: 100%;
-            height: auto;
         }
         .author-box {
-            background-color: #f2f3f4; /* Light Gray */
-            padding: 30px;
-            margin-top: 55px;
-            border-radius: 8px;
-            border-left: 6px solid #566573; /* Slate Gray */
+            background-color: #eaf2f8;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 5px;
+            border-left: 5px solid #2980b9;
         }
         .author-box h2 {
             border-bottom: none;
             margin-top: 0;
-            font-size: 1.6em;
-            color: #17202a; /* Very Dark Blue/Black */
         }
         .author-box p {
             color: #333;
-            font-size: 1.05em;
-        }
-        .caption {
-            text-align: center;
-            font-style: italic;
-            color: #6c757d;
-            margin-top: -15px;
-            margin-bottom: 25px;
-            font-size: 0.95em;
-        }
-        .privacy-icon {
-            color: #27ae60; /* Green */
-            margin-right: 8px;
-        }
-        .challenge-icon {
-             color: #e74c3c; /* Red */
-             margin-right: 8px;
         }
     </style>
 </head>

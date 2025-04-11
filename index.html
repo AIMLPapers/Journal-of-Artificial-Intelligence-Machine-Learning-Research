@@ -3,152 +3,552 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAIML :: Advancing the Frontiers of AI and Machine Learning</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Journal of Artificial intelligence and Machine Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        /* Basic body styling */
-        body {
-            font-family: sans-serif; /* A common default */
-        }
-        /* Add some basic link styling */
-        a {
-            color: #003366; /* Dark blue, common for academic sites */
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        h2 {
-             border-bottom: 1px solid #ccc;
-             padding-bottom: 4px;
-             margin-bottom: 10px;
-             font-size: 1.25rem; /* Slightly larger heading */
-             font-weight: 600;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-white text-gray-800 p-4 md:p-8">
+<body>
 
-    <div class="container mx-auto max-w-6xl">
-
-        <header class="mb-6 flex items-center gap-4">
-            <img src="logo.png" alt="JAIML Logo Placeholder" class="h-12">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Journal of Artificial intelligence and Machine Learning</h1>
-                <p class="text-lg text-gray-600">Advancing the Frontiers of AI and Machine Learning</p>
-            </div>
-        </header>
-
-        <nav class="bg-gray-100 p-3 rounded-lg mb-6 shadow">
-             <ul class="flex flex-wrap gap-x-4 gap-y-2 justify-center md:justify-start text-sm">
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-home mr-1"></i>Home Page</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-file-alt mr-1"></i>Papers</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-upload mr-1"></i>Submissions</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-newspaper mr-1"></i>News</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-users mr-1"></i>Editorial Board</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-star mr-1"></i>Special Issues</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-code mr-1"></i>Open Source Software</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-book-open mr-1"></i>Proceedings (PMLR)</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-database mr-1"></i>Data (DMLR)</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-exchange-alt mr-1"></i>Transactions (TMLR)</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-search mr-1"></i>Search</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-chart-bar mr-1"></i>Statistics</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-sign-in-alt mr-1"></i>Login</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-question-circle mr-1"></i>FAQ</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-envelope mr-1"></i>Contact Us</a></li>
-                <li><a href="#" class="hover:text-blue-700"><i class="fas fa-rss mr-1"></i>RSS Feed</a></li>
-            </ul>
-        </nav>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <main class="md:col-span-2 space-y-6">
-
-                <section id="latest-papers" class="bg-gray-50 p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-3 border-b pb-2"><i class="fas fa-file-alt mr-2"></i>Latest Papers (Volume 26 - Started Feb 2025)</h2>
-                    <article class="mb-4 pb-4 border-b last:border-b-0">
-                        <h3 class="font-bold text-lg"><a href="#">Example Paper Title Goes Here</a></h3>
-                        <p class="text-sm text-gray-600">Author One, Author Two, Author Three</p>
-                        <p class="text-sm mt-1">
-                            <a href="#" class="mr-2 hover:text-blue-700">[Abstract]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[PDF]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[BibTeX]</a>
-                            <a href="#" class="hover:text-blue-700">[Code]</a>
-                        </p>
-                    </article>
-                    <article class="mb-4 pb-4 border-b last:border-b-0">
-                        <h3 class="font-bold text-lg"><a href="#">Another Interesting AI and Machine Learning Paper</a></h3>
-                        <p class="text-sm text-gray-600">Researcher A, Researcher B</p>
-                        <p class="text-sm mt-1">
-                            <a href="#" class="mr-2 hover:text-blue-700">[Abstract]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[PDF]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[BibTeX]</a>
-                            </p>
-                    </article>
-                     <article>
-                        <h3 class="font-bold text-lg"><a href="#">A Third Paper on a Different Topic</a></h3>
-                        <p class="text-sm text-gray-600">Scholar X</p>
-                        <p class="text-sm mt-1">
-                            <a href="#" class="mr-2 hover:text-blue-700">[Abstract]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[PDF]</a>
-                            <a href="#" class="mr-2 hover:text-blue-700">[BibTeX]</a>
-                            <a href="#" class="hover:text-blue-700">[Code]</a>
-                        </p>
-                    </article>
-                </section>
-
-                <section id="news" class="bg-gray-50 p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-3 border-b pb-2"><i class="fas fa-newspaper mr-2"></i>News</h2>
-                    <ul class="list-disc list-inside space-y-2 text-sm">
-                        <li><span class="font-semibold">[2025.02.10]</span> Volume 26 begins. Volume 25 completed.</li>
-                        <li><span class="font-semibold">[2024.XX.XX]</span> Previous news item placeholder.</li>
-                        <li><span class="font-semibold">[2022.07.20]</span> Special Issue on Climate Change announced.</li>
-                        </ul>
-                </section>
-
-            </main>
-
-            <aside class="space-y-6">
-                 <section id="search" class="bg-gray-100 p-4 rounded-lg shadow">
-                    <h2 class="text-lg font-semibold mb-2"><i class="fas fa-search mr-2"></i>Search JAIML</h2>
-                    <form action="#">
-                        <input type="text" placeholder="Search papers..." class="w-full p-2 border rounded mb-2">
-                        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Search</button>
-                    </form>
-                </section>
-
-                <section id="quick-links" class="bg-gray-100 p-4 rounded-lg shadow">
-                    <h2 class="text-lg font-semibold mb-2"><i class="fas fa-link mr-2"></i>Quick Links</h2>
-                    <ul class="space-y-1 text-sm">
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-upload mr-1 text-gray-500"></i> Submissions</a></li>
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-users mr-1 text-gray-500"></i> Editorial Board</a></li>
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-star mr-1 text-gray-500"></i> Special Issues</a></li>
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-code mr-1 text-gray-500"></i> Open Source Software</a></li>
-                         <li><a href="#" class="hover:text-blue-700"><i class="fas fa-book-open mr-1 text-gray-500"></i> Proceedings (PMLR)</a></li>
-                         <li><a href="#" class="hover:text-blue-700"><i class="fas fa-database mr-1 text-gray-500"></i> Data (DMLR)</a></li>
-                         <li><a href="#" class="hover:text-blue-700"><i class="fas fa-exchange-alt mr-1 text-gray-500"></i> Transactions (TMLR)</a></li>
-                         <li><a href="#" class="hover:text-blue-700"><i class="fas fa-chart-bar mr-1 text-gray-500"></i> Statistics</a></li>
-                    </ul>
-                </section>
-
-                 <section id="information" class="bg-gray-100 p-4 rounded-lg shadow">
-                    <h2 class="text-lg font-semibold mb-2"><i class="fas fa-info-circle mr-2"></i>Information</h2>
-                     <ul class="space-y-1 text-sm">
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-question-circle mr-1 text-gray-500"></i> Frequently Asked Questions</a></li>
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-envelope mr-1 text-gray-500"></i> Contact Us</a></li>
-                        <li><a href="#" class="hover:text-blue-700"><i class="fas fa-rss mr-1 text-gray-500"></i> RSS Feed</a></li>
-                    </ul>
-                </section>
-            </aside>
-
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-area">
+                     <div class="logo">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" style="stop-color:#3498db;stop-opacity:1" />
+                              <stop offset="100%" style="stop-color:#2980b9;stop-opacity:1" />
+                            </linearGradient>
+                          </defs>
+                          <circle cx="25" cy="30" r="10" fill="url(#grad1)"/>
+                          <circle cx="75" cy="30" r="10" fill="url(#grad1)"/>
+                          <circle cx="50" cy="70" r="12" fill="url(#grad1)"/>
+                          <line x1="25" y1="30" x2="50" y2="70" stroke="#bdc3c7" stroke-width="4"/>
+                          <line x1="75" y1="30" x2="50" y2="70" stroke="#bdc3c7" stroke-width="4"/>
+                          <line x1="25" y1="30" x2="75" y2="30" stroke="#bdc3c7" stroke-width="3" stroke-dasharray="5,5"/>
+                        </svg>
+                    </div>
+                    <div class="site-title">
+                        <h1><a href="index.html">Journal of Artificial intelligence and Machine Learning</a></h1>
+                        <p class="tagline">Advancing the frontiers of intelligent systems.</p>
+                    </div>
+                </div>
+                </div>
         </div>
+    </header>
 
-        <footer class="mt-8 pt-4 border-t text-center text-sm text-gray-500">
-            <p>&copy; 2000-2025 Journal of Artificial intelligence and Machine Learning. All rights reserved.</p>
-            <p>ISSN: 1532-4435</p> </footer>
-
+    <div class="container">
+        <main>
+            <h2 class="section-title">Published Articles</h2>
+            <ul class="article-list">
+                <li class="article-item">
+                    <div class="article-header">
+                        <i class="fa-solid fa-robot article-icon"></i>
+                        <h3><a href="article_1.html">Advancements in Reinforcement Learning for Robotics</a></h3>
+                    </div>
+                    <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> April 10, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-comments article-icon"></i>
+                        <h3><a href="article_2.html">Deep Learning Techniques for Natural Language Understanding</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> April 8, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-database article-icon"></i>
+                        <h3><a href="article_3.html">Scalable Algorithms for Big Data Analytics</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> April 5, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-shield-halved article-icon"></i>
+                        <h3><a href="article_4.html">Federated Learning: Privacy-Preserving Collaborative Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> April 2, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-magnifying-glass article-icon"></i>
+                        <h3><a href="article_5.html">Interpretable AI: Methods and Challenges</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 30, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-camera-retro article-icon"></i>
+                        <h3><a href="article_6.html">Computer Vision Trends: Object Detection and Segmentation</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 28, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-image article-icon"></i>
+                        <h3><a href="article_7.html">Generative Adversarial Networks (GANs) for Image Synthesis</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 25, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-chart-line article-icon"></i>
+                        <h3><a href="article_8.html">Time Series Forecasting using Recurrent Neural Networks</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 22, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-sliders article-icon"></i>
+                        <h3><a href="article_9.html">Optimization Techniques in Machine Learning Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 19, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-triangle-exclamation article-icon"></i>
+                        <h3><a href="article_10.html">Anomaly Detection in High-Dimensional Data</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 16, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-lightbulb article-icon"></i>
+                        <h3><a href="article_11.html">Explainable AI (XAI) Frameworks Compared</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 13, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-microscope article-icon"></i>
+                        <h3><a href="article_12.html">Transfer Learning Applications in Medical Imaging</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 10, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-circle-nodes article-icon"></i>
+                        <h3><a href="article_13.html">Bayesian Methods for Machine Learning Uncertainty</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 7, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-scale-balanced article-icon"></i>
+                        <h3><a href="article_14.html">Ethical Considerations in AI Development</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 4, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-share-nodes article-icon"></i>
+                        <h3><a href="article_15.html">Graph Neural Networks for Structured Data</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> March 1, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-arrows-rotate article-icon"></i>
+                        <h3><a href="article_16.html">Self-Supervised Learning Approaches</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 26, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-link article-icon"></i>
+                        <h3><a href="article_17.html">Causal Inference in Machine Learning Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 23, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-earth-americas article-icon"></i>
+                        <h3><a href="article_18.html">Machine Learning for Climate Change Modeling</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 20, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-atom article-icon"></i>
+                        <h3><a href="article_19.html">Quantum Machine Learning: Prospects and Challenges</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 17, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-wand-magic-sparkles article-icon"></i>
+                        <h3><a href="article_20.html">Automated Machine Learning (AutoML) Systems</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 14, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-pills article-icon"></i>
+                        <h3><a href="article_21.html">AI in Drug Discovery and Development</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 11, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-shield-virus article-icon"></i>
+                        <h3><a href="article_22.html">Robustness and Adversarial Attacks on Neural Networks</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 8, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-gamepad article-icon"></i>
+                        <h3><a href="article_23.html">Deep Reinforcement Learning for Game Playing</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 5, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-users article-icon"></i>
+                        <h3><a href="article_24.html">Multi-Agent Systems and Collaborative AI</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> February 2, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-face-smile article-icon"></i>
+                        <h3><a href="article_25.html">Sentiment Analysis using Transformer Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 30, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-compress article-icon"></i>
+                        <h3><a href="article_26.html">Dimensionality Reduction Techniques: PCA vs. t-SNE</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 27, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-graduation-cap article-icon"></i>
+                        <h3><a href="article_27.html">AI for Personalized Education Systems</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 24, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-thumbs-up article-icon"></i>
+                        <h3><a href="article_28.html">Recommender Systems: Collaborative vs. Content-Based</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 21, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-microphone-lines article-icon"></i>
+                        <h3><a href="article_29.html">Speech Recognition Technologies and Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 18, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-toolbox article-icon"></i> <h3><a href="article_30.html">Machine Learning Interpretability Tools</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 15, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-filter-circle-xmark article-icon"></i> <h3><a href="article_31.html">Bias Detection and Mitigation in AI Algorithms</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 12, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-money-bill-trend-up article-icon"></i>
+                        <h3><a href="article_32.html">Applications of AI in Financial Modeling</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 9, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-stairs article-icon"></i>
+                        <h3><a href="article_33.html">Meta-Learning: Learning to Learn</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 6, 2025</span>
+                    </p>
+                </li>
+                <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-server article-icon"></i>
+                        <h3><a href="article_34.html">Edge Computing for Real-Time AI Applications</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> January 3, 2025</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-brain article-icon"></i> <h3><a href="article_35.html">Neuro-Symbolic AI Integration</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 31, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-lock article-icon"></i>
+                        <h3><a href="article_36.html">AI in Cybersecurity: Threat Detection</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 28, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-dna article-icon"></i>
+                        <h3><a href="article_37.html">Evolutionary Algorithms for Optimization</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 25, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-pen-nib article-icon"></i>
+                        <h3><a href="article_38.html">Natural Language Generation Techniques</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 22, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-shapes article-icon"></i>
+                        <h3><a href="article_39.html">Unsupervised Learning Methods Exploration</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 19, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-user-check article-icon"></i>
+                        <h3><a href="article_40.html">Human-in-the-Loop Machine Learning</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 16, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-car article-icon"></i>
+                        <h3><a href="article_41.html">AI for Autonomous Vehicle Navigation</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 13, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-screwdriver-wrench article-icon"></i>
+                        <h3><a href="article_42.html">Predictive Maintenance using ML Models</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 10, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-seedling article-icon"></i>
+                        <h3><a href="article_43.html">Few-Shot Learning Strategies</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 7, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-book-atlas article-icon"></i>
+                        <h3><a href="article_44.html">Knowledge Graphs and Reasoning</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 4, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-gavel article-icon"></i> <h3><a href="article_45.html">AI Ethics Frameworks: A Comparative Study</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> December 1, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-recycle article-icon"></i> <h3><a href="article_46.html">Continual Learning without Catastrophic Forgetting</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> November 28, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-cogs article-icon"></i>
+                        <h3><a href="article_47.html">Machine Learning Operations (MLOps) Practices</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> November 25, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-mask article-icon"></i>
+                        <h3><a href="article_48.html">Privacy Enhancing Technologies in AI</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> November 22, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item">
+                     <div class="article-header">
+                        <i class="fa-solid fa-network-wired article-icon"></i>
+                        <h3><a href="article_49.html">Transformer Architectures Beyond NLP</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> November 19, 2024</span>
+                    </p>
+                </li>
+                 <li class="article-item article-item-highlight">
+                     <div class="article-header">
+                        <i class="fa-solid fa-infinity article-icon"></i>
+                        <h3><a href="article_50.html">The Future of Artificial General Intelligence (AGI)</a></h3>
+                     </div>
+                     <p class="article-metadata">
+                        <span><i class="fa-regular fa-user"></i> Loveleen Narang</span>
+                        <span><i class="fa-regular fa-calendar-days"></i> November 16, 2024</span>
+                    </p>
+                </li>
+                </ul>
+        </main>
     </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Journal of Machine Learning Research. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
 </html>

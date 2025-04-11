@@ -1,0 +1,287 @@
+/* --- Global Reset & Base Styles --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.7;
+  background-color: #f8faff; /* Slightly cooler background */
+  color: #444; /* Slightly softer text color */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-size: 16px; /* Base font size */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; /* Bolder headings */
+  color: #2c3e50;
+  margin-bottom: 0.9em;
+  line-height: 1.3;
+}
+
+a {
+  color: #2980b9; /* Slightly deeper primary blue */
+  text-decoration: none;
+  transition: color 0.25s ease-in-out;
+}
+
+a:hover {
+  color: #1f618d; /* Darker hover */
+  text-decoration: none; /* Keep underline off by default */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+  width: 92%; /* Slightly wider */
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 25px 0; /* Increased vertical padding */
+  flex-grow: 1;
+}
+
+/* --- Header Styles --- */
+.site-header {
+  background: linear-gradient(to right, #ffffff, #fdfdff); /* Very subtle gradient */
+  padding: 25px 0; /* Increased padding */
+  border-bottom: 1px solid #e8ecf1; /* Lighter border */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04); /* Softer shadow */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.logo svg {
+  width: 55px; /* Slightly larger logo */
+  height: 55px;
+}
+/* Style SVG elements for better definition */
+.logo svg circle {
+    transition: fill 0.3s ease;
+}
+.logo svg line {
+    stroke: #ced4da; /* Lighter lines */
+    transition: stroke 0.3s ease;
+}
+.logo:hover svg circle {
+    fill: url(#grad1); /* Ensure gradient is applied */
+}
+.logo:hover svg line {
+    stroke: #adb5bd; /* Darker lines on hover */
+}
+
+
+.site-title h1 {
+  margin: 0;
+  font-size: 1.9em; /* Adjusted size */
+  color: #2c3e50;
+  font-weight: 700;
+}
+.site-title h1 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.site-title h1 a:hover {
+    color: #3498db; /* Add hover color to title */
+}
+
+.tagline {
+    font-size: 1em;
+    color: #7f8c8d;
+    margin-top: -5px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+
+
+/* --- Main Content Styles --- */
+main {
+    padding-top: 40px; /* More space above content */
+}
+
+h2.section-title {
+    font-size: 2em; /* Larger section title */
+    margin-bottom: 35px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+/* --- Homepage Article List Styles --- */
+.article-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px; /* Increased gap */
+}
+
+.article-item {
+  background-color: #ffffff;
+  border: 1px solid #e8ecf1; /* Lighter border */
+  border-radius: 10px; /* More rounded corners */
+  padding: 30px 35px; /* Increased padding */
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out, border-color 0.25s ease-in-out;
+  box-shadow: 0 4px 8px rgba(44, 62, 80, 0.06); /* Softer, slightly larger shadow */
+}
+
+.article-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(44, 62, 80, 0.1); /* Enhanced hover shadow */
+  border-color: #d4e6f1; /* Subtle border color change */
+}
+
+.article-item h3 {
+  font-size: 1.4em; /* Slightly larger title */
+  margin-bottom: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.article-item h3 a {
+  color: #2c3e50;
+}
+
+.article-item h3 a:hover {
+  color: #2980b9;
+}
+
+.article-metadata {
+  font-size: 0.95em; /* Slightly larger metadata */
+  color: #7f8c8d;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px; /* Adjusted gap */
+  align-items: center;
+  margin-top: 5px; /* Add some space above metadata */
+}
+
+.article-metadata i {
+    margin-right: 6px;
+    color: #95a5a6;
+    font-size: 1.05em; /* Slightly larger icons */
+}
+
+/* --- Individual Article Page Styles --- */
+.article-content-full {
+  background-color: #ffffff;
+  border: 1px solid #e8ecf1;
+  border-radius: 10px;
+  padding: 40px 50px; /* More padding */
+  margin-top: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 8px rgba(44, 62, 80, 0.06);
+}
+
+.article-content-full h2 {
+  font-size: 2.4em; /* Larger article title */
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.article-content-full .article-metadata {
+    margin-bottom: 35px;
+    font-size: 1.05em; /* Larger metadata */
+    border-bottom: 1px solid #e8ecf1; /* Lighter separator */
+    padding-bottom: 25px;
+}
+
+.article-content-full p {
+  margin-bottom: 1.6em;
+  color: #444;
+  font-size: 1.05em; /* Slightly larger body text */
+}
+.article-content-full h3 {
+    font-size: 1.6em; /* Adjust sub-heading size */
+    margin-top: 1.8em;
+    margin-bottom: 1em;
+}
+
+
+.article-nav {
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #e8ecf1;
+}
+
+.article-nav a {
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05em;
+    color: #2980b9;
+}
+.article-nav a:hover {
+    color: #1f618d;
+}
+
+/* --- Footer Styles --- */
+.site-footer {
+  background-color: #34495e; /* Slightly different dark footer color */
+  color: #bdc3c7;
+  text-align: center;
+  padding: 30px 0; /* Increased padding */
+  margin-top: 50px;
+  font-size: 0.95em;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* --- Responsiveness --- */
+
+/* Medium screens (Tablets) */
+@media (min-width: 768px) {
+  .article-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-title h1 {
+     font-size: 2.1em;
+  }
+
+  .article-content-full h2 {
+    font-size: 2.7em;
+  }
+}
+
+/* Large screens (Desktops) */
+@media (min-width: 1024px) {
+  /* Keep 2 columns for better readability unless screen is very wide */
+   .site-title h1 {
+     font-size: 2.3em;
+  }
+}
+
+/* Very Large screens (Optional 3 columns) */
+@media (min-width: 1300px) {
+   .article-list {
+     /* Enable 3 columns on very wide screens */
+     grid-template-columns: repeat(3, 1fr);
+   }
+}

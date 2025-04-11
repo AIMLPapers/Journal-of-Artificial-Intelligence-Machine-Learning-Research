@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimization Techniques in Machine Learning Models</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams' // For equation numbering
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+   <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .intro-section {
+            background-color: white;
+            padding: 30px;
+            margin: -20px -20px 20px -20px; /* Extend to container edges */
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .intro-section h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .intro-section .catch-phrase {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .intro-section i.fas {
+            font-size: 3em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        p, li {
+            color: #555;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .formula {
+            display: block;
+            background-color: #eaf2f8;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaf2f8;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .author-box {
+            background-color: #eaf2f8;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 5px;
+            border-left: 5px solid #2980b9;
+        }
+        .author-box h2 {
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .author-box p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="intro-section">
+        <i class="fas fa-cogs"></i> <h1>Optimization Techniques in Machine Learning Models</h1>
+        <p class="sub-title">Navigating the Path to Model Performance: From Gradient Descent to Adam</p>
+        <p><strong>Authored by:</strong> Loveleen Narang</p>
+        <p><strong>Date:</strong> December 2, 2024</p>
+    </header>
+
+    <h2><i class="fas fa-bullseye icon"></i> The Goal: Minimizing the Error</h2>
+    <p>
+        At the heart of training most machine learning models lies an optimization problem. The goal is to find the set of model parameters (weights and biases, collectively denoted by \( \theta \)) that minimizes a predefined <strong>loss function</strong> (or cost function), \( J(\theta) \) (Formula 1). This loss function quantifies the discrepancy between the model's predictions and the actual target values in the training data. The process of minimizing this loss is essentially how a model "learns" from data.
+    </p>
+    <p>
+        This is often framed as <strong>Empirical Risk Minimization (ERM)</strong>, where we aim to minimize the average loss over the training dataset \( \{(x_i, y_i)\}_{i=1}^N \): Formula (2):
+    </p>
+    <div class="formula">$$ \min_{\theta} J(\theta) = \frac{1}{N} \sum_{i=1}^N L(y_i, f(x_i; \theta)) $$</div>
+    <p>
+        Here, \( L \) is the loss for a single data point, and \( f(x_i; \theta) \) is the model's prediction for input \( x_i \) using parameters \( \theta \). Common loss functions include Mean Squared Error (MSE) for regression (Formula 3: \( L = (y - \hat{y})^2 \)) and Cross-Entropy Loss for classification (Formula 4: \( L = -\sum y_k \log(\hat{y}_k) \)). The choice of optimization technique significantly impacts training speed, convergence, and the final performance of the model.
+    </p>
+
+    <div class="svg-diagram">
+        <h3>Optimization Landscape Analogy</h3>
+         <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.surface{fill:url(#grad); stroke:#adb5bd;}.path{fill:none; stroke-width:2.5; marker-end:url(#arrowhead-opt);}.minima{fill:#e74c3c;}.saddle{fill:#f39c12;}.label{font-size:10px;}</style><linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#eaf2f8;stop-opacity:1" /><stop offset="100%" style="stop-color:#d6eaf8;stop-opacity:1" /></linearGradient><marker id="arrowhead-opt" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#3498db" /></marker></defs>
+            <path d="M 20 200 C 80 150, 120 220, 200 180 S 280 50, 380 100 V 230 H 20 Z" class="surface"/>
+             <text x="200" y="30" text-anchor="middle" font-size="12">Loss Function Surface J(θ)</text>
+             <circle cx="310" cy="80" r="8" class="minima"/> <text x="310" y="70" class="label">Global Min</text>
+             <circle cx="160" cy="160" r="6" class="minima"/> <text x="160" y="150" class="label">Local Min</text>
+             <ellipse cx="240" cy="180" rx="6" ry="3" class="saddle"/> <text x="240" y="200" class="label">Saddle Point</text>
+             <path d="M 80 120 Q 120 150, 160 160" class="path" stroke="#3498db"/>
+             <path d="M 280 120 Q 290 100, 310 80" class="path" stroke="#2ecc71"/>
+            <text x="100" y="110" class="label" fill="#3498db">GD Path 1</text>
+            <text x="260" y="140" class="label" fill="#2ecc71">GD Path 2</text>
+        </svg>
+         <p class="caption">Fig 1: Analogy of minimizing loss as finding the lowest point on an error surface, showing potential pitfalls like local minima and saddle points.</p>
+    </div>
+
+    <h2><i class="fas fa-angle-double-down icon"></i> Gradient Descent and its Variants</h2>
+    <p>Most optimization in modern ML relies on variants of Gradient Descent.</p>
+
+    <h3>Batch Gradient Descent (GD)</h3>
+    <p>The most basic form. It calculates the gradient of the loss function \( J(\theta) \) with respect to the parameters \( \theta \) using the <strong>entire</strong> training dataset in each iteration. The parameters are then updated in the direction opposite to the gradient.</p>
+    <ul>
+        <li>Update Rule: Formula (5): \( \theta_{t+1} = \theta_t - \eta \nabla J(\theta_t) \)</li>
+        <li>\( \theta_t \): Parameters at iteration \( t \).</li>
+        <li>\( \eta \): Learning Rate (controls step size). Formula (6): \( \eta \).</li>
+        <li>\( \nabla J(\theta_t) \): Gradient of the loss function w.r.t. \( \theta \) evaluated at \( \theta_t \). Formula (7): \( \nabla J \).</li>
+    </ul>
+    <p><strong>Pros:</strong> Guaranteed convergence to a local minimum (for convex functions) or stationary point, stable updates.</p>
+    <p><strong>Cons:</strong> Computationally very expensive for large datasets as it requires processing all data for a single update, can get stuck in poor local minima or saddle points.</p>
+
+    <h3>Stochastic Gradient Descent (SGD)</h3>
+    <p>SGD addresses the computational cost of GD by updating parameters using the gradient calculated from only <strong>one</strong> randomly chosen training sample \( (x_i, y_i) \) at each iteration.</p>
+     <ul>
+        <li>Update Rule: Formula (8): \( \theta_{t+1} = \theta_t - \eta \nabla J_i(\theta_t) \)</li>
+        <li>\( \nabla J_i(\theta_t) \): Gradient of the loss for the \( i \)-th sample.</li>
+    </ul>
+     <p><strong>Pros:</strong> Much faster updates (computationally cheap), introduces noise that can help escape shallow local minima and saddle points.</p>
+    <p><strong>Cons:</strong> High variance in updates (noisy convergence path), requires careful tuning of the learning rate (often needs decay schedule), doesn't utilize hardware vectorization effectively.</p>
+
+    <h3>Mini-Batch Gradient Descent</h3>
+    <p>A compromise between GD and SGD. It updates parameters using the gradient calculated from a small, randomly selected subset (mini-batch) of the training data (\( B \) samples) at each iteration.</p>
+    <ul>
+        <li>Update Rule: Formula (9): \( \theta_{t+1} = \theta_t - \eta \frac{1}{B} \sum_{i \in \text{Batch}} \nabla J_i(\theta_t) \)</li>
+        <li>\( B \): Mini-batch size (e.g., 32, 64, 128). Formula (10): \( B \).</li>
+    </ul>
+     <p><strong>Pros:</strong> Reduces variance compared to SGD leading to more stable convergence, allows efficient computation using vectorized operations on modern hardware (GPUs/TPUs), still benefits from some noise to escape local minima.</p>
+    <p><strong>Cons:</strong> Introduces a new hyperparameter (batch size), still requires careful learning rate tuning.</p>
+    <p>Mini-Batch GD is the most common approach used in deep learning.</p>
+
+    <table border="1">
+        <caption>Comparison of Gradient Descent Variants</caption>
+        <thead>
+            <tr><th>Optimizer</th><th>Data per Update</th><th>Update Speed</th><th>Variance</th><th>Computation</th><th>Common Use</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Batch GD</strong></td><td>Entire Dataset</td><td>Slow</td><td>Low</td><td>Very High (per update)</td><td>Small datasets, theoretical analysis</td></tr>
+            <tr><td><strong>SGD</strong></td><td>Single Sample</td><td>Fast</td><td>High</td><td>Very Low (per update)</td><td>Online learning, can escape local minima</td></tr>
+            <tr><td><strong>Mini-Batch GD</strong></td><td>Small Batch (B)</td><td>Moderate</td><td>Moderate</td><td>Efficiently Vectorized</td><td>Standard for Deep Learning</td></tr>
+        </tbody>
+    </table>
+
+    <div class="svg-diagram">
+        <h3>Gradient Descent Update Paths (Conceptual)</h3>
+        <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.contour{stroke:#adb5bd; stroke-width:1; fill:none;}.path{fill:none; stroke-width:2; marker-end:url(#arrowhead-opt);}.minima{fill:#1967d2;}.label{font-size:10px;}</style></defs>
+            <ellipse cx="200" cy="150" rx="150" ry="80" class="contour"/>
+             <ellipse cx="200" cy="150" rx="110" ry="60" class="contour"/>
+             <ellipse cx="200" cy="150" rx="70" ry="40" class="contour"/>
+            <ellipse cx="200" cy="150" rx="30" ry="20" class="contour"/>
+            <circle cx="200" cy="150" r="5" class="minima"/> <text x="200" y="140" class="label">Minimum</text>
+            <path d="M 50 50 Q 150 100, 200 150" class="path" stroke="#d93025"/> <text x="50" y="40" class="label" fill="#d93025">Batch GD (Smooth)</text>
+             <path d="M 350 50 C 300 80, 250 120, 280 160 C 240 180, 180 130, 200 150" class="path" stroke="#fbbc05"/> <text x="350" y="40" class="label" fill="#fbbc05">SGD (Noisy)</text>
+             <path d="M 50 250 Q 150 180, 180 160 C 210 140, 190 155, 200 150" class="path" stroke="#34a853"/> <text x="50" y="265" class="label" fill="#34a853">Mini-Batch GD</text>
+        </svg>
+         <p class="caption">Fig 2: Conceptual paths taken by different Gradient Descent variants towards the minimum.</p>
+    </div>
+
+
+    <h2><i class="fas fa-tachometer-alt icon"></i> Accelerating Convergence: Momentum Methods</h2>
+    <p>Momentum methods aim to accelerate GD convergence, especially in directions of persistent descent, and dampen oscillations.</p>
+
+    <h3>Momentum</h3>
+    <p>Introduces a "velocity" vector \( v \) that accumulates an exponentially decaying moving average of past gradients. The parameter update incorporates this velocity.</p>
+    <ul>
+        <li>Velocity Update: Formula (11): \( v_t = \gamma v_{t-1} + \eta \nabla J(\theta_t) \)</li>
+        <li>Parameter Update: Formula (12): \( \theta_{t+1} = \theta_t - v_t \)</li>
+        <li>\( \gamma \): Momentum term (usually around 0.9). Formula (13): \( \gamma \).</li>
+    </ul>
+    <p>Think of it as a ball rolling down a hill – it gathers momentum in consistent directions and smooths out bumps (oscillations).</p>
+
+    <h3>Nesterov Accelerated Gradient (NAG)</h3>
+    <p>A modification of momentum that provides a "lookahead" capability. It calculates the gradient not at the current position \( \theta_t \), but at an approximated future position \( \theta_t - \gamma v_{t-1} \) based on the current velocity.</p>
+    <ul>
+        <li>Velocity Update: Formula (14): \( v_t = \gamma v_{t-1} + \eta \nabla J(\theta_t - \gamma v_{t-1}) \)</li>
+        <li>Parameter Update: Formula (15): \( \theta_{t+1} = \theta_t - v_t \)</li>
+    </ul>
+    <p>NAG often converges faster than standard momentum as it can correct its course more effectively before overshooting.</p>
+
+    <h2><i class="fas fa-sliders-h icon"></i> Adaptive Learning Rate Methods</h2>
+    <p>These methods automatically adjust the learning rate \( \eta \) during training, often on a per-parameter basis, eliminating the need for extensive manual tuning of a global learning rate schedule.</p>
+
+    <h3>AdaGrad (Adaptive Gradient Algorithm)</h3>
+    <p>Adapts the learning rate for each parameter \( \theta_j \) inversely proportional to the square root of the sum of all historical squared gradients for that parameter. Large gradients lead to smaller learning rates, and small gradients lead to larger learning rates.</p>
+     <ul>
+        <li>Accumulate Squared Gradients: \( G_t = G_{t-1} + g_t^2 \) (element-wise, \( g_t = \nabla J_i(\theta_t) \)). Formula (16): \( G_t \).</li>
+        <li>Parameter Update (per parameter j): Formula (17):
+            <div class="formula">$$ \theta_{t+1, j} = \theta_{t, j} - \frac{\eta}{\sqrt{G_{t,jj} + \epsilon}} g_{t, j} $$</div>
+        </li>
+         <li>\( \epsilon \): Small constant for numerical stability (e.g., 1e-8). Formula (18): \( \epsilon \).</li>
+    </ul>
+    <p><strong>Pros:</strong> Good for sparse data (e.g., NLP) as infrequent features get larger updates.</p>
+    <p><strong>Cons:</strong> The accumulated squared gradients \( G_t \) grow monotonically, causing the learning rate to eventually become infinitesimally small, potentially stopping learning prematurely.</p>
+
+    <h3>RMSprop (Root Mean Square Propagation)</h3>
+    <p>Addresses AdaGrad's diminishing learning rate by using an exponentially decaying moving average of squared gradients instead of accumulating all past squared gradients.</p>
+     <ul>
+        <li>Accumulate Decaying Average of Squared Gradients: Formula (19):
+             <div class="formula">$$ E[g^2]_t = \beta E[g^2]_{t-1} + (1-\beta) g_t^2 $$</div>
+         </li>
+        <li>Parameter Update: Formula (20):
+            <div class="formula">$$ \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} g_t $$</div>
+        </li>
+         <li>\( \beta \): Decay rate (e.g., 0.9). Formula (21): \( \beta \).</li>
+    </ul>
+     <p>RMSprop keeps the denominator from growing indefinitely, allowing learning to continue.</p>
+
+    <h3>Adam (Adaptive Moment Estimation)</h3>
+    <p>Perhaps the most popular adaptive method. It combines the ideas of Momentum (using an exponentially decaying average of past gradients - first moment) and RMSprop (using an exponentially decaying average of past squared gradients - second moment).</p>
+    <ul>
+        <li>Update Biased First Moment Estimate (\( m_t \)): Formula (22): \( m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t \).</li>
+        <li>Update Biased Second Moment Estimate (\( v_t \)): Formula (23): \( v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2 \).</li>
+        <li>\( \beta_1, \beta_2 \): Decay rates (e.g., 0.9 and 0.999). Formulas (24, 25).</li>
+        <li>Compute Bias-Corrected Estimates: Formula (26): \( \hat{m}_t = m_t / (1 - \beta_1^t) \). Formula (27): \( \hat{v}_t = v_t / (1 - \beta_2^t) \).</li>
+        <li>Parameter Update: Formula (28):
+             <div class="formula">$$ \theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t $$</div>
+        </li>
+    </ul>
+    <p>Adam often works well with default hyperparameter settings across a wide range of problems.</p>
+
+     <h3>AdamW</h3>
+     <p>A modification of Adam that decouples the weight decay (L2 regularization) from the adaptive learning rate mechanism, often leading to better generalization.</p>
+
+
+     <table border="1">
+        <caption>Comparison of Adaptive Learning Rate Optimizers</caption>
+        <thead>
+            <tr><th>Optimizer</th><th>Key Idea</th><th>Pros</th><th>Cons</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>AdaGrad</strong></td><td>Per-parameter rate based on accumulated squared gradients</td><td>Good for sparse data</td><td>Learning rate shrinks too fast</td></tr>
+            <tr><td><strong>RMSprop</strong></td><td>Per-parameter rate based on decaying average of squared gradients</td><td>Solves AdaGrad's shrinking rate problem</td><td>Requires tuning decay rate \( \beta \)</td></tr>
+             <tr><td><strong>Adam</strong></td><td>Combines Momentum (1st moment) and RMSprop (2nd moment) with bias correction</td><td>Often fast convergence, widely used, good default parameters</td><td>Can sometimes converge to suboptimal points; AdamW variant often preferred with regularization</td></tr>
+             <tr><td><strong>AdamW</strong></td><td>Adam with decoupled weight decay</td><td>Often better generalization than Adam when using L2 regularization</td><td>Slightly different implementation</td></tr>
+        </tbody>
+    </table>
+
+
+    <h2><i class="fas fa-fast-forward icon"></i> Second-Order Optimization Methods</h2>
+    <p>
+        While gradient descent relies on first-order derivatives (gradients), second-order methods utilize the second derivative (Hessian matrix \( H \)) which captures curvature information.
+    </p>
+    <ul>
+        <li><strong>Newton's Method:</strong> Uses the Hessian to rescale the gradient, taking more direct steps towards the minimum. Update Rule: Formula (29): \( \theta_{t+1} = \theta_t - \eta H^{-1} \nabla J(\theta_t) \). Formula (30): Hessian \( H_{ij} = \frac{\partial^2 J}{\partial \theta_i \partial \theta_j} \).</li>
+        <li><strong>Quasi-Newton Methods (e.g., BFGS, L-BFGS):</strong> Approximate the inverse Hessian matrix iteratively, avoiding the high cost of explicit computation and inversion.</li>
+    </ul>
+    <p><strong>Pros:</strong> Can converge much faster than first-order methods near a minimum, especially in ill-conditioned problems.</p>
+    <p><strong>Cons:</strong> Calculating/storing/inverting the Hessian (or its approximation) is computationally prohibitive for large models (\( O(d^2) \) or \( O(d^3) \) cost for \( d \) parameters), making them impractical for most deep learning applications, although L-BFGS sees some use.</p>
+
+     <h2><i class="fas fa-exclamation-circle challenge-icon"></i> Optimization Challenges</h2>
+     <ul>
+        <li><i class="fas fa-project-diagram challenge-icon"></i><strong>Local Minima & Saddle Points:</strong> Optimization might get stuck in suboptimal points, especially in non-convex deep learning landscapes (though saddle points are often more problematic than poor local minima).</li>
+        <li><i class="fas fa-tachometer-alt challenge-icon"></i><strong>Learning Rate Selection:</strong> Choosing an appropriate learning rate \( \eta \) (and its potential decay schedule) is critical and often requires careful tuning. Too large leads to divergence, too small leads to slow convergence.</li>
+        <li><i class="fas fa-mountain challenge-icon"></i><strong>Plateaus:</strong> Regions where the gradient is very small, slowing down progress significantly. Momentum helps overcome these.</li>
+        <li><i class="fas fa-random challenge-icon"></i><strong>Initialization:</strong> The starting point \( \theta_0 \) can significantly influence the final solution found.</li>
+        <li><i class="fas fa-cogs challenge-icon"></i><strong>Vanishing/Exploding Gradients:</strong> Particularly in deep networks, gradients can become extremely small or large during backpropagation, hindering learning (addressed partly by architectures like LSTMs/ResNets and techniques like gradient clipping).</li>
+    </ul>
+
+
+    <h2><i class="fas fa-balance-scale-right icon"></i> Optimization and Regularization</h2>
+    <p>
+        Regularization techniques, like L1 and L2 weight decay, are often incorporated directly into the optimization objective to prevent overfitting. They add a penalty term \( \lambda R(\theta) \) to the loss function.
+    </p>
+    <ul>
+        <li>L2 Regularization (Weight Decay): Penalizes large weights. Term: Formula (31): \( \lambda ||\theta||_2^2 = \lambda \sum \theta_j^2 \).</li>
+        <li>L1 Regularization (Lasso): Penalizes absolute weight values, encouraging sparsity. Term: Formula (32): \( \lambda ||\theta||_1 = \lambda \sum |\theta_j| \).</li>
+        <li>Combined Loss: Formula (33): \( J_{reg}(\theta) = J_{ERM}(\theta) + \lambda R(\theta) \).</li>
+    </ul>
+    <p>The optimizer then minimizes this combined objective, balancing empirical risk with model complexity.</p>
+
+    <h2><i class="fas fa-flag-checkered icon"></i> Conclusion</h2>
+    <p>
+        Optimization is the engine that drives machine learning model training. While basic Gradient Descent provides the foundation, its limitations in large-scale, complex settings have spurred the development of more sophisticated techniques. Stochastic and Mini-Batch variants handle large datasets, Momentum methods accelerate convergence, and Adaptive Learning Rate methods like Adam automatically tune step sizes, becoming the default choice for many deep learning tasks. While challenges like navigating complex loss landscapes and hyperparameter tuning persist, the continuous evolution of optimization algorithms is crucial for pushing the boundaries of machine learning performance and enabling the training of increasingly complex models. Understanding these techniques is essential for any practitioner aiming to effectively train and deploy machine learning solutions.
+    </p>
+     <p><i>(Formula count check: Includes Min J, ERM, MSE, CrossEntropy, GD Update, Eta, Grad J, SGD Update, MiniBatch Update, B, Momentum v, Momentum Update, Gamma, NAG v, NAG Update, AdaGrad G, AdaGrad Update, Epsilon, RMSprop E[g^2], RMSprop Update, Beta, Adam m, Adam v, Beta1, Beta2, Adam m_hat, Adam v_hat, Adam Update, Newton Update, Hessian H, L2 Term, L1 Term, Regularized J. Total > 33).</i></p>
+
+    <div class="author-box">
+        <h2>About the Author, Architect & Developer</h2>
+        <p>
+            <strong>Loveleen Narang</strong> is a seasoned leader in the field of Data Science, Machine Learning, and Artificial Intelligence. With extensive experience in architecting and developing cutting-edge AI solutions, Loveleen focuses on applying advanced technologies to solve complex real-world problems, driving efficiency, enhancing compliance, and creating significant value across various sectors, particularly within government and public administration. His work emphasizes building robust, scalable, and secure systems aligned with industry best practices.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

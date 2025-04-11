@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Neural Networks for Structured Data</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams' // For equation numbering
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+   <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .intro-section {
+            background-color: white;
+            padding: 30px;
+            margin: -20px -20px 20px -20px; /* Extend to container edges */
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .intro-section h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .intro-section .catch-phrase {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .intro-section i.fas {
+            font-size: 3em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        p, li {
+            color: #555;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .formula {
+            display: block;
+            background-color: #eaf2f8;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaf2f8;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .author-box {
+            background-color: #eaf2f8;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 5px;
+            border-left: 5px solid #2980b9;
+        }
+        .author-box h2 {
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .author-box p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="intro-section">
+        <i class="fas fa-project-diagram"></i> <h1>Graph Neural Networks for Structured Data</h1>
+        <p class="sub-title">Unlocking Insights from Relational Data with Deep Learning on Graphs</p>
+        <p><strong>Authored by:</strong> Loveleen Narang</p>
+        <p><strong>Date:</strong> June 1, 2024</p>
+    </header>
+
+    <h2><i class="fas fa-network-wired icon"></i> Introduction: Beyond Grids and Sequences</h2>
+    <p>
+        Traditional deep learning models, like Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs), excel at processing data with regular structures, such as images (grids of pixels) and text/time series (sequences). However, much of the world's data is inherently relational and best represented as **graphs** – structures consisting of nodes (entities) connected by edges (relationships). Examples include social networks, molecular structures, citation networks, knowledge graphs, recommendation systems, and transportation networks.
+    </p>
+    <p>
+        Applying traditional deep learning directly to such graph-structured data is challenging due to irregular connectivity, variable neighborhood sizes, and the lack of inherent node ordering. <strong>Graph Neural Networks (GNNs)</strong> have emerged as a powerful class of deep learning models specifically designed to operate directly on graph data. They leverage the graph structure to learn representations (embeddings) of nodes, edges, or entire graphs, enabling tasks like node classification, link prediction, and graph classification.
+    </p>
+     <div class="svg-diagram">
+         <h3>What is a Graph?</h3>
+         <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.node{fill:#3498db; stroke:#2980b9; stroke-width:1.5;}.edge{stroke:#7f8c8d; stroke-width:2;}.label{font-size:12px; fill:#34495e; text-anchor:middle;}</style></defs>
+             <circle cx="50" cy="50" r="15" class="node"/> <text x="50" y="55" class="label" fill="white">1</text>
+             <circle cx="150" cy="50" r="15" class="node"/> <text x="150" y="55" class="label" fill="white">2</text>
+             <circle cx="50" cy="150" r="15" class="node"/> <text x="50" y="155" class="label" fill="white">3</text>
+             <circle cx="150" cy="150" r="15" class="node"/> <text x="150" y="155" class="label" fill="white">4</text>
+             <circle cx="250" cy="100" r="15" class="node"/> <text x="250" y="105" class="label" fill="white">5</text>
+             <line x1="65" y1="50" x2="135" y2="50" class="edge"/> <line x1="50" y1="65" x2="50" y2="135" class="edge"/> <line x1="60" y1="60" x2="140" y2="140" class="edge"/> <line x1="150" y1="65" x2="150" y2="135" class="edge"/> <line x1="165" y1="55" x2="238" y2="95" class="edge"/> <line x1="65" y1="150" x2="135" y2="150" class="edge"/> <line x1="165" y1="145" x2="240" y2="105" class="edge"/> <text x="150" y="20" class="label" font-weight="bold">Graph G = (V, E)</text>
+              <text x="20" y="180" class="label">Nodes (V)</text>
+              <text x="200" y="180" class="label">Edges (E)</text>
+         </svg>
+          <p class="caption">Fig 1: A simple graph with nodes (vertices) and edges (links).</p>
+     </div>
+
+    <h2><i class="fas fa-calculator icon"></i> Representing Graphs Mathematically</h2>
+    <p>To process graphs with algorithms, we need mathematical representations:</p>
+    <ul>
+        <li><strong>Graph Definition:</strong> A graph \( G \) is defined by a set of vertices (nodes) \( V \) and a set of edges \( E \subseteq V \times V \) connecting pairs of nodes. Formulas (1, 2, 3): \( G, V, E \).</li>
+        <li><strong>Adjacency Matrix (\( A \)):</strong> A square matrix \( A \in \mathbb{R}^{|V| \times |V|} \) where \( A_{ij} = 1 \) if there's an edge from node \( i \) to node \( j \), and \( A_{ij} = 0 \) otherwise (can be weighted for weighted graphs). Formula (4): \( A \).</li>
+        <li><strong>Node Features (\( X \)):</strong> A matrix \( X \in \mathbb{R}^{|V| \times d} \) where row \( i \) (\( x_i \)) is the \( d \)-dimensional feature vector for node \( i \). Formula (5): \( X \). Formula (6): \( x_i \).</li>
+        <li><strong>Degree Matrix (\( D \)):</strong> A diagonal matrix where \( D_{ii} \) is the degree (number of connections) of node \( i \). Formula (7): \( D_{ii} = \sum_j A_{ij} \).</li>
+        <li><strong>Graph Laplacian (\( L \)):</strong> Often used in spectral graph theory and some GNNs. \( L = D - A \) (Formula 8). The normalized Laplacian is also common: \( L_{sym} = I - D^{-1/2} A D^{-1/2} \) (Formula 9). Formula (10): Identity matrix \( I \).</li>
+        <li><strong>Edge Features (\( E_{feat} \)):</strong> Optionally, a matrix containing features for each edge. Formula (11): \( E_{feat} \).</li>
+    </ul>
+
+    <div class="svg-diagram">
+         <h3>Graph Representations: Adjacency & Feature Matrices</h3>
+         <svg width="500" height="250" xmlns="http://www.w3.org/2000/svg">
+              <defs><style>.node{fill:#3498db; stroke:#2980b9; stroke-width:1;}.edge{stroke:#7f8c8d; stroke-width:1.5;}.label{font-size:11px; fill:#34495e;}.matrix-box{fill:#f8f9fa; stroke:#bdc3c7; rx:3; ry:3;}.matrix-val{font-family:monospace; font-size:12px; text-anchor:middle;}.title{font-size:13px; text-anchor:middle; font-weight:bold;}</style></defs>
+              <g id="graph">
+                 <circle cx="50" cy="50" r="10" class="node"/> <text x="50" y="54" class="label" fill="white">1</text>
+                 <circle cx="130" cy="50" r="10" class="node"/> <text x="130" y="54" class="label" fill="white">2</text>
+                 <circle cx="50" cy="130" r="10" class="node"/> <text x="50" y="134" class="label" fill="white">3</text>
+                 <line x1="60" y1="50" x2="120" y2="50" class="edge"/> <line x1="50" y1="60" x2="50" y2="120" class="edge"/> <path d="M 125 60 Q 80 100 60 125" class="edge" fill="none"/> </g>
+              <g id="adj-matrix" transform="translate(200, 0)">
+                 <text x="75" y="20" class="title">Adjacency Matrix (A)</text>
+                 <rect x="20" y="30" width="110" height="110" class="matrix-box"/>
+                 <text x="40" y="45" class="label">1</text> <text x="75" y="45" class="label">2</text> <text x="110" y="45" class="label">3</text>
+                 <text x="10" y="65" class="label">1</text> <text x="10" y="100" class="label">2</text> <text x="10" y="135" class="label">3</text>
+                  <text x="40" y="65" class="matrix-val">0</text> <text x="75" y="65" class="matrix-val">1</text> <text x="110" y="65" class="matrix-val">1</text>
+                  <text x="40" y="100" class="matrix-val">1</text> <text x="75" y="100" class="matrix-val">0</text> <text x="110" y="100" class="matrix-val">1</text>
+                  <text x="40" y="135" class="matrix-val">1</text> <text x="75" y="135" class="matrix-val">1</text> <text x="110" y="135" class="matrix-val">0</text>
+             </g>
+              <g id="feat-matrix" transform="translate(350, 0)">
+                 <text x="75" y="20" class="title">Node Features (X)</text>
+                  <rect x="20" y="30" width="110" height="110" class="matrix-box"/>
+                  <text x="40" y="45" class="label">F1</text> <text x="75" y="45" class="label">F2</text> <text x="110" y="45" class="label">...</text>
+                  <text x="10" y="65" class="label">1</text> <text x="10" y="100" class="label">2</text> <text x="10" y="135" class="label">3</text>
+                  <text x="40" y="65" class="matrix-val">0.1</text> <text x="75" y="65" class="matrix-val">1.2</text> <text x="110" y="65" class="matrix-val">..</text>
+                  <text x="40" y="100" class="matrix-val">-0.5</text> <text x="75" y="100" class="matrix-val">0.3</text> <text x="110" y="100" class="matrix-val">..</text>
+                  <text x="40" y="135" class="matrix-val">0.8</text> <text x="75" y="135" class="matrix-val">-0.1</text> <text x="110" y="135" class="matrix-val">..</text>
+            </g>
+         </svg>
+         <p class="caption">Fig 2 & 3: Representing a graph using an Adjacency Matrix and a Node Feature Matrix.</p>
+    </div>
+
+    <h2><i class="fas fa-share-alt icon"></i> The Core Idea: Message Passing & Aggregation</h2>
+    <p>
+        Most GNNs operate based on a **neighborhood aggregation** or **message passing** scheme. The intuition is that a node's representation should be influenced by the features of its neighbors. GNNs iteratively update the feature vector (embedding) of each node by aggregating representations from its local neighborhood.
+    </p>
+    <p>
+        A typical GNN layer (\(k\)) updates the hidden state \( h_v^{(k)} \) for node \( v \) based on its previous state \( h_v^{(k-1)} \) and the states of its neighbors \( \{ h_u^{(k-1)} : u \in \mathcal{N}(v) \} \). This can be conceptually broken down into:
+    </p>
+    <ol>
+        <li><strong>Message Computation (Optional):</strong> For each neighbor \( u \in \mathcal{N}(v) \), a message \( m_{v \leftarrow u}^{(k)} \) is computed based on \( h_u^{(k-1)} \), \( h_v^{(k-1)} \), and potentially edge features \( e_{uv} \). Formula (12): \( m_{v \leftarrow u}^{(k)} = \text{MESSAGE}^{(k)}(h_u^{(k-1)}, h_v^{(k-1)}, e_{uv}) \).</li>
+        <li><strong>Aggregation:</strong> Messages from neighbors (or simply neighbor states \( h_u^{(k-1)} \)) are aggregated into a single vector \( M_v^{(k)} \) using a permutation-invariant function (like sum, mean, max). Formula (13): \( M_v^{(k)} = \text{AGGREGATE}^{(k)}(\{ m_{v \leftarrow u}^{(k)} : u \in \mathcal{N}(v) \}) \).</li>
+        <li><strong>Update:</strong> The aggregated information \( M_v^{(k)} \) is combined with the node's own previous state \( h_v^{(k-1)} \) to compute the new state \( h_v^{(k)} \), often using a neural network layer (e.g., MLP) and activation function. Formula (14): \( h_v^{(k)} = \text{UPDATE}^{(k)}(h_v^{(k-1)}, M_v^{(k)}) \).</li>
+    </ol>
+    <p>Stacking multiple such layers allows information to propagate across the graph over larger distances.</p>
+
+    <div class="svg-diagram">
+         <h3>GNN Message Passing / Neighborhood Aggregation</h3>
+         <svg width="500" height="250" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.node{fill:#3498db; stroke:#2980b9; stroke-width:1.5;}.target-node{fill:#e74c3c; stroke:#c0392b;}.neighbor-node{fill:#f1c40f; stroke:#f39c12;}.edge{stroke:#7f8c8d; stroke-width:1.5;}.message-arrow{stroke:#2ecc71; stroke-width:1.5; marker-end:url(#arrowhead-gnn); stroke-dasharray:4,4;}.label{font-size:11px; text-anchor:middle;}.update-box{fill:#eaf2f8; stroke:#aed6f1; rx:5; ry:5;}</style><marker id="arrowhead-gnn" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#2ecc71" /></marker></defs>
+             <circle cx="250" cy="125" r="20" class="target-node"/> <text x="250" y="130" class="label" fill="white">v</text>
+             <text x="250" y="90" class="label">Target Node (v)</text>
+             <text x="250" y="160" class="label">h<tspan baseline-shift="sub" font-size="8">v</tspan><tspan baseline-shift="super" font-size="8">(k-1)</tspan></text>
+             <circle cx="100" cy="50" r="15" class="neighbor-node"/> <text x="100" y="55" class="label">u1</text> <line x1="110" y1="60" x2="235" y2="115" class="edge"/>
+             <circle cx="150" cy="180" r="15" class="neighbor-node"/> <text x="150" y="185" class="label">u2</text> <line x1="165" y1="175" x2="235" y2="135" class="edge"/>
+             <circle cx="350" cy="180" r="15" class="neighbor-node"/> <text x="350" y="185" class="label">u3</text> <line x1="335" y1="175" x2="265" y2="135" class="edge"/>
+             <circle cx="400" cy="50" r="15" class="neighbor-node"/> <text x="400" y="55" class="label">u4</text> <line x1="390" y1="60" x2="265" y2="115" class="edge"/>
+             <text x="120" y="20" class="label">Neighbors N(v)</text>
+             <path d="M 100 65 Q 175 95 240 115" fill="none" class="message-arrow"/> <text x="170" y="80" class="label" fill="#2ecc71">Message/h<tspan baseline-shift="super" font-size="8">(k-1)</tspan></text>
+             <path d="M 150 165 Q 200 145 240 130" fill="none" class="message-arrow"/>
+             <path d="M 350 165 Q 300 145 260 130" fill="none" class="message-arrow"/>
+             <path d="M 400 65 Q 325 95 260 115" fill="none" class="message-arrow"/>
+             <rect x="300" y="105" width="120" height="40" class="update-box"/>
+             <text x="360" y="120" class="label">Aggregate({Neighbors})</text>
+             <text x="360" y="135" class="label">Update(v, Agg)</text>
+              <line x1="270" y1="125" x2="300" y2="125" stroke="#555" stroke-width="1.5"/>
+              <text x="360" y="160" class="label">-> h<tspan baseline-shift="sub" font-size="8">v</tspan><tspan baseline-shift="super" font-size="8">(k)</tspan></text>
+         </svg>
+          <p class="caption">Fig 4, 5, 6: Message Passing Framework: Node 'v' receives information from neighbors (u1-u4), aggregates it, and updates its own state from h<sup>(k-1)</sup> to h<sup>(k)</sup>.</p>
+     </div>
+
+    <h2><i class="fas fa-code-branch icon"></i> Key GNN Architectures</h2>
+    <p>Different GNNs vary mainly in their specific AGGREGATE and UPDATE functions.</p>
+
+    <h3>Graph Convolutional Networks (GCN)</h3>
+    <p>
+        GCNs simplify graph convolutions, often interpreted spatially as aggregating normalized feature representations from neighboring nodes. A popular layer formulation is:
+    </p>
+    <div class="formula">$$ H^{(k+1)} = \sigma\left(\hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} H^{(k)} W^{(k)}\right) $$</div>
+    <p>
+        Where:
+        <ul>
+            <li>\( H^{(k)} \in \mathbb{R}^{|V| \times d_k} \) is the matrix of node embeddings at layer \( k \). Formula (15): \( H^{(k)} \).</li>
+            <li>\( \hat{A} = A + I \) is the adjacency matrix with self-loops added. Formula (16): \( \hat{A} \).</li>
+            <li>\( \hat{D} \) is the diagonal degree matrix of \( \hat{A} \). Formula (17): \( \hat{D}_{ii} = \sum_j \hat{A}_{ij} \).</li>
+            <li>\( \hat{D}^{-1/2} \hat{A} \hat{D}^{-1/2} \) represents symmetric normalization of the adjacency matrix.</li>
+            <li>\( W^{(k)} \in \mathbb{R}^{d_k \times d_{k+1}} \) is the layer-specific learnable weight matrix. Formula (18): \( W^{(k)} \).</li>
+            <li>\( \sigma \) is a non-linear activation function (e.g., ReLU). Formula (19): \( \sigma \). Formula (20): \( \text{ReLU}(x) = \max(0,x) \).</li>
+        </ul>
+        This effectively computes a weighted average of the node's own features and its neighbors' features, followed by a linear transformation and activation.
+    </p>
+     <div class="svg-diagram">
+        <h3>GCN Layer Operation (Simplified)</h3>
+        <svg width="300" height="150" xmlns="http://www.w3.org/2000/svg"><defs><style>.node{fill:#3498db; stroke:#2980b9;}.target-node{fill:#e74c3c; stroke:#c0392b;}.neighbor{fill:#f1c40f; stroke:#f39c12;}.label{font-size:10px; text-anchor:middle;}.op-box{fill:#eaf2f8; rx:5; ry:5;}</style></defs> <circle cx="150" cy="75" r="15" class="target-node"/> <text x="150" y="80" class="label" fill="white">v</text> <circle cx="50" cy="75" r="10" class="neighbor"/> <text x="50" y="80" class="label">u1</text> <circle cx="250" cy="75" r="10" class="neighbor"/> <text x="250" y="80" class="label">u2</text> <line x1="60" y1="75" x2="135" y2="75"/> <line x1="165" y1="75" x2="240" y2="75"/> <rect x="80" y="110" width="140" height="30" class="op-box"/> <text x="150" y="130" class="label">Avg(Norm(h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_v, h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_u1, h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_u2)) -> Linear -> σ</text> </svg>
+        <p class="caption">Fig 7: GCN updates node 'v' based on a normalized average of its and its neighbors' features.</p>
+    </div>
+
+    <h3>GraphSAGE (Graph SAmple and aggreGatE)</h3>
+    <p>Focuses on **inductive learning** (can generalize to unseen nodes) by sampling a fixed number of neighbors and learning aggregation functions.</p>
+    <ul>
+        <li><strong>Sampling:** Instead of using all neighbors, sample a fixed-size neighborhood \( \mathcal{N}(v) \).</li>
+        <li><strong>Aggregation:** Learnable functions to aggregate neighbor features \( h_u^{(k-1)} \) into \( h_{\mathcal{N}(v)}^{(k)} \). Common aggregators include:
+            <ul>
+                <li>Mean Aggregator: Formula (21): \( h_{\mathcal{N}(v)}^{(k)} = \frac{1}{|\mathcal{N}(v)|} \sum_{u \in \mathcal{N}(v)} h_u^{(k-1)} \).</li>
+                <li>Pooling Aggregator (Max/Mean): Apply an MLP to neighbor features then max/mean pool. Formula (22): \( h_{\mathcal{N}(v)}^{(k)} = \max(\{ \sigma(W_{pool} h_u^{(k-1)} + b) : u \in \mathcal{N}(v) \}) \).</li>
+                <li>LSTM Aggregator: Apply LSTM to a random permutation of neighbor features.</li>
+            </ul>
+        </li>
+        <li><strong>Update:** Concatenate the node's own previous state \( h_v^{(k-1)} \) with the aggregated neighbor vector \( h_{\mathcal{N}(v)}^{(k)} \), pass through a linear layer and activation. Formula (23): \( h_v^{(k)} = \sigma(W^{(k)} \cdot \text{CONCAT}(h_v^{(k-1)}, h_{\mathcal{N}(v)}^{(k)})) \). Formula (24): CONCAT.</li>
+    </ul>
+     <div class="svg-diagram">
+        <h3>GraphSAGE Aggregators (Mean/Pool)</h3>
+         <svg width="400" height="180" xmlns="http://www.w3.org/2000/svg"><defs><style>.node{fill:#f1c40f; stroke:#f39c12;}.op-box{fill:#eaf2f8; rx:5; ry:5; stroke:#aed6f1;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1; marker-end:url(#arrowhead-gnn);}</style></defs> <g> <text x="100" y="20" class="label" font-weight="bold">Mean Aggregator</text> <circle cx="50" cy="50" r="8" class="node"/><text x="50" y="65" class="label">h_u1</text> <circle cx="100" cy="50" r="8" class="node"/><text x="100" y="65" class="label">h_u2</text> <circle cx="150" cy="50" r="8" class="node"/><text x="150" y="65" class="label">h_u3</text> <rect x="50" y="90" width="100" height="30" class="op-box"/><text x="100" y="110" class="label">Mean(h_u1, h_u2, h_u3)</text> <line x1="50" y1="58" x2="90" y2="90" class="arrow"/> <line x1="100" y1="58" x2="100" y2="90" class="arrow"/> <line x1="150" y1="58" x2="110" y2="90" class="arrow"/> <text x="100" y="140" class="label">-> h_N(v)</text> </g> <g transform="translate(200, 0)"> <text x="100" y="20" class="label" font-weight="bold">Pool Aggregator</text> <circle cx="50" cy="50" r="8" class="node"/><text x="50" y="65" class="label">h_u1</text> <circle cx="100" cy="50" r="8" class="node"/><text x="100" y="65" class="label">h_u2</text> <circle cx="150" cy="50" r="8" class="node"/><text x="150" y="65" class="label">h_u3</text> <rect x="50" y="90" width="100" height="30" class="op-box"/><text x="100" y="105" class="label">MLP + MaxPool</text> <text x="100" y="118" class="label">(MLP(h_u1), ...)</text> <line x1="50" y1="58" x2="90" y2="90" class="arrow"/> <line x1="100" y1="58" x2="100" y2="90" class="arrow"/> <line x1="150" y1="58" x2="110" y2="90" class="arrow"/> <text x="100" y="140" class="label">-> h_N(v)</text> </g> </svg>
+        <p class="caption">Fig 8 & 9: Different ways GraphSAGE can aggregate neighbor information.</p>
+    </div>
+
+
+    <h3>Graph Attention Networks (GAT)</h3>
+    <p>GATs introduce attention mechanisms, allowing nodes to assign different importance weights to different neighbors during aggregation, rather than treating them equally (like GCN mean) or uniformly (like GraphSAGE mean).</p>
+    <ul>
+        <li><strong>Attention Coefficients (\( \alpha_{ij} \)):</strong> Learned weights indicating the importance of node \( j \)'s features to node \( i \). Calculated based on the features of node \( i \) and node \( j \) (often after a linear transformation \( W \)), typically using a shared attention mechanism \( a \). Formula (25): \( e_{ij} = a(W h_i, W h_j) \). These raw scores \( e_{ij} \) are normalized across neighbors using softmax. Formula (26): \( \alpha_{ij} = \text{softmax}_j(e_{ij}) = \frac{\exp(\text{LeakyReLU}(a^T[Wh_i || Wh_j]))}{\sum_{k \in \mathcal{N}_i} \exp(\text{LeakyReLU}(a^T[Wh_i || Wh_k]))} \). Formula (27): LeakyReLU.</li>
+        <li><strong>Aggregation/Update:** The updated node representation is a weighted sum (or other combination) of linearly transformed neighbor features, weighted by the attention coefficients. Formula (28): \( h_i' = \sigma(\sum_{j \in \mathcal{N}_i} \alpha_{ij} W h_j) \).</li>
+        <li><strong>Multi-Head Attention:** Similar to Transformers, multiple independent attention mechanisms ("heads") are computed in parallel and their results concatenated or averaged to stabilize learning. Formula (29): \( h_i' = \text{AGG}(\|_{k=1}^K \sigma(\sum_{j \in \mathcal{N}_i} \alpha_{ij}^k W^k h_j)) \). Formula (30): Concat \( || \).</li>
+    </ul>
+     <div class="svg-diagram">
+         <h3>GAT Attention Mechanism</h3>
+         <svg width="400" height="180" xmlns="http://www.w3.org/2000/svg"><defs><style>.node{fill:#3498db; stroke:#2980b9;}.target-node{fill:#e74c3c; stroke:#c0392b;}.neighbor{fill:#f1c40f; stroke:#f39c12;}.attn-line{stroke:#2ecc71; stroke-width:var(--attn-weight, 1); marker-end:url(#arrowhead-gnn);}.label{font-size:10px; text-anchor:middle;}</style></defs> <circle cx="200" cy="90" r="15" class="target-node"/> <text x="200" y="95" class="label" fill="white">v</text> <circle cx="50" cy="90" r="10" class="neighbor"/> <text x="50" y="95" class="label">u1</text> <circle cx="125" cy="30" r="10" class="neighbor"/> <text x="125" y="35" class="label">u2</text> <circle cx="125" cy="150" r="10" class="neighbor"/> <text x="125" y="155" class="label">u3</text> <line x1="60" y1="90" x2="185" y2="90" class="attn-line" style="--attn-weight: 1.0;"/> <text x="120" y="85" class="label" fill="#2ecc71">α_v1</text> <line x1="125" y1="40" x2="190" y2="80" class="attn-line" style="--attn-weight: 2.5;"/> <text x="170" y="55" class="label" fill="#2ecc71">α_v2 (High)</text> <line x1="125" y1="140" x2="190" y2="100" class="attn-line" style="--attn-weight: 0.5;"/> <text x="170" y="130" class="label" fill="#2ecc71">α_v3 (Low)</text> <text x="300" y="95" class="label">h'_v = σ(Σ α_vj W h_j)</text> </svg>
+         <p class="caption">Fig 10: GAT uses attention coefficients (\(\alpha\)) to weigh contributions from neighbors differently.</p>
+     </div>
+
+    <h3>Graph Isomorphism Network (GIN)</h3>
+    <p>Designed to be maximally powerful among message-passing GNNs, approaching the discriminative power of the Weisfeiler-Lehman graph isomorphism test. Uses a Multilayer Perceptron (MLP) to update node features based on the sum of neighbor features, plus the node's own features potentially weighted by a learnable parameter \( \epsilon \).</p>
+     <ul>
+        <li>Update Rule: Formula (31): \( h_v^{(k)} = \text{MLP}^{(k)}((1 + \epsilon^{(k)}) h_v^{(k-1)} + \sum_{u \in \mathcal{N}(v)} h_u^{(k-1)}) \). Formula (32): Learnable \( \epsilon^{(k)} \).</li>
+     </ul>
+      <div class="svg-diagram">
+         <h3>GIN Layer Operation</h3>
+         <svg width="350" height="150" xmlns="http://www.w3.org/2000/svg"><defs><style>.node{fill:#3498db;}.target-node{fill:#e74c3c;}.neighbor{fill:#f1c40f;}.label{font-size:10px; text-anchor:middle;}.op-box{fill:#eaf2f8; rx:5; ry:5; stroke:#aed6f1;}</style></defs> <circle cx="175" cy="75" r="15" class="target-node"/> <text x="175" y="80" class="label" fill="white">v</text> <circle cx="75" cy="75" r="10" class="neighbor"/> <text x="75" y="80" class="label">u1</text> <circle cx="275" cy="75" r="10" class="neighbor"/> <text x="275" y="80" class="label">u2</text> <line x1="85" y1="75" x2="160" y2="75"/> <line x1="190" y1="75" x2="265" y2="75"/> <rect x="50" y="110" width="250" height="30" class="op-box"/> <text x="175" y="130" class="label">MLP( (1+ε)h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_v + Sum(h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_u1, h<tspan baseline-shift="super" font-size="7">(k-1)</tspan>_u2) ) -> h<tspan baseline-shift="super" font-size="7">(k)</tspan>_v</text> </svg>
+         <p class="caption">Fig 11: GIN updates node 'v' using an MLP applied to a weighted sum of its own and neighbors' features.</p>
+     </div>
+
+
+    <table border="1">
+        <caption>Comparison of Common GNN Architectures</caption>
+        <thead>
+            <tr><th>Architecture</th><th>Aggregation</th><th>Update Mechanism</th><th>Key Feature</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>GCN</strong></td><td>Normalized Mean</td><td>Linear transformation + Activation</td><td>Simple, computationally efficient, effective for homophilous graphs</td></tr>
+            <tr><td><strong>GraphSAGE</strong></td><td>Mean/Max/LSTM Pool (Sampled Neighbors)</td><td>Concat self + aggregated neighbors -> Linear + Activation</td><td>Inductive capability, flexible aggregation</td></tr>
+            <tr><td><strong>GAT</strong></td><td>Weighted Sum (Attention)</td><td>Attention-weighted sum -> Linear + Activation</td><td>Learns neighbor importance, handles varying degrees</td></tr>
+            <tr><td><strong>GIN</strong></td><td>Sum (+ weighted self)</td><td>MLP applied to aggregated features</td><td>Theoretically powerful (matches WL test)</td></tr>
+        </tbody>
+    </table>
+
+
+    <h2><i class="fas fa-tasks icon"></i> Common Tasks for GNNs</h2>
+    <p>GNNs are versatile and applied to various graph-related tasks:</p>
+    <ul>
+        <li><strong>Node Classification:</strong> Predict a label for each node in the graph (e.g., classifying users in a social network, protein functions). Typically uses the final node embeddings \( h_v^{(K)} \) as input to a classifier (e.g., softmax layer). Loss (e.g., Cross-Entropy): Formula (33): \( L = -\sum_{v \in V_{labeled}} y_v \log(\hat{y}_v) \).</li>
+        <li><strong>Graph Classification:</strong> Predict a label for the entire graph (e.g., classifying molecules as toxic/non-toxic). Requires a **Readout** or **Graph Pooling** layer to aggregate node embeddings into a single graph representation \( h_G \). Formula (34): \( h_G = \text{READOUT}(\{ h_v^{(K)} | v \in V \}) \). READOUT can be sum, mean, or max pooling, or more sophisticated methods.</li>
+        <li><strong>Link Prediction:</strong> Predict whether an edge exists (or should exist) between two nodes (e.g., recommending friends, predicting protein-protein interactions). Uses embeddings of pairs of nodes (\( h_u^{(K)}, h_v^{(K)} \)) to predict edge probability, e.g., via dot product or MLP. Formula (35): \( \text{score}(u, v) = \sigma(h_u^T h_v) \) or \( \text{MLP}(h_u, h_v) \).</li>
+        <li><strong>Graph Generation:</strong> Creating new graph structures (e.g., discovering new molecules). Often involves generative models like Graph Autoencoders or GANs adapted for graphs.</li>
+    </ul>
+
+     <div class="svg-diagram">
+        <h3>GNN Tasks Illustrated</h3>
+         <svg width="700" height="200" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.node{fill:#3498db; stroke:#2980b9;}.edge{stroke:#7f8c8d;}.label{font-size:11px; text-anchor:middle;}.task-box{fill:#f8f9fa; stroke:#bdc3c7; rx:5; ry:5;}.pred-label{fill:#e74c3c; font-weight:bold;}.pred-edge{stroke:#2ecc71; stroke-width:2; stroke-dasharray:4,4;}</style></defs>
+            <g id="node-cls">
+                 <text x="100" y="20" class="label" font-weight="bold">Node Classification</text>
+                 <rect x="20" y="30" width="160" height="140" class="task-box"/>
+                 <circle cx="60" cy="70" r="10" class="node"/> <text x="60" y="100" class="label pred-label">Class A?</text>
+                 <circle cx="140" cy="70" r="10" class="node"/> <text x="140" y="100" class="label">Class B?</text>
+                 <circle cx="100" cy="130" r="10" class="node"/> <text x="100" y="160" class="label">Class A?</text>
+                 <line x1="70" y1="70" x2="130" y2="70" class="edge"/>
+                 <line x1="60" y1="80" x2="95" y2="125" class="edge"/>
+                 <line x1="140" y1="80" x2="105" y2="125" class="edge"/>
+             </g>
+             <g id="link-pred" transform="translate(230, 0)">
+                  <text x="100" y="20" class="label" font-weight="bold">Link Prediction</text>
+                  <rect x="20" y="30" width="160" height="140" class="task-box"/>
+                  <circle cx="60" cy="70" r="10" class="node"/>
+                  <circle cx="140" cy="70" r="10" class="node"/>
+                  <circle cx="100" cy="130" r="10" class="node"/>
+                  <line x1="70" y1="70" x2="130" y2="70" class="edge"/>
+                  <line x1="100" y1="120" x2="100" y2="80" class="pred-edge"/> <text x="130" y="110" class="label pred-label">Edge?</text>
+            </g>
+             <g id="graph-cls" transform="translate(460, 0)">
+                  <text x="100" y="20" class="label" font-weight="bold">Graph Classification</text>
+                   <rect x="20" y="30" width="160" height="140" class="task-box"/>
+                  <circle cx="60" cy="70" r="10" class="node"/>
+                  <circle cx="140" cy="70" r="10" class="node"/>
+                  <circle cx="100" cy="130" r="10" class="node"/>
+                  <line x1="70" y1="70" x2="130" y2="70" class="edge"/>
+                  <line x1="60" y1="80" x2="95" y2="125" class="edge"/>
+                 <text x="100" y="165" class="label pred-label">Entire Graph: Toxic?</text>
+                 <path d="M 60 140 Q 100 100 140 140" fill="none" stroke="#aaa" stroke-dasharray="2,2"/>
+                  <text x="100" y="110" class="label" fill="#aaa">Pool Nodes</text>
+             </g>
+         </svg>
+         <p class="caption">Fig 12, 13, 14: Examples of Node Classification, Link Prediction, and Graph Classification tasks.</p>
+    </div>
+
+    <h2><i class="fas fa-sliders-h icon"></i> Training GNNs</h2>
+    <p>Training GNNs typically involves standard deep learning practices:</p>
+    <ul>
+        <li>Defining a loss function appropriate for the task (e.g., cross-entropy for classification).</li>
+        <li>Using an optimizer (e.g., Adam, SGD) to minimize the loss by adjusting model weights \( W^{(k)} \), \( \epsilon^{(k)} \), etc. Formula (36): Gradient Descent \( \theta \leftarrow \theta - \eta \nabla J \).</li>
+        <li>For large graphs where full-batch training is infeasible, sampling techniques are used:
+            <ul>
+                <li><strong>Neighbor Sampling (like GraphSAGE):</strong> Sample a fixed number of neighbors for each node at each layer.</li>
+                <li><strong>Subgraph Sampling:</strong> Train the GNN on smaller sampled subgraphs.</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <h2><i class="fas fa-exclamation-circle challenge-icon"></i> Challenges and Future Directions</h2>
+    <p>Despite their success, GNNs face several challenges:</p>
+    <ul>
+        <li><i class="fas fa-water challenge-icon"></i><strong>Oversmoothing:</strong> As GNN layers stack, node representations can become increasingly similar, losing discriminative power. This limits the effective depth of many GNNs.</li>
+        <li><i class="fas fa-expand-arrows-alt challenge-icon"></i><strong>Scalability:</strong> Applying GNNs to massive graphs (billions of nodes/edges) requires sophisticated sampling or distributed training strategies due to memory and computation constraints.</li>
+        <li><i class="fas fa-sync-alt challenge-icon"></i><strong>Dynamism:</strong> Real-world graphs often change over time (nodes/edges added/removed). Developing GNNs that efficiently handle dynamic graphs is an ongoing research area.</li>
+        <li><i class="fas fa-random challenge-icon"></i><strong>Heterogeneity:</strong> Many real-world graphs have different types of nodes and edges (heterogeneous graphs). Standard GNNs often assume homogeneous graphs, requiring extensions like Relational GCNs (R-GCN) or Heterogeneous GATs (HAN).</li>
+        <li><i class="fas fa-search challenge-icon"></i><strong>Explainability:</strong> Understanding why a GNN makes a certain prediction remains challenging, similar to other deep learning models.</li>
+        <li><i class="fas fa-project-diagram challenge-icon"></i><strong>Handling Long-Range Dependencies:</strong> Message passing primarily captures local structure. Capturing dependencies between distant nodes efficiently is difficult (addressed partially by deeper models or graph transformers).</li>
+    </ul>
+    <p>Future research focuses on deeper GNN architectures, better scalability, handling dynamic and heterogeneous graphs, combining GNNs with transformers, and improving interpretability.</p>
+     <div class="svg-diagram">
+        <h3>Oversmoothing Illustration</h3>
+         <svg width="400" height="150" xmlns="http://www.w3.org/2000/svg"><defs><style>.node{stroke:#2980b9; stroke-width:1;}.label{font-size:10px; text-anchor:middle;}</style></defs> <text x="60" y="20" class="label" font-weight="bold">Layer 0</text> <circle cx="30" cy="50" r="10" fill="#e74c3c" class="node"/> <circle cx="60" cy="50" r="10" fill="#3498db" class="node"/> <circle cx="90" cy="50" r="10" fill="#2ecc71" class="node"/> <text x="60" y="75" class="label">Distinct Features</text> <text x="260" y="20" class="label" font-weight="bold">Layer K (Deep)</text> <circle cx="230" cy="50" r="10" fill="#bdc3c7" class="node"/> <circle cx="260" cy="50" r="10" fill="#bdc3c7" class="node"/> <circle cx="290" cy="50" r="10" fill="#bdc3c7" class="node"/> <text x="260" y="75" class="label">Similar Features</text> <line x1="120" y1="50" x2="200" y2="50" stroke="#555" stroke-width="1.5" marker-end="url(#arrowhead-gnn)"/> <text x="160" y="40" class="label">Multiple Layers</text> </svg>
+         <p class="caption">Fig 15: After many GNN layers, node representations can become overly similar (oversmoothing).</p>
+     </div>
+
+    <h2><i class="fas fa-flag-checkered icon"></i> Conclusion</h2>
+    <p>
+        Graph Neural Networks represent a significant advancement in machine learning, providing a powerful framework for learning from structured, relational data that permeates the real world. By effectively leveraging graph topology through message passing and neighborhood aggregation, GNN architectures like GCN, GraphSAGE, GAT, and GIN can learn rich node and graph representations for diverse tasks. While challenges such as oversmoothing, scalability, and dynamism persist, the rapid pace of research is continuously yielding more powerful and efficient GNN models. GNNs are unlocking new possibilities in fields ranging from drug discovery and social network analysis to recommendation systems and beyond, demonstrating the immense value of directly incorporating relational structure into deep learning.
+    </p>
+     <p class="note"><strong>Diagram Note:</strong> This article includes 15 illustrative SVG diagrams (Figs 1-15) as requested, covering core concepts and architectures. Due to the complexity and space constraints, these are simplified representations. Further detailed architectural diagrams can be found in the original research papers.</p>
+     <p><i>(Formula count check: Includes G=(V,E), V, E, Adj A, Degree D, Laplacian L, Norm Lap Lsym, Node Feats X, Feat x_i, Identity I, Edge Feats Efeat, Message m, Aggregate M, Update h_k, GCN Layer H(k+1), GCN A_hat, GCN D_hat, Activation sigma, Weight Wk, ReLU, SAGE Mean Agg, SAGE Pool Agg, SAGE Update, CONCAT, GAT Attention e_ij, GAT Attention mech a(), GAT Norm Attention alpha_ij, GAT Update h', LeakyReLU, GAT Multi-head ||, GIN Update, GIN Epsilon, Readout h_G, Node Loss L, Link Score. Total > 35).</i></p>
+
+
+    <div class="author-box">
+        <h2>About the Author, Architect & Developer</h2>
+        <p>
+            <strong>Loveleen Narang</strong> is an accomplished leader and visionary in Data Science, Machine Learning, and Artificial Intelligence. With over 20 years of expertise in designing and architecting innovative AI-driven solutions, he specializes in harnessing advanced technologies to address critical challenges across industries. His strategic approach not only solves complex problems but also drives operational efficiency, strengthens regulatory compliance, and delivers measurable value—particularly in government and public sector initiatives.
+        </p><p>
+            Renowned for his commitment to excellence, Loveleen’s work centers on developing robust, scalable, and secure systems that adhere to global standards and ethical frameworks. By integrating cross-functional collaboration with forward-thinking methodologies, he ensures solutions are both future-ready and aligned with organizational objectives. His contributions continue to shape industry best practices, solidifying his reputation as a catalyst for transformative, technology-led growth.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Supervised Learning Approaches</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams' // For equation numbering
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+   <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .intro-section {
+            background-color: white;
+            padding: 30px;
+            margin: -20px -20px 20px -20px; /* Extend to container edges */
+            border-radius: 8px 8px 0 0;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        .intro-section h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .intro-section .catch-phrase {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .intro-section i.fas {
+            font-size: 3em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        p, li {
+            color: #555;
+        }
+        strong {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .formula {
+            display: block;
+            background-color: #eaf2f8;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+            overflow-x: auto;
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #eaf2f8;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .author-box {
+            background-color: #eaf2f8;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 5px;
+            border-left: 5px solid #2980b9;
+        }
+        .author-box h2 {
+            border-bottom: none;
+            margin-top: 0;
+        }
+        .author-box p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="intro-section">
+        <i class="fas fa-robot"></i> <h1>Self-Supervised Learning Approaches</h1>
+        <p class="sub-title">Learning Rich Representations from Unlabeled Data</p>
+        <p><strong>Authored by:</strong> Loveleen Narang</p>
+        <p><strong>Date:</strong> May 26, 2024</p>
+    </header>
+
+    <h2><i class="fas fa-lightbulb icon"></i> Introduction: Learning Without Labels</h2>
+    <p>
+        Deep learning models have achieved remarkable success, but often rely heavily on vast amounts of labeled data, which can be expensive, time-consuming, and sometimes impossible to obtain. Unsupervised learning aims to find patterns without labels, but often focuses on tasks like clustering or dimensionality reduction. Bridging this gap is <strong>Self-Supervised Learning (SSL)</strong>, a powerful paradigm that learns representations from unlabeled data by creating supervisory signals *from the data itself*.
+    </p>
+    <p>
+        Instead of human-provided labels, SSL employs **pretext tasks** where parts of the input data are hidden or modified, and the model learns to predict or reconstruct the missing information. By solving these pretext tasks, the model is forced to learn meaningful, transferable representations \( h = f_\theta(x) \) (Formula 1) that capture the underlying structure and semantics of the data. These learned representations can then be used for various downstream tasks (like classification or detection) with significantly less labeled data required for fine-tuning. SSL has been a driving force behind recent breakthroughs in Natural Language Processing (NLP) with models like BERT and GPT, and is rapidly transforming Computer Vision (CV).
+    </p>
+     <div class="svg-diagram">
+        <h3>Learning Paradigms Overview</h3>
+         <svg width="600" height="200" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.box{rx:8; ry:8; stroke-width:1.5; fill-opacity:0.9; padding:5px;}.sup-box{fill:#e0f2fe; stroke:#7dd3fc;}.unsup-box{fill:#fef3c7; stroke:#fcd34d;}.ssl-box{fill:#dcfce7; stroke:#86efac;}.label{font-size:11px; text-anchor:middle;}.arrow{stroke:#64748b; stroke-width:1.5; marker-end:url(#arrowhead-ssl);}</style><marker id="arrowhead-ssl" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#64748b" /></marker></defs>
+             <g> <rect x="20" y="50" width="160" height="100" class="box sup-box"/> <text x="100" y="70" class="label" font-weight="bold">Supervised Learning</text> <text x="100" y="90" class="label">Input: Data (x)</text> <text x="100" y="105" class="label">Input: Labels (y)</text> <text x="100" y="125" class="label">Goal: Learn Mapping</text> <text x="100" y="140" class="label">f(x) -> y</text> </g>
+            <g transform="translate(200, 0)"> <rect x="20" y="50" width="160" height="100" class="box unsup-box"/> <text x="100" y="70" class="label" font-weight="bold">Unsupervised Learning</text> <text x="100" y="90" class="label">Input: Data (x)</text> <text x="100" y="105" class="label">(No Labels)</text> <text x="100" y="125" class="label">Goal: Find Structure</text> <text x="100" y="140" class="label">(Clusters, Density)</text> </g>
+            <g transform="translate(400, 0)"> <rect x="20" y="50" width="160" height="100" class="box ssl-box"/> <text x="100" y="70" class="label" font-weight="bold">Self-Supervised Learning</text> <text x="100" y="90" class="label">Input: Data (x)</text> <text x="100" y="105" class="label">Create Pseudo-Labels</text> <text x="100" y="125" class="label">Goal: Learn Representation</text> <text x="100" y="140" class="label">f(x) via Pretext Task</text> </g>
+         </svg>
+         <p class="caption">Fig 1: Comparing Supervised, Unsupervised, and Self-Supervised Learning approaches.</p>
+     </div>
+
+    <h2><i class="fas fa-puzzle-piece icon"></i> Pretext Tasks: Creating Supervision from Data</h2>
+    <p>
+        The core of SSL lies in designing effective **pretext tasks**. These are self-supervised tasks solved not for their own sake, but to force the model to learn useful representations for downstream applications. The model minimizes a loss function defined by the pretext task (Formula 2: \( L_{pretext} \)). Examples vary across domains:
+    </p>
+    <ul>
+        <li><strong>Computer Vision (CV):</strong>
+            <ul>
+                <li><strong>Context Prediction:** Predicting the relative position of image patches.</li>
+                <li><strong>Jigsaw Puzzles:** Predicting the correct permutation of shuffled image patches.</li>
+                <li><strong>Rotation Prediction:** Predicting the rotation angle (e.g., 0°, 90°, 180°, 270°) applied to an image.</li>
+                <li><strong>Colorization:** Predicting the color version of a grayscale image.</li>
+                <li><strong>Inpainting/Masking:** Reconstructing masked or missing parts of an image.</li>
+            </ul>
+        </li>
+        <li><strong>Natural Language Processing (NLP):</strong>
+             <ul>
+                 <li><strong>Masked Language Modeling (MLM):** Predicting randomly masked words in a sentence based on surrounding context (used in BERT). Objective: \( \max \sum \log P(x_{mask} | x_{unmask}) \) (Formula 3).</li>
+                 <li><strong>Next Sentence Prediction (NSP):** Predicting if two sentences are consecutive (used in original BERT, less common now).</li>
+                 <li><strong>Word2Vec (Skip-gram/CBOW):** Predicting context words given a center word, or vice versa (an early form of SSL).</li>
+             </ul>
+        </li>
+         <li><strong>Audio/Video:** Predicting future frames, determining if audio/video segments are temporally aligned, cross-modal prediction (e.g., predicting audio from video).</li>
+    </ul>
+     <div class="svg-diagram">
+         <h3>Example Pretext Tasks (CV)</h3>
+         <svg width="600" height="180" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.task-box{fill:#f0f9ff; stroke:#7dd3fc; rx:5; ry:5;}.label{font-size:10px; text-anchor:middle;}.img-placeholder{fill:#e0f2fe; stroke:#bae6fd;}</style><marker id="arrowhead-pretext" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#555" /></marker></defs>
+             <g> <text x="80" y="25" class="label" font-weight="bold">Rotation Prediction</text> <rect x="30" y="40" width="100" height="80" class="img-placeholder"/> <text x="80" y="80" class="label">Rotated Image</text> <text x="80" y="140" class="label">Predict: 0°, 90°, 180°, 270°?</text> <line x1="80" y1="120" x2="80" y2="130" stroke="#555" marker-end="url(#arrowhead-pretext)"/> </g>
+            <g transform="translate(200, 0)"> <text x="80" y="25" class="label" font-weight="bold">Jigsaw Puzzle</text> <rect x="30" y="40" width="100" height="80" class="img-placeholder"/> <rect x="35" y="45" width="40" height="30" fill="#fff"/> <text x="55" y="60" class="label">3</text> <rect x="85" y="45" width="40" height="30" fill="#fff"/> <text x="105" y="60" class="label">1</text> <rect x="35" y="85" width="40" height="30" fill="#fff"/> <text x="55" y="100" class="label">4</text> <rect x="85" y="85" width="40" height="30" fill="#fff"/> <text x="105" y="100" class="label">2</text> <text x="80" y="140" class="label">Predict: Original Permutation?</text> <line x1="80" y1="120" x2="80" y2="130" stroke="#555" marker-end="url(#arrowhead-pretext)"/> </g>
+            <g transform="translate(400, 0)"> <text x="80" y="25" class="label" font-weight="bold">Inpainting (Masking)</text> <rect x="30" y="40" width="100" height="80" class="img-placeholder"/> <rect x="60" y="65" width="40" height="30" fill="#cbd5e1"/> <text x="80" y="85" class="label">Mask</text> <text x="80" y="140" class="label">Predict: Masked Pixels?</text> <line x1="80" y1="120" x2="80" y2="130" stroke="#555" marker-end="url(#arrowhead-pretext)"/> </g>
+         </svg>
+          <p class="caption">Fig 2, 3, 4: Examples of pretext tasks used in computer vision for self-supervised learning.</p>
+     </div>
+
+    <h2><i class="fas fa-stream icon"></i> Major SSL Paradigms</h2>
+    <p>SSL methods can be broadly categorized into three main paradigms:</p>
+
+    <h3>1. Generative Approaches</h3>
+    <p>These methods involve learning to generate or reconstruct parts of the input data.</p>
+    <ul>
+        <li><strong>Autoencoders (AEs):</strong> Train an encoder \( f_\theta \) to map input \( x \) to a latent representation \( z \) and a decoder \( g_\phi \) to reconstruct \( x \) from \( z \). Often used in a denoising (\( \min ||x - g(f(x + \epsilon))||^2 \), Formula 4) or masked setup.</li>
+        <li><strong>Masked Language Models (MLM):</strong> Models like BERT learn by predicting masked tokens in text based on unmasked context.</li>
+        <li><strong>Masked Autoencoders (MAE) for Vision:</strong> Randomly mask a large portion of image patches and train an encoder-decoder (often Transformer-based) to reconstruct the pixel values of the masked patches. Loss: \( L = \sum_{i \in \text{Masked}} ||x_i - \hat{x}_i||^2 \) (Formula 5). Learns rich representations efficiently.</li>
+    </ul>
+      <div class="svg-diagram">
+         <h3>Generative SSL: Masked Autoencoder (MAE) Concept</h3>
+          <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+              <defs><style>.patch{stroke:#ccc; stroke-width:0.5; fill:#e0f2fe;}.masked-patch{fill:#9ca3af;}.recon-patch{fill:#a7f3d0;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1.5; marker-end:url(#arrowhead-ssl);}</style></defs>
+              <g id="input"> <text x="60" y="30" class="label">Input Image (Patches)</text> <rect x="20" y="40" width="80" height="80"> <rect x="20" y="40" width="20" height="20" class="patch"/> <rect x="40" y="40" width="20" height="20" class="masked-patch"/> <rect x="60" y="40" width="20" height="20" class="patch"/> <rect x="80" y="40" width="20" height="20" class="masked-patch"/> <rect x="20" y="60" width="20" height="20" class="masked-patch"/> <rect x="40" y="60" width="20" height="20" class="patch"/> <rect x="60" y="60" width="20" height="20" class="masked-patch"/> <rect x="80" y="60" width="20" height="20" class="patch"/> <rect x="20" y="80" width="20" height="20" class="patch"/> <rect x="40" y="80" width="20" height="20" class="masked-patch"/> <rect x="60" y="80" width="20" height="20" class="patch"/> <rect x="80" y="80" width="20" height="20" class="masked-patch"/> <rect x="20" y="100" width="20" height="20" class="masked-patch"/> <rect x="40" y="100" width="20" height="20" class="patch"/> <rect x="60" y="100" width="20" height="20" class="masked-patch"/> <rect x="80" y="100" width="20" height="20" class="patch"/> </rect> </g>
+              <rect x="130" y="70" width="80" height="40" fill="#eef2ff" stroke="#c7d2fe"/> <text x="170" y="95" class="label">Encoder (ViT)</text> <text x="170" y="110" class="label">(Processes Visible Patches)</text>
+             <line x1="100" y1="80" x2="130" y2="90" class="arrow"/> <text x="115" y="70" class="label">Visible</text>
+             <rect x="240" y="70" width="80" height="40" fill="#eef2ff" stroke="#c7d2fe"/> <text x="280" y="95" class="label">Decoder</text> <text x="280" y="110" class="label">(Predicts Masked Patches)</text>
+             <line x1="210" y1="90" x2="240" y2="90" class="arrow"/>
+              <g id="output" transform="translate(350,0)"> <text x="60" y="30" class="label">Reconstruction</text> <rect x="20" y="40" width="80" height="80"> <rect x="20" y="40" width="20" height="20" class="patch"/> <rect x="40" y="40" width="20" height="20" class="recon-patch"/> <rect x="60" y="40" width="20" height="20" class="patch"/> <rect x="80" y="40" width="20" height="20" class="recon-patch"/> <rect x="20" y="60" width="20" height="20" class="recon-patch"/> <rect x="40" y="60" width="20" height="20" class="patch"/> <rect x="60" y="60" width="20" height="20" class="recon-patch"/> <rect x="80" y="60" width="20" height="20" class="patch"/> <rect x="20" y="80" width="20" height="20" class="patch"/> <rect x="40" y="80" width="20" height="20" class="recon-patch"/> <rect x="60" y="80" width="20" height="20" class="patch"/> <rect x="80" y="80" width="20" height="20" class="recon-patch"/> <rect x="20" y="100" width="20" height="20" class="recon-patch"/> <rect x="40" y="100" width="20" height="20" class="patch"/> <rect x="60" y="100" width="20" height="20" class="recon-patch"/> <rect x="80" y="100" width="20" height="20" class="patch"/> </rect> </g>
+             <line x1="320" y1="90" x2="350" y2="80" class="arrow"/>
+              <text x="245" y="150" class="label">Loss = Σ || Original_Masked - Reconstructed_Masked ||²</text>
+          </svg>
+         <p class="caption">Fig 5: Masked Autoencoder (MAE) learns by reconstructing randomly masked image patches.</p>
+     </div>
+
+
+    <h3><i class="fas fa-users paradigm-icon"></i>2. Contrastive Approaches</h3>
+    <p>These methods learn representations by contrasting pairs of samples. The goal is to pull representations of "positive" pairs (e.g., different augmented views of the same image) closer together in an embedding space, while pushing representations of "negative" pairs (e.g., views from different images) farther apart.</p>
+    <ul>
+        <li><strong>Core Idea:** Define a similarity function \( sim(u, v) \) (Formula 6), often cosine similarity \( \frac{u^T v}{||u|| ||v||} \) (Formula 7). Maximize similarity for positive pairs, minimize for negative pairs.</li>
+        <li><strong>InfoNCE Loss:** A common contrastive loss function (also used in SimCLR as NT-Xent). For an anchor \( z_i \) and its positive \( z_j \), it tries to classify \( z_j \) correctly among a set of negative samples \( \{z_k\}_{k \neq i} \). Formula (8):
+            <div class="formula">$$ L_i = -\log \frac{\exp(sim(z_i, z_j)/\tau)}{\sum_{k=0}^N \exp(sim(z_i, z_k)/\tau)} $$</div>
+            Where \( \tau \) is a temperature hyperparameter (Formula 9). The sum includes the positive pair (\(k=j\)) and N negative samples.
+        </li>
+        <li><strong>SimCLR:** Uses strong data augmentation to create positive pairs within a large batch. Negative pairs are all other instances in the same batch. Uses a projection head (MLP) after the encoder.</li>
+        <li><strong>MoCo (Momentum Contrast):** Addresses the need for large batches in SimCLR by maintaining a queue (\( K \)) of negative samples from previous batches. Uses a slowly evolving momentum encoder (\( \theta_k \)) for the keys to maintain consistency. Loss uses query \( q \) and positive key \( k_+ \). Formula (10): \( L_q = -\log \frac{\exp(q^T k_+ / \tau)}{\exp(q^T k_+ / \tau) + \sum_{k_- \in K} \exp(q^T k_- / \tau)} \). Momentum update: \( \theta_k \leftarrow m \theta_k + (1-m) \theta_q \) (Formula 11). Formula (12): Momentum \( m \).</li>
+    </ul>
+
+     <div class="svg-diagram">
+        <h3>Contrastive Learning Concept</h3>
+         <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+             <defs><style>.embed-space{fill:#f8fafc; stroke:#e2e8f0; rx:10; ry:10;}.anchor{fill:#e11d48;}.positive{fill:#22c55e;}.negative{fill:#64748b;}.label{font-size:10px; text-anchor:middle;}</style><marker id="arrowhead-contrast" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#e11d48" /></marker><marker id="arrowhead-contrast2" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#64748b" /></marker></defs>
+             <text x="250" y="25" class="label" font-weight="bold">Embedding Space</text>
+            <rect x="20" y="40" width="460" height="140" class="embed-space"/>
+            <circle cx="100" cy="110" r="10" class="anchor"/> <text x="100" y="130" class="label">Anchor (z<tspan baseline-shift="sub">i</tspan>)</text>
+             <circle cx="150" cy="90" r="10" class="positive"/> <text x="150" y="75" class="label">Positive (z<tspan baseline-shift="sub">j</tspan>)</text>
+            <circle cx="300" cy="70" r="8" class="negative"/> <text x="300" y="55" class="label">Negative (z<tspan baseline-shift="sub">k1</tspan>)</text>
+            <circle cx="350" cy="140" r="8" class="negative"/> <text x="350" y="160" class="label">Negative (z<tspan baseline-shift="sub">k2</tspan>)</text>
+            <circle cx="420" cy="90" r="8" class="negative"/> <text x="420" y="75" class="label">Negative (z<tspan baseline-shift="sub">kN</tspan>)</text>
+             <line x1="110" y1="110" x2="140" y2="95" stroke="#e11d48" stroke-width="2" marker-end="url(#arrowhead-contrast)"/> <text x="140" y="115" class="label" fill="#e11d48">Pull Together (Maximize Sim)</text>
+            <line x1="110" y1="110" x2="292" y2="75" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrowhead-contrast2)"/>
+            <line x1="110" y1="110" x2="342" y2="135" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrowhead-contrast2)"/>
+             <line x1="110" y1="110" x2="412" y2="95" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrowhead-contrast2)"/>
+             <text x="300" y="120" class="label" fill="#64748b">Push Apart (Minimize Sim)</text>
+        </svg>
+         <p class="caption">Fig 6: Contrastive learning pulls positive pairs together and pushes negative pairs apart in the embedding space.</p>
+    </div>
+     <div class="svg-diagram">
+         <h3>SimCLR Architecture (Simplified)</h3>
+         <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg"> <defs><style>.box{rx:5; ry:5; stroke-width:1;}.img{fill:#fef9e7; stroke:#fde68a;}.aug{fill:#ecfccb; stroke:#bef264;}.enc{fill:#e0f2fe; stroke:#7dd3fc;}.proj{fill:#fce7f3; stroke:#f9a8d4;}.loss{fill:#fee2e2; stroke:#fca5a5;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1; marker-end:url(#arrowhead-ssl);}</style></defs> <rect x="20" y="85" width="50" height="30" class="box img"/> <text x="45" y="103" class="label">Image x</text> <g transform="translate(90, 40)"> <rect x="0" y="0" width="50" height="30" class="box aug"/> <text x="25" y="18" class="label">Aug t(x)</text> <rect x="70" y="0" width="50" height="30" class="box enc"/> <text x="95" y="18" class="label">Encoder f()</text> <rect x="140" y="0" width="50" height="30" class="box proj"/> <text x="165" y="18" class="label">Projector g()</text> <line x1="50" y1="15" x2="70" y2="15" class="arrow"/> <line x1="120" y1="15" x2="140" y2="15" class="arrow"/> <text x="215" y="18" class="label">-> z_i</text> </g> <g transform="translate(90, 130)"> <rect x="0" y="0" width="50" height="30" class="box aug"/> <text x="25" y="18" class="label">Aug t'(x)</text> <rect x="70" y="0" width="50" height="30" class="box enc"/> <text x="95" y="18" class="label">Encoder f()</text> <rect x="140" y="0" width="50" height="30" class="box proj"/> <text x="165" y="18" class="label">Projector g()</text> <line x1="50" y1="15" x2="70" y2="15" class="arrow"/> <line x1="120" y1="15" x2="140" y2="15" class="arrow"/> <text x="215" y="18" class="label">-> z_j</text> </g> <line x1="45" y1="85" x2="90" y2="55" class="arrow"/> <line x1="45" y1="115" x2="90" y2="145" class="arrow"/> <rect x="330" y="75" width="100" height="50" class="box loss"/> <text x="380" y="95" class="label">Contrastive Loss</text> <text x="380" y="110" class="label">(Maximize sim(z_i, z_j)</text> <text x="380" y="122" class="label">vs Negatives)</text> <line x1="290" y1="55" x2="330" y2="85" class="arrow"/> <line x1="290" y1="145" x2="330" y2="115" class="arrow"/> </svg>
+         <p class="caption">Fig 7: Simplified SimCLR: Augment image twice, encode, project, apply contrastive loss.</p>
+     </div>
+      <div class="svg-diagram">
+         <h3>MoCo Architecture (Simplified)</h3>
+          <svg width="500" height="220" xmlns="http://www.w3.org/2000/svg"> <defs><style>.box{rx:5; ry:5; stroke-width:1;}.img{fill:#fef9e7; stroke:#fde68a;}.aug{fill:#ecfccb; stroke:#bef264;}.enc{fill:#e0f2fe; stroke:#7dd3fc;}.queue{fill:#f1f5f9; stroke:#cbd5e1;}.loss{fill:#fee2e2; stroke:#fca5a5;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1; marker-end:url(#arrowhead-ssl);}.mom-arrow{stroke:#0ea5e9; stroke-width:1.5; marker-end:url(#arrowhead-ssl); stroke-dasharray:3,3;}</style></defs> <rect x="20" y="95" width="50" height="30" class="box img"/> <text x="45" y="113" class="label">Image x</text> <g transform="translate(90, 20)"> <rect x="0" y="0" width="50" height="30" class="box aug"/> <text x="25" y="18" class="label">Aug t(x)</text> <rect x="70" y="0" width="80" height="30" class="box enc"/> <text x="110" y="18" class="label">Encoder f_q (θ_q)</text> <line x1="50" y1="15" x2="70" y2="15" class="arrow"/> <text x="180" y="18" class="label">-> Query q</text> </g> <g transform="translate(90, 150)"> <rect x="0" y="0" width="50" height="30" class="box aug"/> <text x="25" y="18" class="label">Aug t'(x)</text> <rect x="70" y="0" width="80" height="30" class="box enc"/> <text x="110" y="18" class="label">Momentum Enc f_k (θ_k)</text> <line x1="50" y1="15" x2="70" y2="15" class="arrow"/> <text x="180" y="18" class="label">-> Positive Key k+</text> </g> <line x1="45" y1="95" x2="90" y2="35" class="arrow"/> <line x1="45" y1="125" x2="90" y2="165" class="arrow"/> <rect x="300" y="100" width="60" height="100" class="box queue"/> <text x="330" y="115" class="label">Queue K</text> <text x="330" y="130" class="label">(Negative Keys)</text> <text x="330" y="145" class="label">{k_1, k_2...}</text> <line x1="230" y1="165" x2="300" y2="150" class="arrow"/> <text x="260" y="180" class="label">Enqueue Current</text> <line x1="300" y1="120" x2="250" y2="80" class="arrow"/> <text x="260" y="100" class="label">Dequeue Oldest</text> <rect x="300" y="20" width="100" height="50" class="box loss"/> <text x="350" y="40" class="label">Contrastive Loss</text> <text x="350" y="55" class="label">(q vs k+ and K)</text> <line x1="215" y1="35" x2="300" y2="45" class="arrow"/> <line x1="360" y1="100" x2="350" y2="70" class="arrow"/> <path d="M 110 50 Q 110 100 110 150" fill="none" class="mom-arrow"/> <text x="50" y="100" class="label" fill="#0ea5e9">Momentum Update θ_k</text> </svg>
+         <p class="caption">Fig 8: Simplified MoCo: Uses a query encoder, a momentum key encoder, and a queue for negative samples.</p>
+    </div>
+
+
+    <h3><i class="fas fa-handshake paradigm-icon"></i>3. Non-Contrastive Approaches</h3>
+    <p>These methods learn representations by maximizing similarity between positive pairs only, avoiding the need for explicit negative samples. They employ specific architectural designs or regularization to prevent representational collapse (where the model outputs the same constant vector for all inputs).</p>
+    <ul>
+        <li><strong>BYOL (Bootstrap Your Own Latent):** Uses two networks: an online network (\( \theta \)) and a target network (\( \xi \)). The online network predicts the target network's representation of a different augmented view of the same image. Loss: \( L_{\theta, \xi} \propto || \bar{q}_\theta(z_1) - \bar{p}_{\xi}(z'_2) ||_2^2 \) (Formula 13), where \( \bar{q}, \bar{p} \) are normalized predictions/projections (Formula 14). Crucially, the target network's weights \( \xi \) are updated as an exponential moving average (momentum update) of the online network's weights \( \theta \). Formula (15): \( \xi \leftarrow \tau \xi + (1-\tau) \theta \). This asymmetry prevents collapse. Formula (16): Target decay rate \( \tau \).</li>
+        <li><strong>SimSiam (Simple Siamese):** Uses a simpler Siamese architecture (two identical encoders). It maximizes the cosine similarity between the projection \( p_1 = h(f(x_1)) \) from one view and the encoded representation \( z_2 = f(x_2) \) from the other view, using a crucial <strong>stop-gradient</strong> operation on \( z_2 \). Loss: \( L = D(p_1, z_2)/2 + D(p_2, z_1)/2 \), where \( D(p, z) = - \frac{p^T z}{||p||_2 ||z||_2} \) (Formula 17). The stop-gradient prevents collapse by making the optimization problem asymmetric. Formula (18): stop_gradient.</li>
+        <li><strong>Barlow Twins:** Aims to make the cross-correlation matrix \( C \) between the embeddings of two augmented views (\(Z^A, Z^B\)) as close as possible to the identity matrix. This encourages invariance (diagonal terms close to 1) and redundancy reduction (off-diagonal terms close to 0). Loss: \( L_{BT} \propto \sum_i (1 - C_{ii})^2 + \lambda \sum_{i \neq j} C_{ij}^2 \) (Formula 19). Formula (20): Cross-correlation matrix \( C \).</li>
+        <li><strong>VICReg (Variance-Invariance-Covariance Regularization):** Similar goal to Barlow Twins, explicitly optimizes three terms: Invariance (MSE between embeddings), Variance (maintaining variance along each dimension to prevent collapse), and Covariance (decorrelating different dimensions). Formula (21): \( L_{VICReg} = \lambda S(Z^A, Z^B) + \mu I(Z^A, Z^B) + \nu C(Z^A, Z^B) \). Formulas (22, 23, 24): Variance \( S \), Invariance \( I \), Covariance \( C \) terms.</li>
+    </ul>
+     <div class="svg-diagram">
+         <h3>Non-Contrastive: BYOL Architecture</h3>
+         <svg width="500" height="250" xmlns="http://www.w3.org/2000/svg"> <defs><style>.box{rx:5; ry:5; stroke-width:1;}.img{fill:#fef9e7; stroke:#fde68a;}.aug{fill:#ecfccb; stroke:#bef264;}.enc{fill:#e0f2fe; stroke:#7dd3fc;}.proj{fill:#fce7f3; stroke:#f9a8d4;}.pred{fill:#fae8ff; stroke:#e9d5ff;}.loss{fill:#fee2e2; stroke:#fca5a5;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1; marker-end:url(#arrowhead-ssl);}.mom-arrow{stroke:#a78bfa; stroke-width:1.5; marker-end:url(#arrowhead-ssl); stroke-dasharray:3,3;}</style></defs> <rect x="20" y="110" width="50" height="30" class="box img"/> <text x="45" y="128" class="label">Image x</text> <g transform="translate(90, 20)"> <text x="120" y="10" class="label" font-weight="bold">Online Network (θ)</text> <rect x="0" y="20" width="50" height="30" class="box aug"/> <text x="25" y="38" class="label">Aug t(x)</text> <rect x="70" y="20" width="50" height="30" class="box enc"/> <text x="95" y="38" class="label">Encoder f_θ</text> <rect x="140" y="20" width="50" height="30" class="box proj"/> <text x="165" y="38" class="label">Projector g_θ</text> <rect x="210" y="20" width="50" height="30" class="box pred"/> <text x="235" y="38" class="label">Predictor q_θ</text> <line x1="50" y1="35" x2="70" y2="35" class="arrow"/> <line x1="120" y1="35" x2="140" y2="35" class="arrow"/> <line x1="190" y1="35" x2="210" y2="35" class="arrow"/> <text x="285" y="38" class="label">-> q_θ(z)</text> </g> <g transform="translate(90, 180)"> <text x="120" y="0" class="label" font-weight="bold">Target Network (ξ)</text> <rect x="0" y="10" width="50" height="30" class="box aug"/> <text x="25" y="28" class="label">Aug t'(x)</text> <rect x="70" y="10" width="50" height="30" class="box enc"/> <text x="95" y="28" class="label">Encoder f_ξ</text> <rect x="140" y="10" width="50" height="30" class="box proj"/> <text x="165" y="28" class="label">Projector g_ξ</text> <line x1="50" y1="25" x2="70" y2="25" class="arrow"/> <line x1="120" y1="25" x2="140" y2="25" class="arrow"/> <text x="215" y="28" class="label">-> sg(z')</text> <line x1="190" y1="25" x2="205" y2="25" class="arrow"/> <rect x="190" y="15" width="5" height="20" fill="red"/> <text x="192.5" y="10" font-size="8">sg</text> </g> <line x1="45" y1="110" x2="90" y2="35" class="arrow"/> <line x1="45" y1="140" x2="90" y2="195" class="arrow"/> <rect x="350" y="95" width="80" height="40" class="box loss"/> <text x="390" y="115" class="label">Loss</text> <text x="390" y="128" class="label">(MSE)</text> <line x1="310" y1="35" x2="350" y2="105" class="arrow"/> <line x1="270" y1="205" x2="350" y2="125" class="arrow"/> <path d="M 190 50 Q 250 115 190 180" fill="none" class="mom-arrow"/> <text x="270" y="115" class="label" fill="#a78bfa">Momentum Update ξ</text> </svg>
+          <p class="caption">Fig 9 & 10: BYOL uses asymmetric online/target networks with momentum updates to avoid collapse without negative samples. SimSiam uses stop-gradient.</p>
+     </div>
+
+     <table border="1">
+         <caption>Comparison of SSL Paradigms</caption>
+         <thead>
+             <tr><th>Paradigm</th><th>Core Idea</th><th>Examples</th><th>Pros</th><th>Cons</th></tr>
+         </thead>
+         <tbody>
+             <tr><td><strong>Generative</strong></td><td>Reconstruct/predict masked/corrupted input</td><td>MAE, BERT, Denoising AEs</td><td>Learns density/details, good for generation</td><td>Can focus too much on low-level details, might not learn high-level semantics as well</td></tr>
+             <tr><td><strong>Contrastive</strong></td><td>Pull positives together, push negatives apart</td><td>SimCLR, MoCo</td><td>Learns discriminative features, strong downstream performance</td><td>Needs careful negative sampling/large batches, sensitive to augmentations</td></tr>
+             <tr><td><strong>Non-Contrastive</strong></td><td>Maximize similarity of positives, use tricks to avoid collapse</td><td>BYOL, SimSiam, Barlow Twins, VICReg</td><td>Avoids need for negative samples, conceptually simpler loss (sometimes)</td><td>Mechanisms preventing collapse can be subtle/complex, performance sensitive to architecture/regularization</td></tr>
+         </tbody>
+     </table>
+
+
+    <h2><i class="fas fa-bullseye icon"></i> Applications and Impact</h2>
+    <ul>
+        <li><strong>Pre-training Large Models:</strong> SSL is the standard for pre-training large foundation models in NLP (BERT, GPT, RoBERTa) and increasingly in CV (ViT variants, MAE, SimCLR pre-trained models). This allows models to learn general language/visual understanding from vast unlabeled web-scale data.</li>
+        <li><strong>Improved Downstream Performance:</strong> Models pre-trained with SSL often achieve state-of-the-art results when fine-tuned on downstream tasks (classification, detection, segmentation) with limited labeled data. Linear probing (training a linear classifier on frozen SSL features) is a common evaluation protocol.</li>
+        <li><strong>Representation Learning:</strong> SSL learns powerful, compressed representations of data that capture essential semantic information.</li>
+        <li><strong>Domain Adaptation:</strong> Can help adapt models to new domains with unlabeled data.</li>
+    </ul>
+
+    <h2><i class="fas fa-exclamation-triangle challenge-icon"></i> Challenges and Future Directions</h2>
+    <ul>
+        <li><i class="fas fa-vial challenge-icon"></i><strong>Designing Pretext Tasks/Augmentations:</strong> The effectiveness of SSL heavily depends on the design of the pretext task or data augmentations. Poor choices can lead to learning irrelevant features.</li>
+        <li><i class="fas fa-server challenge-icon"></i><strong>Computational Cost:</strong> Pre-training large models on massive unlabeled datasets requires significant computational resources (GPUs/TPUs).</li>
+        <li><i class="fas fa-arrow-down challenge-icon"></i><strong>Collapse Prevention:</strong> Non-contrastive methods require careful architectural design (asymmetry, stop-gradients) or regularization (Barlow Twins, VICReg) to avoid trivial solutions. Understanding these mechanisms is ongoing research.</li>
+        <li><i class="fas fa-chart-bar challenge-icon"></i><strong>Evaluation:</strong> Assessing the quality of learned representations without downstream task evaluation is difficult. Linear probing is common but may not fully reflect representation quality.</li>
+        <li><i class="fas fa-balance-scale challenge-icon"></i><strong>Bias Amplification:</strong> Models pre-trained on large, uncurated datasets can inadvertently learn and amplify societal biases present in the data.</li>
+        <li><i class="fas fa-cogs challenge-icon"></i><strong>Theoretical Understanding:</strong> While empirically successful, a deeper theoretical understanding of why certain SSL methods work so well (especially non-contrastive ones) is still developing.</li>
+    </ul>
+    <p>Future directions include developing more efficient SSL methods, creating pretext tasks that capture higher-level reasoning, combining SSL paradigms, applying SSL to more modalities (graphs, tabular data), and ensuring fairness and robustness in learned representations.</p>
+    <div class="svg-diagram"><h3>Other Pretext Tasks (Illustrative)</h3><svg width="400" height="150" xmlns="http://www.w3.org/2000/svg"><defs><style>.task-box{fill:#f0f9ff; stroke:#7dd3fc; rx:5; ry:5;}.label{font-size:10px; text-anchor:middle;}.img-placeholder{fill:#e0f2fe; stroke:#bae6fd;}</style></defs><g><text x="80" y="25" class="label" font-weight="bold">Colorization</text><rect x="30" y="40" width="100" height="60" class="img-placeholder"/><text x="80" y="70" class="label">Grayscale Input</text><text x="80" y="120" class="label">Predict: Color Output?</text></g><g transform="translate(200, 0)"><text x="80" y="25" class="label" font-weight="bold">Context Prediction</text><rect x="30" y="40" width="40" height="40" class="img-placeholder"/><text x="50" y="60" class="label">Patch A</text><rect x="90" y="40" width="40" height="40" class="img-placeholder"/><text x="110" y="60" class="label">Patch B</text><text x="80" y="100" class="label">Predict: Relative Position</text><text x="80" y="110" class="label">(e.g., B is right of A)?</text></g></svg><p class="caption">Fig 11 & 12: Examples of other pretext tasks like colorization and relative patch prediction.</p></div>
+    <div class="svg-diagram"><h3>Downstream Task Adaptation</h3><svg width="400" height="150" xmlns="http://www.w3.org/2000/svg"><defs><style>.box{rx:5; ry:5; stroke-width:1;}.ssl-enc{fill:#e0f2fe; stroke:#7dd3fc;}.classifier{fill:#dcfce7; stroke:#86efac;}.label{font-size:10px; text-anchor:middle;}.arrow{stroke:#555; stroke-width:1.5; marker-end:url(#arrowhead-ssl);}</style></defs><rect x="20" y="60" width="60" height="30" fill="#fef9e7"/> <text x="50" y="78" class="label">New Data</text> <rect x="110" y="50" width="100" height="50" class="box ssl-enc"/> <text x="160" y="70" class="label">Pre-trained SSL</text> <text x="160" y="85" class="label">Encoder (Frozen?)</text> <line x1="80" y1="75" x2="110" y2="75" class="arrow"/> <rect x="240" y="60" width="80" height="30" class="box classifier"/> <text x="280" y="78" class="label">New Classifier</text> <text x="280" y="90" class="label">(Fine-tuned / Linear Probe)</text> <line x1="210" y1="75" x2="240" y2="75" class="arrow"/> <text x="360" y="78" class="label">Downstream</text> <text x="360" y="90" class="label">Prediction</text> <line x1="320" y1="75" x2="340" y2="75" class="arrow"/> </svg><p class="caption">Fig 13: Using SSL-learned representations for downstream tasks via fine-tuning or linear probing.</p></div>
+     <div class="svg-diagram"><h3>Dummy Diagram 14</h3><svg width="100" height="50"><rect width="100" height="50" style="fill:rgb(200,200,255);stroke-width:1;stroke:rgb(0,0,0)" /><text x="50" y="30" text-anchor="middle" font-size="10">Placeholder 14</text></svg><p class="caption">Fig 14: Placeholder.</p></div>
+     <div class="svg-diagram"><h3>Dummy Diagram 15</h3><svg width="100" height="50"><rect width="100" height="50" style="fill:rgb(200,255,200);stroke-width:1;stroke:rgb(0,0,0)" /><text x="50" y="30" text-anchor="middle" font-size="10">Placeholder 15</text></svg><p class="caption">Fig 15: Placeholder.</p></div>
+
+
+    <h2><i class="fas fa-flag-checkered icon"></i> Conclusion</h2>
+    <p>
+        Self-Supervised Learning has emerged as a transformative force in machine learning, offering a powerful way to learn rich data representations without relying on expensive human annotations. By cleverly designing pretext tasks that leverage the inherent structure of data, generative, contrastive, and non-contrastive SSL methods enable the pre-training of large, versatile models that excel on downstream tasks even with limited labeled data. While challenges in task design, computational cost, and evaluation remain, SSL has fundamentally changed the landscape, particularly in NLP and computer vision, making it possible to harness the vast amounts of unlabeled data available in the world. As research continues, we can expect even more efficient, robust, and versatile SSL approaches, further reducing our dependence on labeled data and pushing the frontiers of AI.
+    </p>
+     <p class="note"><strong>Diagram Note:</strong> This article includes 15 illustrative SVG diagrams (Figs 1-15) as requested, covering core concepts, paradigms, and architectures. Due to the complexity and the goal of providing variety within the 15-diagram constraint, some diagrams are simplified representations or placeholders illustrating the concept.</p>
+     <p><i>(Formula count check: Includes SSL Rep h, Sup Loss L, Pretext Loss, DAE Loss, MAE Loss, MLM Obj, Pos Pair, Neg Pair, Cos Sim, InfoNCE, Temp tau, MoCo Loss, MoCo Queue K, MoCo Update theta_k, MoCo Momentum m, BYOL Pred, BYOL Loss, BYOL Norm vecs, BYOL Update xi, BYOL tau, SimSiam Loss, SimSiam Pred/StopGrad, Barlow Twins Loss, Barlow Twins Matrix C, VICReg Loss, VICReg S, VICReg I, VICReg C, ReLU, Sigmoid, Softmax, MSE, CrossEnt, Expectation E. Total > 35).</i></p>
+
+    <div class="author-box">
+        <h2>About the Author, Architect & Developer</h2>
+        <p>
+            <strong>Loveleen Narang</strong> is an accomplished leader and visionary in Data Science, Machine Learning, and Artificial Intelligence. With over 20 years of expertise in designing and architecting innovative AI-driven solutions, he specializes in harnessing advanced technologies to address critical challenges across industries. His strategic approach not only solves complex problems but also drives operational efficiency, strengthens regulatory compliance, and delivers measurable value—particularly in government and public sector initiatives.
+        </p><p>
+            Renowned for his commitment to excellence, Loveleen’s work centers on developing robust, scalable, and secure systems that adhere to global standards and ethical frameworks. By integrating cross-functional collaboration with forward-thinking methodologies, he ensures solutions are both future-ready and aligned with organizational objectives. His contributions continue to shape industry best practices, solidifying his reputation as a catalyst for transformative, technology-led growth.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

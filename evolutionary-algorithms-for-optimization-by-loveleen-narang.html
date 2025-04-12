@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolutionary Algorithms for Optimization: Nature-Inspired Problem Solving</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .hero-section {
+             background: linear-gradient(to right, #00bf8f, #001510); /* Green/Dark Green gradient */
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hero-section .catchy-phrase {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #eee;
+        }
+        .article-meta {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #00bf8f;
+            padding-bottom: 10px;
+            display: inline-block;
+            color: #001510;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #00bf8f;
+        }
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .table-stylish {
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .table-stylish thead {
+            background-color: #00bf8f;
+            color: white;
+        }
+        .formula-box {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #00bf8f;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+        .author-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .author-box h3 {
+            margin-bottom: 20px;
+            color: #001510;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        .highlight {
+             color: #00bf8f;
+             font-weight: 600;
+        }
+         .figure-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+         .text-sm { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section .catchy-phrase {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Evolutionary Algorithms for Optimization</h1>
+        <p class="catchy-phrase">Solving Complex Problems Inspired by Nature's Strategies</p>
+        <p class="article-meta">Authored by Loveleen Narang | Published: December 25, 2023</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+                <section class="content-section" id="introduction">
+                    <h2 class="section-title"><i class="fas fa-dna"></i>Introduction: Optimization Inspired by Evolution</h2>
+                    <p>
+                        Optimization problems are ubiquitous, arising in fields ranging from engineering design and logistics scheduling to financial modeling and machine learning hyperparameter tuning. Finding the best possible solution from a vast landscape of possibilities can be incredibly challenging, especially when the search space is large, complex, or non-differentiable, rendering traditional gradient-based methods ineffective.
+                    </p>
+                    <p>
+                        Nature, however, offers a powerful paradigm for optimization: evolution. Through processes like natural selection, recombination, and mutation, biological populations adapt and improve over generations, effectively searching for solutions well-suited to their environment. <span class="highlight">Evolutionary Algorithms (EAs)</span> are a class of computational optimization techniques directly inspired by these principles. They employ a population of candidate solutions and iteratively apply simulated evolutionary operators to explore the search space and converge towards optimal or near-optimal solutions. This article explores the fascinating world of Evolutionary Algorithms, detailing their core concepts, major variants, and applications in solving complex optimization problems.
+                    </p>
+                </section>
+
+                 <section class="content-section" id="what-are-eas">
+                    <h2 class="section-title"><i class="fas fa-lightbulb"></i>What are Evolutionary Algorithms?</h2>
+                    <p>
+                        Evolutionary Algorithms (EAs) are population-based, stochastic search and optimization algorithms that mimic principles of natural evolution. Instead of examining a single solution at a time, EAs maintain a <span class="highlight">population</span> of candidate solutions (individuals). Over successive <span class="highlight">generations</span>, the population evolves through processes analogous to biological evolution:
+                    </p>
+                    <ul>
+                        <li><strong>Selection:</strong> Fitter individuals (those representing better solutions according to some objective) are more likely to be selected for reproduction.</li>
+                        <li><strong>Recombination (Crossover):</strong> Genetic material (parts of the solution representation) from selected "parent" individuals is combined to create new "offspring" solutions.</li>
+                        <li><strong>Mutation:</strong> Small, random changes are introduced into offspring solutions to maintain diversity and explore new regions of the search space.</li>
+                    </ul>
+                    <p>This iterative process, guided by the "survival of the fittest" principle, gradually improves the quality of the solutions in the population, driving the search towards optimal regions of the problem space.</p>
+                     <table class="table table-bordered table-striped table-hover table-stylish w-auto mx-auto">
+                        <thead>
+                           <tr><th>Biological Concept</th><th>Evolutionary Algorithm Component</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Individual Organism</td><td>Candidate Solution (Individual)</td></tr>
+                            <tr><td>Environment / Fitness Landscape</td><td>Optimization Problem / Objective Function</td></tr>
+                            <tr><td>Fitness (Survival/Reproduction Success)</td><td>Fitness Function Value (Solution Quality)</td></tr>
+                            <tr><td>Population</td><td>Set of Candidate Solutions</td></tr>
+                            <tr><td>Genes / Chromosome</td><td>Solution Representation (e.g., Binary String, Vector)</td></tr>
+                            <tr><td>Natural Selection</td><td>Selection Mechanism (e.g., Roulette Wheel, Tournament)</td></tr>
+                            <tr><td>Sexual Reproduction / Recombination</td><td>Crossover Operator</td></tr>
+                            <tr><td>Mutation</td><td>Mutation Operator</td></tr>
+                            <tr><td>Generation</td><td>One Iteration of the Algorithm</td></tr>
+                        </tbody>
+                    </table>
+                     <p class="figure-caption">Table 1: Analogy between biological evolution and Evolutionary Algorithm components.</p>
+                </section>
+
+                <section class="content-section" id="core-concepts">
+                    <h2 class="section-title"><i class="fas fa-cogs"></i>Core Concepts and Components</h2>
+                    <p>Most EAs share several fundamental components:</p>
+                     <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="eaCycleTitle">
+                        <title id="eaCycleTitle">The Evolutionary Algorithm Cycle</title>
+                         <style>
+                            .ea-step { fill:#cfe2ff; stroke:#0d6efd; rx:5; text-anchor: middle; font-family: Arial, sans-serif; font-size: 10px;}
+                             .arrow-ea { stroke:#6c757d; stroke-width:1.5; marker-end: url(#arrowhead-ea); }
+                             #arrowhead-ea polygon { points:"0 0, 8 3, 0 6"; fill: #6c757d; }
+                         </style>
+                         <defs> <marker id="arrowhead-ea" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6c757d"/></marker> </defs>
+
+                          <text x="150" y="20" font-weight="bold" font-size="14" text-anchor="middle">Evolutionary Algorithm Cycle</text>
+
+                         <rect x="100" y="40" width="100" height="30" class="ea-step"/> <text x="150" y="60">1. Initialize Population</text>
+                          <line x1="150" y1="70" x2="150" y2="90" class="arrow-ea"/>
+
+                         <rect x="100" y="90" width="100" height="30" class="ea-step"/> <text x="150" y="110">2. Evaluate Fitness</text>
+                          <line x1="150" y1="120" x2="150" y2="140" class="arrow-ea"/>
+
+                         <g transform="translate(150 155)"> <rect x="-20" y="-20" width="40" height="40" fill="#fff3cd" stroke="#ffeeba" transform="rotate(45)"/> <text x="0" y="5" transform="rotate(-45)" font-size="9">Terminate?</text> </g>
+                           <line x1="178" y1="155" x2="230" y2="155" class="arrow-ea"/> <text x="200" y="150" font-size="9">Yes</text>
+                           <rect x="230" y="140" width="50" height="30" fill="#d1e7dd" stroke="#198754" rx="15"/> <text x="255" y="160" font-size="9">END</text>
+
+                           <line x1="150" y1="183" x2="150" y2="200" class="arrow-ea"/> <text x="160" y="195" font-size="9">No</text>
+
+                         <rect x="100" y="200" width="100" height="30" class="ea-step"/> <text x="150" y="220">3. Selection</text>
+                         <line x1="150" y1="230" x2="150" y2="250" class="arrow-ea"/>
+
+                         <rect x="100" y="250" width="100" height="30" class="ea-step"/> <text x="150" y="270">4. Crossover</text>
+                          <line x1="150" y1="280" x2="150" y2="300" class="arrow-ea"/>
+
+                          <rect x="100" y="300" width="100" height="30" class="ea-step"/> <text x="150" y="320">5. Mutation</text>
+
+                          <line x1="150" y1="330" x2="150" y2="345" class="arrow-ea"/>
+                          <text x="150" y="360" text-anchor="middle" font-size="10">6. Replacement</text>
+                           <path d="M 100 315 Q 50 250 50 155 Q 50 60 100 55" stroke="#6c757d" fill="none" stroke-dasharray="4,4" class="arrow-ea"/>
+                          <text x="30" y="180" font-size="10">New Generation</text>
+                     </svg>
+                     <p class="figure-caption">Figure 1: The core iterative cycle of a typical Evolutionary Algorithm.</p>
+                    <ul>
+                        <li><strong>Representation (Encoding):</strong> Defining how a potential solution to the problem is represented within the algorithm. This could be a binary string (common in GAs), a vector of real numbers (common in ES), a tree structure (in GP), or other complex structures. This encoded form is often called a chromosome or genotype.</li>
+                        <li><strong>Population:</strong> A collection of $N$ individuals (encoded solutions) that evolves over time.</li>
+                        <li><strong>Fitness Function $f(x)$:** A crucial component that measures the quality or "fitness" of an individual solution $x$ in the context of the optimization problem. The goal is typically to maximize (or minimize) this function. It connects the genotype (representation) to the phenotype (problem-solving ability).</li>
+                        <li><strong>Selection Mechanism:** Determines which individuals from the current population will become "parents" to produce the next generation. Fitter individuals generally have a higher probability of being selected, implementing the "survival of the fittest" principle. Common methods include Roulette Wheel Selection, Tournament Selection, and Rank Selection.</li>
+                        <li><strong>Genetic Operators:** Used to create new offspring solutions from selected parents:
+                            <ul>
+                                <li><em>Crossover (Recombination):</em> Combines parts of two or more parent solutions to create one or more offspring, hoping to mix beneficial traits.</li>
+                                <li><em>Mutation:</em> Introduces small, random alterations to an individual's representation, providing genetic diversity and preventing premature convergence to suboptimal solutions.</li>
+                            </ul>
+                        </li>
+                         <li><strong>Replacement Strategy:** Determines how the new offspring population replaces the old population (e.g., replacing the entire old population, replacing only the worst individuals).</li>
+                         <li><strong>Termination Criteria:** Conditions under which the algorithm stops, such as reaching a maximum number of generations, finding a solution with satisfactory fitness, or observing no significant improvement in fitness for a number of generations.</li>
+                    </ul>
+                </section>
+
+                 <section class="content-section" id="ea-types">
+                    <h2 class="section-title"><i class="fas fa-project-diagram"></i>Major Types of Evolutionary Algorithms</h2>
+                    <p>While sharing core principles, different families of EAs emphasize different components and representations:</p>
+                     <svg viewBox="0 0 550 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="eaTypesTitle">
+                       <title id="eaTypesTitle">Comparison of Major Evolutionary Algorithm Types</title>
+                       <style>
+                          .ea-type-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; stroke-width:1.5;}
+                           .ea-type-text { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                           .ea-feature { font-size: 9px; }
+                       </style>
+                       <text x="275" y="25" font-weight="bold" font-size="14" text-anchor="middle">Major Evolutionary Algorithm Families</text>
+
+                       <rect x="10" y="50" width="120" height="100" class="ea-type-box"/>
+                       <text x="70" y="65" class="ea-type-text" font-weight="bold">Genetic Algorithms (GA)</text>
+                       <text x="70" y="85" class="ea-type-text ea-feature">- Rep: Often Binary Strings</text>
+                       <text x="70" y="100" class="ea-type-text ea-feature">- Main Operator: Crossover</text>
+                       <text x="70" y="115" class="ea-type-text ea-feature">- Mutation: Secondary role</text>
+                       <text x="70" y="130" class="ea-type-text ea-feature">- Use: Combinatorial Opt.</text>
+
+                        <rect x="145" y="50" width="120" height="100" class="ea-type-box" fill="#d1e7dd" stroke="#198754"/>
+                        <text x="205" y="65" class="ea-type-text" font-weight="bold">Evolution Strategies (ES)</text>
+                         <text x="205" y="85" class="ea-type-text ea-feature">- Rep: Real-valued Vectors</text>
+                         <text x="205" y="100" class="ea-type-text ea-feature">- Main Operator: Mutation</text>
+                         <text x="205" y="115" class="ea-type-text ea-feature">(Self-adaptive)</text>
+                         <text x="205" y="130" class="ea-type-text ea-feature">- Use: Continuous Opt.</text>
+
+                        <rect x="280" y="50" width="120" height="100" class="ea-type-box" fill="#fff3cd" stroke="#ffeeba"/>
+                         <text x="340" y="65" class="ea-type-text" font-weight="bold">Genetic Programming (GP)</text>
+                         <text x="340" y="85" class="ea-type-text ea-feature">- Rep: Trees (Programs)</text>
+                         <text x="340" y="100" class="ea-type-text ea-feature">- Operators: Subtree</text>
+                         <text x="340" y="115" class="ea-type-text ea-feature">Crossover/Mutation</text>
+                         <text x="340" y="130" class="ea-type-text ea-feature">- Use: Evolving Programs</text>
+
+                         <rect x="415" y="50" width="120" height="100" class="ea-type-box" fill="#f8d7da" stroke="#dc3545"/>
+                          <text x="475" y="65" class="ea-type-text" font-weight="bold">Differential Evolution (DE)</text>
+                          <text x="475" y="85" class="ea-type-text ea-feature">- Rep: Real-valued Vectors</text>
+                          <text x="475" y="100" class="ea-type-text ea-feature">- Main Operator: Differential</text>
+                          <text x="475" y="115" class="ea-type-text ea-feature">Mutation & Crossover</text>
+                           <text x="475" y="130" class="ea-type-text ea-feature">- Use: Continuous Opt.</text>
+
+                    </svg>
+                     <p class="figure-caption">Figure 2: Key characteristics of major Evolutionary Algorithm families.</p>
+                    <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                             <tr>
+                                 <th>Algorithm Type</th>
+                                 <th>Typical Representation</th>
+                                 <th>Primary Variation Operators</th>
+                                 <th>Key Characteristics</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Genetic Algorithms (GAs)</td>
+                                 <td>Binary strings, permutations</td>
+                                 <td>Crossover (e.g., one-point, two-point, uniform), Mutation (e.g., bit-flip)</td>
+                                 <td>Emphasizes recombination of building blocks, widely applicable.</td>
+                             </tr>
+                             <tr>
+                                 <td>Evolution Strategies (ES)</td>
+                                 <td>Real-valued vectors</td>
+                                 <td>Mutation (often Gaussian, with self-adaptive step sizes), Crossover (less common, e.g., averaging)</td>
+                                 <td>Strong for continuous parameter optimization, self-adaptation of strategy parameters.</td>
+                             </tr>
+                              <tr>
+                                 <td>Genetic Programming (GP)</td>
+                                 <td>Tree structures (representing programs or expressions)</td>
+                                 <td>Subtree Crossover, Point Mutation, Subtree Mutation</td>
+                                 <td>Evolves programs or symbolic expressions directly.</td>
+                             </tr>
+                              <tr>
+                                 <td>Differential Evolution (DE)</td>
+                                 <td>Real-valued vectors</td>
+                                 <td>Differential Mutation (using vector differences between population members), Crossover (e.g., binomial)</td>
+                                 <td>Effective for continuous optimization, simple yet powerful operators.</td>
+                             </tr>
+                         </tbody>
+                    </table>
+                     <p class="figure-caption">Table 2: Comparison of major types of Evolutionary Algorithms.</p>
+                 </section>
+
+                <section class="content-section" id="how-eas-optimize">
+                    <h2 class="section-title"><i class="fas fa-search"></i>How EAs Perform Optimization</h2>
+                    <p>
+                        EAs tackle optimization problems by exploring the search space using their population of candidate solutions. The process balances:
+                    </p>
+                    <ul>
+                        <li><strong>Exploitation:</strong> Focusing the search around promising areas identified by high-fitness individuals (driven primarily by selection and crossover).</li>
+                        <li><strong>Exploration:</strong> Maintaining diversity and searching new, potentially unexplored areas of the solution space (driven primarily by mutation).</li>
+                    </ul>
+                    <p>
+                        By iteratively applying selection pressure and variation operators (crossover and mutation), the population gradually converges towards regions of high fitness. Because they maintain a population, EAs are less likely to get stuck in local optima compared to single-point search methods like hill climbing. They are well-suited for complex, multi-modal, non-linear, and non-differentiable optimization problems where traditional methods may fail.
+                    </p>
+                 </section>
+
+                <section class="content-section" id="maths">
+                     <h2 class="section-title"><i class="fas fa-calculator"></i>Mathematical Considerations</h2>
+                     <p>While often described algorithmically, some components have mathematical underpinnings:</p>
+                     <p><strong>Fitness Function:** The objective function $f(\mathbf{x})$ to be optimized. The goal is typically:</p>
+                     <div class="formula-box">
+                      Maximize $f(\mathbf{x})$ or Minimize $f(\mathbf{x})$ <br/>
+                      Where $\mathbf{x}$ represents an individual solution (genotype) in the population. The function $f$ maps the solution representation to a scalar value indicating its quality.
+                     </div>
+
+                     <p><strong>Selection Probability (Example: Roulette Wheel):** In this method, individuals are selected with a probability proportional to their fitness.</p>
+                     <div class="formula-box">
+                      Probability of selecting individual $i$ with fitness $f(\mathbf{x}_i)$ from a population of size $N$ (for maximization, assuming $f(\mathbf{x}_i) \ge 0$):
+                      $$ P(\text{select}_i) = \frac{f(\mathbf{x}_i)}{\sum_{j=1}^{N} f(\mathbf{x}_j)} $$
+                      Individuals with higher fitness occupy a larger "slice" of the roulette wheel and are more likely to be chosen as parents.
+                     </div>
+                     <p>Other selection methods like Tournament Selection (randomly picking a few individuals and selecting the best among them) are also widely used and have different selection pressure characteristics.</p>
+                 </section>
+
+                <section class="content-section" id="operators">
+                    <h2 class="section-title"><i class="fas fa-random"></i>Genetic Operators Explained</h2>
+                    <p>Crossover and Mutation introduce variation into the population:</p>
+                    <h4>Crossover (Recombination)</h4>
+                    <p>Combines information from two or more parent solutions. Example: Single-point crossover for binary strings.</p>
+                     <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="crossoverTitle">
+                         <title id="crossoverTitle">Single-Point Crossover Example</title>
+                         <style>
+                            .chromo { font-family: monospace; font-size: 14px; }
+                            .parent { fill: #0d6efd; } .child { fill: #198754; }
+                            .cut-point { stroke: #dc3545; stroke-width: 2; stroke-dasharray: 4,4; }
+                            .text-op { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+                         </style>
+                          <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle">Single-Point Crossover</text>
+                          <text x="100" y="50" class="chromo parent">Parent 1: 1101 | 0110</text>
+                           <text x="100" y="70" class="chromo parent">Parent 2: 0010 | 1101</text>
+                          <line x1="118" y1="35" x2="118" y2="75" class="cut-point"/> <text x="118" y="30" class="text-op">Cut Point</text>
+
+                          <text x="250" y="50" class="chromo child">Offspring 1: 1101 | 1101</text>
+                           <text x="250" y="70" class="chromo child">Offspring 2: 0010 | 0110</text>
+
+                            <polyline points="115,50 130,50 230,50" stroke="#6c757d" fill="none" marker-end="url(#arrowhead-ea)"/>
+                            <polyline points="121,70 130,70 230,70" stroke="#6c757d" fill="none" marker-end="url(#arrowhead-ea)"/>
+
+                             <text x="200" y="110" class="text-op">Parts of parents are swapped at the crossover point</text>
+                             <text x="200" y="120" class="text-op">to create new offspring solutions.</text>
+                     </svg>
+                     <p class="figure-caption">Figure 3: Example of single-point crossover for binary representations.</p>
+
+                    <h4>Mutation</h4>
+                     <p>Introduces small random changes. Example: Bit-flip mutation for binary strings.</p>
+                     <svg viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="mutationTitle">
+                         <title id="mutationTitle">Bit-Flip Mutation Example</title>
+                          <style>
+                            .chromo { font-family: monospace; font-size: 14px; }
+                             .before { fill: #0d6efd; } .after { fill: #198754; }
+                             .mutation-point { fill: #dc3545; font-weight: bold;}
+                             .text-op { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+                         </style>
+                           <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle">Bit-Flip Mutation</text>
+                          <text x="150" y="50" class="chromo before">Before: 110<tspan class="mutation-point">1</tspan>0110</text>
+
+                          <text x="150" y="80" class="chromo after">After:  110<tspan class="mutation-point">0</tspan>0110</text>
+                          <line x1="150" y1="55" x2="150" y2="70" stroke="#6c757d" marker-end="url(#arrowhead-ea)"/>
+                          <text x="280" y="65" class="text-op">A randomly selected bit is flipped.</text>
+                      </svg>
+                      <p class="figure-caption">Figure 4: Example of bit-flip mutation changing a single bit in a binary string.</p>
+                    <p>The type and probability/rate of these operators are important hyperparameters that influence the algorithm's search behavior.</p>
+                </section>
+
+
+                 <section class="content-section" id="selection">
+                    <h2 class="section-title"><i class="fas fa-filter"></i>Selection Mechanisms</h2>
+                    <p>Selection mechanisms determine parental contribution to the next generation:</p>
+                    <svg viewBox="0 0 450 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="selectionTitle">
+                        <title id="selectionTitle">Selection Mechanism Examples</title>
+                         <style>
+                            .wheel-section { stroke: #6c757d; stroke-width: 0.5; }
+                            .wheel-label { font-family: Arial, sans-serif; font-size: 9px; }
+                             .pointer { fill: #dc3545; }
+                             .tourn-ind { fill:#cfe2ff; stroke:#0d6efd; rx:3; }
+                             .tourn-winner { fill:#d1e7dd; stroke:#198754; stroke-width: 2;}
+                              .text-select { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                         </style>
+                        <text x="100" y="35" font-weight="bold" font-size="11" text-anchor="middle">Roulette Wheel Selection</text>
+                         <circle cx="100" cy="100" r="50" fill="#f8f9fa" stroke="#adb5bd"/>
+                         <path d="M 100 100 L 100 50 A 50 50 0 0 1 150 100 Z" fill="#a9d6e5" class="wheel-section"/> <text x="115" y="70" class="wheel-label">Ind 1 (High Fit)</text>
+                         <path d="M 100 100 L 150 100 A 50 50 0 0 1 100 150 Z" fill="#89c2d9" class="wheel-section"/> <text x="135" y="125" class="wheel-label">Ind 2 (Med Fit)</text>
+                         <path d="M 100 100 L 100 150 A 50 50 0 0 1 50 100 Z" fill="#61a5c2" class="wheel-section"/> <text x="65" y="130" class="wheel-label">Ind 3 (Med Fit)</text>
+                          <path d="M 100 100 L 50 100 A 50 50 0 0 1 100 50 Z" fill="#468faf" class="wheel-section"/> <text x="60" y="70" class="wheel-label">Ind 4 (Low Fit)</text>
+                         <polygon points="100,100 110,110 120,100" class="pointer" transform="rotate(-45 100 100)"/>
+                         <text x="100" y="165" class="text-select">Select based on probability</text>
+                         <text x="100" y="175" class="text-select">proportional to fitness slice size.</text>
+
+
+                        <text x="325" y="35" font-weight="bold" font-size="11" text-anchor="middle">Tournament Selection</text>
+                         <text x="325" y="55" class="text-select">1. Select k individuals randomly</text>
+                          <rect x="250" y="65" width="30" height="20" class="tourn-ind"/> <text x="265" y="78" class="text-select">Ind A</text>
+                          <rect x="290" y="65" width="30" height="20" class="tourn-ind"/> <text x="305" y="78" class="text-select">Ind B</text>
+                           <rect x="330" y="65" width="30" height="20" class="tourn-ind"/> <text x="345" y="78" class="text-select">Ind C</text>
+                          <text x="380" y="78" class="text-select">(k=3)</text>
+
+                          <text x="325" y="105" class="text-select">2. Choose the best (fittest) one</text>
+                           <rect x="290" y="115" width="70" height="25" class="tourn-ind tourn-winner"/> <text x="325" y="132" class="text-select" font-weight="bold">Winner (e.g., Ind B)</text>
+                          <line x1="305" y1="85" x2="325" y2="115" stroke="#6c757d" stroke-width="1"/> <line x1="265" y1="85" x2="290" y2="120" stroke="#6c757d" stroke-width="1" stroke-dasharray="2,2"/>
+                          <line x1="345" y1="85" x2="360" y2="120" stroke="#6c757d" stroke-width="1" stroke-dasharray="2,2"/>
+
+                           <text x="325" y="165" class="text-select">Repeat to select multiple parents.</text>
+                     </svg>
+                     <p class="figure-caption">Figure 5: Illustration of Roulette Wheel and Tournament selection mechanisms.</p>
+                    <ul>
+                        <li><strong>Roulette Wheel Selection:</strong> Each individual is assigned a slice on a roulette wheel proportional to its fitness. The wheel is spun, and the individual whose slice the pointer lands on is selected. Fitter individuals have larger slices and higher chances.</li>
+                        <li><strong>Tournament Selection:</strong> A small subset of individuals (the tournament size, $k$) is randomly selected from the population. The fittest individual within that subset is chosen as a parent. This is repeated to select multiple parents.</li>
+                        <li><strong>Rank Selection:</strong> Individuals are ranked based on fitness, and selection probability is based on rank rather than absolute fitness value. This can prevent premature convergence caused by super-individuals dominating selection early on.</li>
+                    </ul>
+                 </section>
+
+                <section class="content-section" id="applications">
+                     <h2 class="section-title"><i class="fas fa-industry"></i>Applications of Evolutionary Algorithms</h2>
+                     <p>EAs are applied to a wide range of complex optimization and search problems:</p>
+                     <table class="table table-bordered table-striped table-hover table-stylish">
+                        <thead>
+                           <tr>
+                               <th>Domain</th>
+                               <th>Application Examples</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Optimization</td>
+                                <td>Function optimization (finding maxima/minima), combinatorial optimization (Traveling Salesperson Problem, Knapsack Problem), parameter tuning.</td>
+                            </tr>
+                            <tr>
+                                <td>Engineering & Design</td>
+                                <td>Structural design optimization, aerodynamic shape optimization, circuit design, antenna design.</td>
+                            </tr>
+                             <tr>
+                                <td>Machine Learning</td>
+                                <td>Hyperparameter optimization for ML models, Feature selection, Neural Architecture Search (NAS) using GP or GAs, training neural network weights (Neuroevolution).</td>
+                            </tr>
+                             <tr>
+                                <td>Scheduling & Logistics</td>
+                                <td>Job shop scheduling, vehicle routing, resource allocation, timetable scheduling.</td>
+                            </tr>
+                             <tr>
+                                <td>Finance</td>
+                                <td>Portfolio optimization, trading rule discovery, risk management modeling.</td>
+                             </tr>
+                              <tr>
+                                <td>Robotics</td>
+                                <td>Robot control strategy evolution, path planning, swarm behavior design.</td>
+                             </tr>
+                              <tr>
+                                <td>Art & Music</td>
+                                <td>Generative art, procedural content generation in games, music composition.</td>
+                             </tr>
+                        </tbody>
+                    </table>
+                     <p class="figure-caption">Table 3: Diverse application areas for Evolutionary Algorithms.</p>
+                 </section>
+
+                <section class="content-section" id="benefits-challenges">
+                     <h2 class="section-title"><i class="fas fa-balance-scale-right"></i>Benefits and Limitations</h2>
+                      <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                            <tr>
+                                <th>Benefits</th>
+                                <th>Limitations / Challenges</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <tr>
+                                <td><i class="fas fa-globe-americas text-success me-2"></i> Global Search Capability (Less prone to local optima)</td>
+                                <td><i class="fas fa-server text-danger me-2"></i> Computationally Expensive (Evaluating fitness for many individuals)</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-puzzle-piece text-success me-2"></i> Applicable to complex, non-linear, non-differentiable problems</td>
+                                 <td><i class="fas fa-sliders-h text-danger me-2"></i> Parameter Tuning Sensitivity (Population size, mutation/crossover rates, etc.)</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-ban text-success me-2"></i> Doesn't require gradient information</td>
+                                <td><i class="fas fa-forward text-danger me-2"></i> Premature Convergence (Losing diversity too early)</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-project-diagram text-success me-2"></i> Robust to noisy environments</td>
+                                <td><i class="fas fa-code text-danger me-2"></i> Defining effective Representation and Operators can be difficult</td>
+                             </tr>
+                              <tr>
+                                <td><i class="fas fa-code-branch text-success me-2"></i> Inherently parallelizable</td>
+                                 <td><i class="fas fa-stopwatch text-danger me-2"></i> Can be slow to converge on simple problems compared to specialized methods</td>
+                             </tr>
+                               <tr>
+                                <td><i class="fas fa-check-circle text-success me-2"></i> Can find multiple optimal solutions (if population diversity maintained)</td>
+                                 <td><i class="fas fa-question-circle text-danger me-2"></i> No guarantee of finding the global optimum (metaheuristic)</td>
+                             </tr>
+                         </tbody>
+                    </table>
+                     <p class="figure-caption">Table 4: Summary of the strengths and weaknesses of Evolutionary Algorithms.</p>
+                 </section>
+
+
+                <section class="content-section" id="conclusion">
+                    <h2 class="section-title"><i class="fas fa-check-double"></i>Conclusion: Versatile Optimizers Inspired by Life</h2>
+                    <p>
+                       Evolutionary Algorithms offer a powerful and versatile approach to optimization, drawing inspiration from the robust search processes found in natural evolution. Their population-based nature and use of stochastic operators like selection, crossover, and mutation make them particularly well-suited for tackling complex, high-dimensional, and non-smooth optimization landscapes where traditional methods often struggle.
+                    </p>
+                    <p>
+                        From optimizing engineering designs and financial strategies to tuning machine learning models and evolving computer programs, EAs provide a flexible framework applicable across a vast range of domains. While challenges related to computational cost and parameter tuning exist, their ability to escape local optima and handle complex problem structures makes them an indispensable tool in the optimization toolkit. As computational power increases and hybrid approaches combining EAs with other techniques emerge, their role in solving challenging real-world problems is only set to grow.
+                    </p>
+                </section>
+
+                <section class="author-box" id="author">
+                    <h3><i class="fas fa-user-tie"></i>About the Author, Architect & Developer</h3>
+                    <p>
+                        <strong>Loveleen Narang</strong> is a distinguished leader and visionary in the fields of Data Science, Machine Learning, and Artificial Intelligence. With over two decades of experience in designing and architecting cutting-edge AI solutions, he excels at leveraging advanced technologies to tackle complex challenges across diverse industries. His strategic mindset not only resolves critical issues but also enhances operational efficiency, reinforces regulatory compliance, and delivers tangible value—especially within government and public sector initiatives.
+                    </p>
+                    <p>
+                        Widely recognized for his commitment to excellence, Loveleen focuses on building robust, scalable, and secure systems that align with global standards and ethical principles. His approach seamlessly integrates cross-functional collaboration with innovative methodologies, ensuring every solution is both forward-looking and aligned with organizational goals. A driving force behind industry best practices, Loveleen continues to shape the future of technology-led transformation, earning a reputation as a catalyst for impactful and sustainable innovation.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2023 Loveleen Narang. All Rights Reserved. </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

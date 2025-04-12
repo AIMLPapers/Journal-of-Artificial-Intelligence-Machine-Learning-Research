@@ -116,10 +116,29 @@
             text-align: center;
             font-size: 0.9em;
             color: #6c757d;
-            margin-top: -10px;
+            margin-top: -5px; /* Adjusted */
             margin-bottom: 20px;
         }
-         .text-sm { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+        /* Base style for SVG text */
+        .svg-text {
+             font-family: Arial, sans-serif;
+             font-size: 9px; /* Default small size */
+             text-anchor: middle;
+             dominant-baseline: middle;
+        }
+        /* Specific SVG Text Styles (can override .svg-text if needed) */
+        .text-path { font-size: 9px; }
+        .text-ed { font-size: 9px; }
+        .text-adapt { font-size: 9px; }
+        .decision-txt-adapt { font-size: 9px; }
+        .its-box text { font-size: 9px; }
+        .text-sm { font-size: 9px; } /* Used in ITS loop rotated text */
+        .benefit-text-e { fill: #198754; font-size: 9px; text-anchor: start; }
+        .challenge-text-e { fill: #dc3545; font-size: 9px; text-anchor: start; }
+        .title-text-e {font-weight: bold; text-anchor: middle; font-size: 12px;}
+        .benefit-icon-e { fill: #198754; font-size:18px; }
+        .challenge-icon-e { fill: #dc3545; font-size:18px; }
+        .center-line-e { stroke: #adb5bd; stroke-width: 1; }
 
         @media (max-width: 768px) {
             .hero-section h1 {
@@ -131,11 +150,12 @@
             .section-title {
                 font-size: 1.7rem;
             }
+            .svg-text { font-size: 8px; } /* Even smaller on mobile if needed */
+             .text-path, .text-ed, .text-adapt, .decision-txt-adapt, .its-box text, .text-sm, .benefit-text-e, .challenge-text-e { font-size: 8px; }
         }
     </style>
 </head>
 <body>
-
     <div class="hero-section">
         <h1>AI for Personalized Education Systems</h1>
         <p class="catchy-phrase">Tailoring Learning Journeys for Every Student's Needs</p>
@@ -165,28 +185,31 @@
                              .student-icon { fill:#0d6efd; }
                              .path-trad { stroke:#dc3545; stroke-width:2; fill:none; }
                              .path-pers { stroke:#198754; stroke-width:1.5; fill:none; stroke-dasharray: 4,4;}
-                              .text-path { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
                              .goal { fill:#ffc107; }
                          </style>
-                          <text x="100" y="35" font-weight="bold" font-size="12" text-anchor="middle">Traditional Education</text>
+                          <text x="100" y="35" font-weight="bold" font-size="12" text-anchor="middle" dominant-baseline="middle">Traditional Education</text>
                            <circle cx="40" cy="60" r="10" class="student-icon"/>
                            <circle cx="40" cy="100" r="10" class="student-icon"/>
                            <circle cx="40" cy="140" r="10" class="student-icon"/>
                            <line x1="50" y1="60" x2="180" y2="60" class="path-trad"/>
                            <line x1="50" y1="100" x2="180" y2="100" class="path-trad"/>
-                            <line x1="50" y1="140" x2="180" y2="140" class="path-trad"/>
-                           <text x="100" y="165" class="text-path">"One-Size-Fits-All" Path</text>
+                           <line x1="50" y1="140" x2="180" y2="140" class="path-trad"/>
+                           <text x="100" y="165" class="svg-text text-path">"One-Size-Fits-All" Path</text>
 
-                          <text x="330" y="35" font-weight="bold" font-size="12" text-anchor="middle">AI-Personalized Education</text>
+                          <text x="330" y="35" font-weight="bold" font-size="12" text-anchor="middle" dominant-baseline="middle">AI-Personalized Education</text>
                            <circle cx="250" cy="60" r="10" class="student-icon"/>
                            <circle cx="250" cy="100" r="10" class="student-icon"/>
                            <circle cx="250" cy="140" r="10" class="student-icon"/>
-                          <path d="M 260 60 C 300 50, 350 70, 400 80" class="path-pers"/> <path d="M 260 100 C 320 100, 330 90, 400 100" class="path-pers"/> <path d="M 260 140 C 300 150, 350 130, 400 120" class="path-pers"/> <text x="330" y="165" class="text-path">Individualized Paths based on</text>
-                           <text x="330" y="175" class="text-path">Needs, Pace, Style</text>
+                          <path d="M 260 60 C 300 50, 350 70, 400 80" class="path-pers"/>
+                          <path d="M 260 100 C 320 100, 330 90, 400 100" class="path-pers"/>
+                          <path d="M 260 140 C 300 150, 350 130, 400 120" class="path-pers"/>
+                          <text x="330" y="165" class="svg-text text-path">Individualized Paths based on</text>
+                          <text x="330" y="175" class="svg-text text-path">Needs, Pace, Style</text>
 
-
-                          <circle cx="180" cy="100" r="12" class="goal"/> <text x="180" y="104" class="text-path">Goal</text>
-                          <circle cx="400" cy="100" r="12" class="goal"/> <text x="400" y="104" class="text-path">Goal</text>
+                          <circle cx="180" cy="100" r="12" class="goal"/>
+                          <text x="180" y="100" class="svg-text text-path">Goal</text>
+                          <circle cx="400" cy="100" r="12" class="goal"/>
+                          <text x="400" y="100" class="svg-text text-path">Goal</text>
                       </svg>
                       <p class="figure-caption">Figure 1: Traditional education often uses a single path, while AI personalization aims for individualized learning journeys.</p>
                     <ul>
@@ -213,43 +236,45 @@
                          <li>The type and timing of <span class="highlight">feedback</span> and support provided.</li>
                          <li>The overall <span class="highlight">learning path</span> through a curriculum.</li>
                      </ul>
+
                       <svg viewBox="0 0 450 200" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="aiEdSystemTitle">
                          <title id="aiEdSystemTitle">Components of an AI Personalized Education System</title>
                          <style>
                              .student-data { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
                              .ai-engine-ed { fill:#f8d7da; stroke:#dc3545; rx:10; }
                              .output-ed { fill:#d1e7dd; stroke:#198754; rx:5; }
-                             .text-ed { font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; }
-                              .arrow-ed { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-ed); }
-                               #arrowhead-ed polygon { points:"0 0, 6 2, 0 4"; fill: #6c757d; }
+                             .arrow-ed { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-ed); }
                          </style>
-                          <defs> <marker id="arrowhead-ed" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#6c757d"/></marker> </defs>
+                          <defs>
+                            <marker id="arrowhead-ed" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+                                <polygon points="0 0, 6 2, 0 4" fill="#6c757d"/>
+                            </marker>
+                          </defs>
 
-                         <text x="225" y="25" font-weight="bold" font-size="14" text-anchor="middle">AI Personalized Education System</text>
+                         <text x="225" y="20" font-weight="bold" font-size="14" text-anchor="middle" dominant-baseline="middle">AI Personalized Education System</text>
 
                          <rect x="10" y="80" width="100" height="50" class="student-data"/>
-                          <text x="60" y="95" class="text-ed">Student Data</text>
-                          <text x="60" y="105" class="text-ed">(Performance, Interactions,</text>
-                           <text x="60" y="115" class="text-ed">Preferences, Profile)</text>
+                          <text x="60" y="90" class="svg-text text-ed">Student Data</text>
+                          <text x="60" y="102" class="svg-text text-ed">(Performance, Interactions,</text>
+                          <text x="60" y="114" class="svg-text text-ed">Preferences, Profile)</text>
                           <line x1="110" y1="105" x2="150" y2="105" class="arrow-ed"/>
 
-
-                          <rect x="150" y="60" width="150" height="80" class="ai-engine-ed"/>
-                           <text x="225" y="80" class="text-ed" font-weight="bold">AI Engine</text>
-                           <text x="225" y="95" class="text-ed">- Student Modeling</text>
-                           <text x="225" y="105" class="text-ed">- Content Adaptation</text>
-                           <text x="225" y="115" class="text-ed">- Feedback Generation</text>
-                            <text x="225" y="125" class="text-ed">- Recommendation</text>
+                          <rect x="150" y="60" width="150" height="85" class="ai-engine-ed"/> <text x="225" y="75" class="svg-text text-ed" font-weight="bold">AI Engine</text>
+                           <text x="225" y="90" class="svg-text text-ed">- Student Modeling</text>
+                           <text x="225" y="102" class="svg-text text-ed">- Content Adaptation</text>
+                           <text x="225" y="114" class="svg-text text-ed">- Feedback Generation</text>
+                           <text x="225" y="126" class="svg-text text-ed">- Recommendation</text>
 
                           <line x1="300" y1="80" x2="340" y2="50" class="arrow-ed"/>
-                           <rect x="340" y="35" width="100" height="35" class="output-ed"/> <text x="390" y="55" class="text-ed">Personalized Content</text><text x="390" y="65" class="text-ed">& Learning Path</text>
+                           <rect x="340" y="35" width="100" height="35" class="output-ed"/>
+                           <text x="390" y="48" class="svg-text text-ed">Personalized Content</text>
+                           <text x="390" y="60" class="svg-text text-ed">& Learning Path</text>
 
-                            <line x1="300" y1="100" x2="340" y2="100" class="arrow-ed"/>
-                            <rect x="340" y="85" width="100" height="30" class="output-ed"/> <text x="390" y="105" class="text-ed">Adaptive Assessment</text><text x="390" y="115" class="text-ed">& Feedback</text>
+                            <line x1="300" y1="105" x2="340" y2="105" class="arrow-ed"/> <rect x="340" y="90" width="100" height="35" class="output-ed"/> <text x="390" y="103" class="svg-text text-ed">Adaptive Assessment</text>
+                            <text x="390" y="115" class="svg-text text-ed">& Feedback</text>
 
-                           <line x1="300" y1="120" x2="340" y2="150" class="arrow-ed"/>
-                            <rect x="340" y="135" width="100" height="35" class="output-ed"/> <text x="390" y="155" class="text-ed">Teacher/Admin</text><text x="390" y="165" class="text-ed">Insights (Analytics)</text>
-
+                           <line x1="300" y1="130" x2="340" y2="155" class="arrow-ed"/> <rect x="340" y="140" width="100" height="35" class="output-ed"/> <text x="390" y="153" class="svg-text text-ed">Teacher/Admin</text>
+                            <text x="390" y="165" class="svg-text text-ed">Insights (Analytics)</text>
                       </svg>
                       <p class="figure-caption">Figure 2: Core components of an AI-driven personalized education system.</p>
                  </section>
@@ -266,26 +291,36 @@
                             <style>
                                .step-adapt { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
                                .decision-adapt { fill:#fff3cd; stroke:#ffeeba; transform: rotate(45deg); transform-origin: center center;}
-                               .decision-txt-adapt { transform: rotate(-45deg); font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle;}
-                               .text-adapt { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                               .decision-txt-adapt { transform: rotate(-45deg); font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; dominant-baseline: middle;}
                                .arrow-adapt { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-ed); }
                             </style>
 
-                           <text x="200" y="25" font-weight="bold" font-size="12" text-anchor="middle">Adaptive Learning Path</text>
+                           <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle" dominant-baseline="middle">Adaptive Learning Path</text>
 
-                           <rect x="150" y="40" width="100" height="30" class="step-adapt"/> <text x="200" y="60" class="text-adapt">Start Concept A</text>
-                            <line x1="200" y1="70" x2="200" y2="85" class="arrow-adapt"/>
+                           <rect x="150" y="40" width="100" height="30" class="step-adapt"/>
+                           <text x="200" y="55" class="svg-text text-adapt">Start Concept A</text>
+                           <line x1="200" y1="70" x2="200" y2="85" class="arrow-adapt"/>
 
-                           <rect x="150" y="85" width="100" height="30" class="step-adapt"/> <text x="200" y="105" class="text-adapt">Assessment A</text>
-                            <line x1="200" y1="115" x2="200" y2="130" class="arrow-adapt"/>
+                           <rect x="150" y="85" width="100" height="30" class="step-adapt"/>
+                           <text x="200" y="100" class="svg-text text-adapt">Assessment A</text>
+                           <line x1="200" y1="115" x2="200" y2="130" class="arrow-adapt"/>
 
-                            <g transform="translate(200 145)"> <rect x="-25" y="-25" width="50" height="50" class="decision-adapt"/> <text x="0" y="5" class="decision-txt-adapt">Mastered</text><text x="0" y="15" class="decision-txt-adapt">Concept A?</text> </g>
+                            <g transform="translate(200 145)">
+                               <rect x="-25" y="-25" width="50" height="50" class="decision-adapt"/>
+                               <text x="0" y="0" class="decision-txt-adapt">Mastered</text>
+                               <text x="0" y="10" class="decision-txt-adapt">Concept A?</text>
+                            </g>
 
-                             <line x1="175" y1="145" x2="100" y2="145" class="arrow-adapt"/> <text x="137.5" y="135" class="text-adapt">No</text>
-                             <rect x="50" y="130" width="100" height="30" class="step-adapt" fill="#ffeeba"/> <text x="100" y="150" class="text-adapt">Provide Remediation /</text><text x="100" y="160" class="text-adapt">Simpler Content</text>
-                             <path d="M 100 130 Q 50 105 150 100" stroke="#6c757d" fill="none" class="arrow-adapt"/> <line x1="225" y1="145" x2="280" y2="145" class="arrow-adapt"/> <text x="252.5" y="135" class="text-adapt">Yes</text>
-                             <rect x="280" y="130" width="100" height="30" class="step-adapt" fill="#d1e7dd"/> <text x="330" y="150" class="text-adapt">Proceed to Concept B /</text><text x="330" y="160" class="text-adapt">Harder Content</text>
+                             <line x1="175" y1="145" x2="100" y2="145" class="arrow-adapt"/>
+                             <text x="137.5" y="135" class="svg-text text-adapt" text-anchor="middle">No</text>
+                             <rect x="50" y="130" width="100" height="35" class="step-adapt" fill="#ffeeba"/> <text x="100" y="143" class="svg-text text-adapt">Provide Remediation /</text>
+                             <text x="100" y="155" class="svg-text text-adapt">Simpler Content</text>
+                             <path d="M 100 130 Q 70 110 150 100" stroke="#6c757d" fill="none" stroke-width="1" marker-end="url(#arrowhead-ed)"/>
 
+                             <line x1="225" y1="145" x2="280" y2="145" class="arrow-adapt"/>
+                             <text x="252.5" y="135" class="svg-text text-adapt" text-anchor="middle">Yes</text>
+                             <rect x="280" y="130" width="100" height="35" class="step-adapt" fill="#d1e7dd"/> <text x="330" y="143" class="svg-text text-adapt">Proceed to Concept B /</text>
+                             <text x="330" y="155" class="svg-text text-adapt">Harder Content</text>
                         </svg>
                         <p class="figure-caption">Figure 3: An adaptive system adjusts content difficulty based on student assessment performance.</p>
                      </div>
@@ -296,24 +331,27 @@
                         <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="itsLoopTitle">
                           <title id="itsLoopTitle">Intelligent Tutoring System (ITS) Interaction Loop</title>
                           <style>
-                             .its-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; text-anchor: middle; font-family: Arial, sans-serif; font-size: 10px; }
+                             .its-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
                              .its-ai { fill:#f8d7da; stroke:#dc3545; }
                              .its-human { fill:#d1e7dd; stroke:#198754; }
                              .arrow-its { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-ed); }
                           </style>
-                            <text x="200" y="25" font-weight="bold" font-size="12" text-anchor="middle">Intelligent Tutoring System Loop</text>
+                           <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle" dominant-baseline="middle">Intelligent Tutoring System Loop</text>
 
-                           <rect x="150" y="40" width="100" height="30" class="its-box"/> <text x="200" y="60">1. Present Problem / Task</text>
-                            <line x1="200" y1="70" x2="200" y2="85" class="arrow-its"/>
+                           <rect x="150" y="40" width="100" height="30" class="its-box"/>
+                           <text x="200" y="55" class="svg-text">1. Present Problem / Task</text>
+                           <line x1="200" y1="70" x2="200" y2="85" class="arrow-its"/>
 
-                           <rect x="150" y="85" width="100" height="30" class="its-box its-human"/> <text x="200" y="105">2. Student Attempts Action</text>
+                           <rect x="150" y="85" width="100" height="30" class="its-box its-human"/>
+                           <text x="200" y="100" class="svg-text">2. Student Attempts Action</text>
                            <line x1="200" y1="115" x2="200" y2="130" class="arrow-its"/>
 
-                           <rect x="150" y="130" width="100" height="40" class="its-box its-ai"/> <text x="200" y="150">3. AI Analyzes Action</text><text x="200" y="160">(Knowledge Tracing,</text><text x="200" y="170">Error Diagnosis)</text>
+                           <rect x="150" y="130" width="100" height="45" class="its-box its-ai"/> <text x="200" y="142" class="svg-text">3. AI Analyzes Action</text>
+                           <text x="200" y="154" class="svg-text">(Knowledge Tracing,</text>
+                           <text x="200" y="166" class="svg-text">Error Diagnosis)</text>
 
-                             <path d="M 150 150 Q 50 150 50 100 Q 50 50 150 55" stroke="#6c757d" fill="none" class="arrow-its"/>
-                              <text x="60" y="100" transform="rotate(-90 60 100)" class="text-sm">4. Provide Hint / Feedback / Next Step</text>
-
+                           <path d="M 150 152 Q 70 150 70 100 Q 70 50 150 55" stroke="#6c757d" fill="none" class="arrow-its"/>
+                           <text x="55" y="100" transform="rotate(-90 55 100)" class="svg-text text-sm">4. Provide Hint / Feedback / Next Step</text>
                          </svg>
                          <p class="figure-caption">Figure 4: An ITS interacts with a student, analyzing actions and providing adaptive feedback.</p>
                          <p><strong>Techniques:</strong> Knowledge Tracing (BKT, DKT), rule-based systems, sometimes Reinforcement Learning to optimize tutoring strategies.</p>
@@ -428,13 +466,11 @@
                      <p class="figure-caption">Table 3: Key AI/ML techniques enabling personalized education systems.</p>
                  </section>
 
-
                  <section class="content-section" id="maths">
                      <h2 class="section-title"><i class="fas fa-calculator"></i>Mathematical Concepts</h2>
                      <p>While complex models are often used, some core ideas can be illustrated:</p>
 
-                     <p><strong>Bayesian Knowledge Tracing (BKT - Conceptual):** Models the probability $P(L_n)$ that a student has learned skill $L$ after their $n^{th}$ opportunity to practice it.</p>
-                     <div class="formula-box">
+                     <p><strong>Bayesian Knowledge Tracing (BKT - Conceptual):</strong> Models the probability $P(L_n)$ that a student has learned skill $L$ after their $n^{th}$ opportunity to practice it.</p> <div class="formula-box">
                      The update considers prior knowledge, learning probability, and performance on the attempt (correct/incorrect), accounting for guessing and slipping:
                      $$ P(L_n | \text{obs}_n) = \frac{P(\text{obs}_n | L_n) P(L_n)}{P(\text{obs}_n)} $$
                      Where $P(L_n)$ (prior belief before observation $n$) depends on $P(L_{n-1})$ and a transition probability $P(T)$:
@@ -442,7 +478,7 @@
                      And $P(\text{obs}_n | L_n)$ depends on whether the student answered correctly/incorrectly and the slip $P(S)$ / guess $P(G)$ probabilities associated with the skill. The goal is to estimate the probability the student *knows* the skill.
                      </div>
 
-                     <p><strong>Recommendation Similarity (Cosine Similarity):** Used in content-based systems to compare a user's preference profile vector ($\mathbf{u}$) with an item's feature vector ($\mathbf{i}$).</p>
+                     <p><strong>Recommendation Similarity (Cosine Similarity):</strong> Used in content-based systems to compare a user's preference profile vector ($\mathbf{u}$) with an item's feature vector ($\mathbf{i}$).</p>
                      <div class="formula-box">
                      $$ \text{Similarity}(\mathbf{u}, \mathbf{i}) = \frac{\mathbf{u} \cdot \mathbf{i}}{||\mathbf{u}||_2 ||\mathbf{i}||_2} $$
                      Items with higher similarity scores to the user's profile are recommended.
@@ -466,32 +502,24 @@
                     <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i>Challenges and Ethical Considerations</h2>
                     <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="edBenefitsLimitsTitle">
                          <title id="edBenefitsLimitsTitle">AI in Education: Benefits vs. Challenges</title>
-                        <style>
-                           .benefit-icon-e { fill: #198754; font-size:18px; } /* Green */
-                           .challenge-icon-e { fill: #dc3545; font-size:18px; } /* Red */
-                           .benefit-text-e { fill: #198754; font-size: 10px; }
-                           .challenge-text-e { fill: #dc3545; font-size: 10px; }
-                            .center-line-e { stroke: #adb5bd; stroke-width: 1; }
-                            .title-text-e {font-weight: bold; text-anchor: middle; font-size: 12px;}
-                        </style>
-                        <text x="100" y="25" class="title-text-e benefit-icon-e">Benefits</text>
-                         <g transform="translate(40, 45)"> <text x="0" y="0" class="benefit-icon-e">🧑‍🎓</text> <text x="20" y="5" class="benefit-text-e">Personalized Pace</text> </g>
-                         <g transform="translate(40, 70)"> <text x="0" y="0" class="benefit-icon-e">🎯</text> <text x="20" y="5" class="benefit-text-e">Targeted Content</text> </g>
-                         <g transform="translate(40, 95)"> <text x="0" y="0" class="benefit-icon-e">❤️</text> <text x="20" y="5" class="benefit-text-e">Increased Engagement</text> </g>
-                         <g transform="translate(40, 120)"> <text x="0" y="0" class="benefit-icon-e">📈</text> <text x="20" y="5" class="benefit-text-e">Improved Outcomes</text> </g>
-                          <g transform="translate(40, 145)"> <text x="0" y="0" class="benefit-icon-e">👨‍🏫</text> <text x="20" y="5" class="benefit-text-e">Teacher Support</text> </g>
+                        <text x="100" y="20" class="title-text-e benefit-icon-e">Benefits</text>
+                         <g transform="translate(30, 45)"> <text x="0" y="0" class="benefit-icon-e">🧑‍🎓</text> <text x="20" y="0" class="benefit-text-e" dominant-baseline="middle">Personalized Pace</text> </g>
+                         <g transform="translate(30, 70)"> <text x="0" y="0" class="benefit-icon-e">🎯</text> <text x="20" y="0" class="benefit-text-e" dominant-baseline="middle">Targeted Content</text> </g>
+                         <g transform="translate(30, 95)"> <text x="0" y="0" class="benefit-icon-e">❤️</text> <text x="20" y="0" class="benefit-text-e" dominant-baseline="middle">Increased Engagement</text> </g>
+                         <g transform="translate(30, 120)"> <text x="0" y="0" class="benefit-icon-e">📈</text> <text x="20" y="0" class="benefit-text-e" dominant-baseline="middle">Improved Outcomes</text> </g>
+                         <g transform="translate(30, 145)"> <text x="0" y="0" class="benefit-icon-e">👨‍🏫</text> <text x="20" y="0" class="benefit-text-e" dominant-baseline="middle">Teacher Support</text> </g>
 
-                        <line x1="200" y1="30" x2="200" y2="170" class="center-line-e"/>
+                        <line x1="200" y1="30" x2="200" y2="165" class="center-line-e"/>
 
-                        <text x="300" y="25" class="title-text-e challenge-icon-e">Challenges</text>
-                         <g transform="translate(240, 45)"> <text x="0" y="0" class="challenge-icon-e">🔒</text> <text x="20" y="5" class="challenge-text-e">Data Privacy/Security</text> </g>
-                         <g transform="translate(240, 70)"> <text x="0" y="0" class="challenge-icon-e">⚖️</text> <text x="20" y="5" class="challenge-text-e">Algorithmic Bias/Fairness</text> </g>
-                         <g transform="translate(240, 95)"> <text x="0" y="0" class="challenge-icon-e">💰</text> <text x="20" y="5" class="challenge-text-e">Cost & Implementation</text> </g>
-                          <g transform="translate(240, 120)"> <text x="0" y="0" class="challenge-icon-e">🖥️</text> <text x="20" y="5" class="challenge-text-e">Digital Divide/Equity</text> </g>
-                          <g transform="translate(240, 145)"> <text x="0" y="0" class="challenge-icon-e">👨‍🏫</text> <text x="20" y="5" class="challenge-text-e">Teacher Role & Training</text> </g>
-
+                        <text x="300" y="20" class="title-text-e challenge-icon-e">Challenges</text>
+                         <g transform="translate(230, 45)"> <text x="0" y="0" class="challenge-icon-e">🔒</text> <text x="20" y="0" class="challenge-text-e" dominant-baseline="middle">Data Privacy/Security</text> </g>
+                         <g transform="translate(230, 70)"> <text x="0" y="0" class="challenge-icon-e">⚖️</text> <text x="20" y="0" class="challenge-text-e" dominant-baseline="middle">Algorithmic Bias/Fairness</text> </g>
+                         <g transform="translate(230, 95)"> <text x="0" y="0" class="challenge-icon-e">💰</text> <text x="20" y="0" class="challenge-text-e" dominant-baseline="middle">Cost & Implementation</text> </g>
+                         <g transform="translate(230, 120)"> <text x="0" y="0" class="challenge-icon-e">🖥️</text> <text x="20" y="0" class="challenge-text-e" dominant-baseline="middle">Digital Divide/Equity</text> </g>
+                         <g transform="translate(230, 145)"> <text x="0" y="0" class="challenge-icon-e">👨‍🏫</text> <text x="20" y="0" class="challenge-text-e" dominant-baseline="middle">Teacher Role & Training</text> </g>
                      </svg>
                      <p class="figure-caption">Figure 6: Balancing the benefits of AI in education against significant challenges and ethical considerations.</p>
+
                     <table class="table table-bordered table-striped table-hover table-stylish">
                          <thead>
                             <tr>
@@ -533,7 +561,6 @@
                     <p class="figure-caption">Table 4: Significant challenges and ethical considerations in implementing AI for personalized education.</p>
                  </section>
 
-
                 <section class="content-section" id="conclusion">
                     <h2 class="section-title"><i class="fas fa-graduation-cap"></i>Conclusion: Shaping the Future of Learning</h2>
                     <p>
@@ -554,13 +581,10 @@
                     </p>
                 </section>
 
-            </div>
-        </div>
-    </div>
-
-    <footer class="bg-light text-center text-lg-start mt-5">
+            </div> </div> </div> <footer class="bg-light text-center text-lg-start mt-5">
       <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Loveleen Narang. All Rights Reserved. </div>
+        © 2024 Loveleen Narang. All Rights Reserved.
+      </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

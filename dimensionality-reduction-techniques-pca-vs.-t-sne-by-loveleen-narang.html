@@ -1,0 +1,504 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensionality Reduction: PCA vs. t-SNE - Unraveling High-Dimensional Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .hero-section {
+             background: linear-gradient(to right, #1c92d2, #f2fcfe); /* Light Blue gradient */
+            color: #333; /* Darker text for light background */
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 5px solid #1c92d2;
+        }
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #004085; /* Darker blue for heading */
+        }
+        .hero-section .catchy-phrase {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        .article-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #1c92d2;
+            padding-bottom: 10px;
+            display: inline-block;
+            color: #004085;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #1c92d2;
+        }
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .table-stylish {
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .table-stylish thead {
+            background-color: #1c92d2;
+            color: white;
+        }
+        .formula-box {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #1c92d2;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+        .author-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .author-box h3 {
+            margin-bottom: 20px;
+            color: #004e92;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        .highlight {
+             color: #1c92d2;
+             font-weight: 600;
+        }
+        .figure-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        .text-sm { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section .catchy-phrase {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Dimensionality Reduction Techniques: PCA vs. t-SNE</h1>
+        <p class="catchy-phrase">Simplifying Complexity: Visualizing the Hidden Structures in Your Data</p>
+        <p class="article-meta">Authored by Loveleen Narang | Published: January 27, 2024</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+                <section class="content-section" id="introduction">
+                    <h2 class="section-title"><i class="fas fa-project-diagram"></i>Introduction: The High-Dimensional Challenge</h2>
+                    <p>
+                        In the age of big data, datasets often contain hundreds or even thousands of features (dimensions). While rich in information, this high dimensionality poses significant challenges for analysis and modeling. It can lead to the <span class="highlight">"curse of dimensionality"</span>, where data becomes sparse, distances between points become less meaningful, and machine learning models struggle to generalize, requiring exponentially more data for effective training. Furthermore, visualizing data beyond three dimensions is impossible for humans.
+                    </p>
+                    <p>
+                        <span class="highlight">Dimensionality Reduction</span> techniques are essential tools to combat these issues. They aim to transform high-dimensional data into a lower-dimensional representation while preserving meaningful properties of the original data. This simplified representation can lead to more efficient storage, faster computation, improved model performance (by reducing noise and redundancy), and critically, enables visualization and exploration. Among the most popular techniques are Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (t-SNE). While both reduce dimensions, they operate on fundamentally different principles and are suited for different tasks. This article explores these two powerful techniques, comparing their mechanisms, strengths, and weaknesses.
+                    </p>
+                     <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="dimReductTitle">
+                        <title id="dimReductTitle">Concept of Dimensionality Reduction</title>
+                        <style>
+                            .highD { fill: #cfe2ff; } .lowD { fill: #d1e7dd; }
+                            .point { fill: #dc3545; opacity: 0.7; }
+                            .text-dim { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                            .arrow-dim { stroke: #6c757d; stroke-width: 1.5; marker-end: url(#arrowhead-dim); }
+                            #arrowhead-dim polygon { points:"0 0, 7 2.5, 0 5"; fill: #6c757d; }
+                        </style>
+                        <defs> <marker id="arrowhead-dim" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d"/></marker> </defs>
+
+                         <ellipse cx="80" cy="75" rx="60" ry="40" class="highD" transform="rotate(-20 80 75)"/>
+                        <ellipse cx="80" cy="75" rx="50" ry="30" class="highD" transform="rotate(30 80 75)" opacity="0.6"/>
+                        <text x="80" y="25" class="text-dim" font-weight="bold">High-Dimensional Space (e.g., N-D)</text>
+                        <circle cx="70" cy="60" r="3" class="point"/> <circle cx="90" cy="70" r="3" class="point"/>
+                         <circle cx="60" cy="85" r="3" class="point"/> <circle cx="100" cy="95" r="3" class="point"/>
+                         <circle cx="110" cy="75" r="3" class="point"/> <circle cx="50" cy="75" r="3" class="point"/>
+
+                         <line x1="150" y1="75" x2="230" y2="75" class="arrow-dim"/>
+                         <text x="190" y="65" class="text-dim">Mapping / Projection</text>
+                         <text x="190" y="90" class="text-dim">(Dimensionality Reduction)</text>
+
+
+                        <rect x="240" y="45" width="150" height="60" class="lowD" rx="5"/>
+                         <text x="315" y="35" class="text-dim" font-weight="bold">Low-Dimensional Space (e.g., 2D)</text>
+                         <circle cx="270" cy="60" r="3" class="point"/> <circle cx="290" cy="80" r="3" class="point"/>
+                         <circle cx="260" cy="90" r="3" class="point"/> <circle cx="330" cy="85" r="3" class="point"/>
+                         <circle cx="350" cy="70" r="3" class="point"/> <circle cx="310" cy="65" r="3" class="point"/>
+                         <text x="315" y="125" class="text-dim">Preserving key structure/information</text>
+                    </svg>
+                    <p class="figure-caption">Figure 1: Conceptual illustration of dimensionality reduction mapping data to a lower-dimensional space.</p>
+                </section>
+
+                <section class="content-section" id="what-is-dim-reduction">
+                    <h2 class="section-title"><i class="fas fa-compress-arrows-alt"></i>What is Dimensionality Reduction?</h2>
+                    <p>
+                        Dimensionality reduction aims to reduce the number of features (dimensions) in a dataset while retaining as much meaningful information as possible. Its primary goals include:
+                    </p>
+                    <ul>
+                        <li><strong>Data Visualization:</strong> Reducing data to 2 or 3 dimensions allows for plotting and visual exploration of patterns, clusters, and relationships.</li>
+                        <li><strong>Noise Reduction:</strong> Removing less important dimensions can filter out noise and improve the signal-to-noise ratio.</li>
+                        <li><strong>Computational Efficiency:</strong> Fewer dimensions lead to faster training times and lower memory requirements for machine learning models.</li>
+                        <li><strong>Avoiding the Curse of Dimensionality:</strong> Mitigating issues related to data sparsity and model performance in high-dimensional spaces.</li>
+                        <li><strong>Feature Extraction:</strong> Creating new, lower-dimensional features that capture the essence of the original features.</li>
+                    </ul>
+                    <p>Techniques generally fall into two categories: <span class="highlight">Feature Selection</span> (choosing a subset of original features) and <span class="highlight">Feature Extraction</span> (creating new features by combining original ones), like PCA and t-SNE.</p>
+                </section>
+
+                <section class="content-section" id="pca">
+                    <h2 class="section-title"><i class="fas fa-chart-line"></i>Principal Component Analysis (PCA): Unveiling Global Structure</h2>
+                    <p>
+                        PCA is arguably the most widely used linear dimensionality reduction technique. Its primary goal is to find a lower-dimensional subspace onto which the data can be projected while <span class="highlight">maximizing the variance</span> of the projected data. Equivalently, it minimizes the reconstruction error when projecting back to the original space. PCA is excellent at capturing the <span class="highlight">global structure</span> and major variations within the data.
+                    </p>
+                    <h4>How PCA Works</h4>
+                    <ol>
+                        <li><strong>Standardize Data:</strong> Ensure all features have zero mean and unit variance to prevent features with larger scales from dominating.</li>
+                        <li><strong>Compute Covariance Matrix:</strong> Calculate the covariance matrix of the standardized data, which describes the variance of each feature and the covariance between pairs of features.</li>
+                        <li><strong>Eigen-decomposition:</strong> Compute the eigenvectors and eigenvalues of the covariance matrix. Eigenvectors represent the directions (principal components) of maximum variance in the data, and eigenvalues represent the magnitude of variance along those directions. Eigenvectors are orthogonal to each other.</li>
+                        <li><strong>Select Principal Components:</strong> Sort the eigenvectors by their corresponding eigenvalues in descending order. Choose the top $k$ eigenvectors (where $k$ is the desired lower dimension) corresponding to the largest eigenvalues. These $k$ components capture the most variance.</li>
+                        <li><strong>Project Data:</strong> Transform the original standardized data onto the lower-dimensional subspace defined by the selected top $k$ eigenvectors (principal components).</li>
+                    </ol>
+                    <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="pcaIllustrationTitle">
+                       <title id="pcaIllustrationTitle">Illustration of Principal Component Analysis (PCA)</title>
+                       <style>
+                          .pca-point { fill: #0d6efd; opacity: 0.6; }
+                           .pc-axis { stroke: #dc3545; stroke-width: 2; marker-end: url(#arrowhead-dim); }
+                           .proj-line { stroke: #adb5bd; stroke-width: 0.5; stroke-dasharray: 2,2; }
+                           .text-pca { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                           .proj-point { fill: #dc3545; }
+                       </style>
+                        <g id="original-data" transform="translate(80, 80) rotate(30)">
+                           <ellipse cx="0" cy="0" rx="50" ry="20" fill="none" stroke="#ccc"/>
+                            <circle cx="-30" cy="-5" r="3" class="pca-point"/> <circle cx="-20" cy="8" r="3" class="pca-point"/>
+                            <circle cx="-10" cy="-10" r="3" class="pca-point"/> <circle cx="0" cy="3" r="3" class="pca-point"/>
+                            <circle cx="10" cy="-8" r="3" class="pca-point"/> <circle cx="20" cy="10" r="3" class="pca-point"/>
+                            <circle cx="30" cy="-2" r="3" class="pca-point"/> <circle cx="40" cy="5" r="3" class="pca-point"/>
+                         </g>
+                         <text x="80" y="20" class="text-pca">1. Original Data (2D)</text>
+
+                         <line x1="30" y1="80" x2="130" y2="80" class="pc-axis" transform="rotate(30 80 80)"/>
+                          <text x="140" y="75" class="text-pca" fill="#dc3545">PC1 (Max Variance)</text>
+                          <line x1="80" y1="50" x2="80" y2="110" class="pc-axis" transform="rotate(30 80 80)"/>
+                          <text x="90" y="40" class="text-pca" fill="#dc3545">PC2</text>
+                          <text x="80" y="140" class="text-pca">2. Find Principal Components</text>
+
+                          <g id="projection-target" transform="translate(280, 80)">
+                               <line x1="-50" y1="0" x2="50" y2="0" stroke="#dc3545" stroke-width="2"/> <text x="0" y="-10" class="text-pca">3. Project onto PC1 (1D)</text>
+                               <circle cx="-35" cy="0" r="3" class="proj-point"/> <circle cx="-15" cy="0" r="3" class="proj-point"/>
+                               <circle cx="-25" cy="0" r="3" class="proj-point"/> <circle cx="5" cy="0" r="3" class="proj-point"/>
+                               <circle cx="-5" cy="0" r="3" class="proj-point"/> <circle cx="28" cy="0" r="3" class="proj-point"/>
+                               <circle cx="15" cy="0" r="3" class="proj-point"/> <circle cx="40" cy="0" r="3" class="proj-point"/>
+                           </g>
+                          <g transform="translate(80, 80) rotate(30)">
+                              <line x1="40" y1="5" x2="38" y2="-5" class="proj-line"/>
+                              <line x1="38" y1="-5" x2="318" y2="80" transform="translate(-80,-80) rotate(-30 80 80) translate(0,-3)" class="proj-line" />
+                          </g>
+                    </svg>
+                     <p class="figure-caption">Figure 2: PCA finds directions of maximum variance (principal components) and projects data onto them.</p>
+                    <h4>Mathematical Core</h4>
+                     <div class="formula-box">
+                     Given standardized data matrix $X$ (n samples, d features), the covariance matrix $C$ is:
+                     $$ C = \frac{1}{n-1} X^T X $$
+                     PCA finds eigenvectors $\mathbf{v}$ and eigenvalues $\lambda$ of $C$:
+                     $$ C \mathbf{v} = \lambda \mathbf{v} $$
+                     The eigenvectors $\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_k$ corresponding to the $k$ largest eigenvalues $\lambda_1 \ge \lambda_2 \ge ... \ge \lambda_k$ form the projection matrix $W = [\mathbf{v}_1, \mathbf{v}_2, ..., \mathbf{v}_k]$. The lower-dimensional data $Y$ is:
+                     $$ Y = X W $$
+                     </div>
+                    <h4>Properties & Use Cases</h4>
+                    <ul>
+                        <li><strong>Linear:</strong> Assumes data lies on or near a linear subspace.</li>
+                        <li><strong>Global Structure:</strong> Preserves large pairwise distances and overall variance.</li>
+                        <li><strong>Deterministic:</strong> Produces the same result every time for the same data.</li>
+                        <li><strong>Orthogonal Components:</strong> Principal components are uncorrelated.</li>
+                        <li><strong>Use Cases:</strong> Feature extraction for ML models, noise reduction, data compression, exploratory data analysis (initial visualization).</li>
+                    </ul>
+                </section>
+
+                <section class="content-section" id="tsne">
+                    <h2 class="section-title"><i class="fas fa-project-diagram"></i>t-Distributed Stochastic Neighbor Embedding (t-SNE): Visualizing Local Neighborhoods</h2>
+                    <p>
+                        t-SNE is a non-linear dimensionality reduction technique primarily designed for <span class="highlight">visualizing high-dimensional data</span> in low dimensions (typically 2D or 3D). Its main goal is to preserve the <span class="highlight">local structure</span> of the data, meaning that points that are close together (similar) in the high-dimensional space are modeled as close together in the low-dimensional map, and points that are far apart are modeled as far apart. It's particularly good at revealing clusters.
+                    </p>
+                    <h4>How t-SNE Works</h4>
+                     <ol>
+                         <li><strong>Compute High-Dimensional Similarities:</strong> For each pair of high-dimensional data points $\mathbf{x}_i, \mathbf{x}_j$, t-SNE converts their Euclidean distance into a conditional probability $p_{j|i}$ that represents the similarity of point $\mathbf{x}_j$ to point $\mathbf{x}_i$. This is typically based on a Gaussian distribution centered on $\mathbf{x}_i$. The variance $\sigma_i$ of the Gaussian is determined based on a hyperparameter called <span class="highlight">perplexity</span> (related to the number of effective neighbors). Symmetrized joint probabilities $p_{ij}$ are then calculated.</li>
+                         <li><strong>Compute Low-Dimensional Similarities:</strong> t-SNE models the similarity between the corresponding low-dimensional map points $\mathbf{y}_i, \mathbf{y}_j$ using a heavy-tailed Student's t-distribution (with one degree of freedom, resembling a Cauchy distribution). This joint probability is denoted $q_{ij}$. Using a heavy-tailed distribution in the low-dimensional space helps alleviate crowding issues (points clumping together) and separates dissimilar points more effectively.</li>
+                         <li><strong>Minimize Divergence:</strong> t-SNE uses gradient descent to adjust the positions of the low-dimensional points $\mathbf{y}_i$ to minimize the divergence between the two distributions of similarities ($P$ and $Q$), typically measured by the Kullback-Leibler (KL) divergence. This optimization process arranges the points $\mathbf{y}_i$ in the low-dimensional space such that their similarities $q_{ij}$ best match the high-dimensional similarities $p_{ij}$.</li>
+                     </ol>
+                    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="tsneIllustrationTitle">
+                       <title id="tsneIllustrationTitle">Illustration of t-SNE Preserving Local Structure</title>
+                       <style>
+                           .point-a { fill: #0d6efd; } .point-b { fill: #198754; } .point-c { fill: #dc3545; }
+                           .text-tsne { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                           .cluster-boundary { fill: none; stroke: #adb5bd; stroke-width: 1; stroke-dasharray: 4,4; }
+                           .arrow-tsne { stroke: #6c757d; stroke-width: 1.5; marker-end: url(#arrowhead-dim); }
+                       </style>
+                         <text x="80" y="25" class="text-tsne" font-weight="bold">High-Dimensional Space</text>
+                         <ellipse cx="60" cy="60" rx="20" ry="15" class="cluster-boundary"/>
+                         <circle cx="55" cy="55" r="4" class="point-a"/> <circle cx="65" cy="65" r="4" class="point-a"/> <circle cx="70" cy="58" r="4" class="point-a"/>
+                         <ellipse cx="110" cy="100" rx="25" ry="20" class="cluster-boundary"/>
+                          <circle cx="100" cy="95" r="4" class="point-b"/> <circle cx="120" cy="105" r="4" class="point-b"/> <circle cx="115" cy="90" r="4" class="point-b"/>
+                         <ellipse cx="60" cy="130" rx="15" ry="15" class="cluster-boundary"/>
+                          <circle cx="55" cy="135" r="4" class="point-c"/> <circle cx="65" cy="125" r="4" class="point-c"/>
+
+                         <line x1="150" y1="90" x2="230" y2="90" class="arrow-tsne"/>
+                          <text x="190" y="80" class="text-tsne">t-SNE</text>
+                          <text x="190" y="105" class="text-tsne">(Preserves Local Structure)</text>
+
+                         <text x="315" y="25" class="text-tsne" font-weight="bold">Low-Dimensional Space (2D)</text>
+                          <circle cx="280" cy="55" r="4" class="point-a"/> <circle cx="290" cy="65" r="4" class="point-a"/> <circle cx="295" y="58" r="4" class="point-a"/>
+                          <circle cx="340" cy="95" r="4" class="point-b"/> <circle cx="360" cy="105" r="4" class="point-b"/> <circle cx="355" cy="90" r="4" class="point-b"/>
+                          <circle cx="275" cy="135" r="4" class="point-c"/> <circle cx="285" cy="125" r="4" class="point-c"/>
+                          <text x="315" y="160" class="text-tsne">Similar points remain clustered together.</text>
+                          <text x="315" y="170" class="text-tsne">Distances between clusters are not necessarily meaningful.</text>
+                    </svg>
+                     <p class="figure-caption">Figure 3: t-SNE focuses on keeping similar points close together in the low-dimensional representation.</p>
+                    <h4>Mathematical Core</h4>
+                     <div class="formula-box">
+                     High-dimensional conditional similarity $p_{j|i}$:
+                     $$ p_{j|i} = \frac{\exp(-||\mathbf{x}_i - \mathbf{x}_j||^2 / 2\sigma_i^2)}{\sum_{k \ne i} \exp(-||\mathbf{x}_i - \mathbf{x}_k||^2 / 2\sigma_i^2)} $$
+                     High-dimensional joint similarity $p_{ij}$:
+                     $$ p_{ij} = \frac{p_{j|i} + p_{i|j}}{2n} $$
+                     Low-dimensional joint similarity $q_{ij}$ (using t-distribution with 1 d.f.):
+                     $$ q_{ij} = \frac{(1 + ||\mathbf{y}_i - \mathbf{y}_j||^2)^{-1}}{\sum_{k \ne l} (1 + ||\mathbf{y}_k - \mathbf{y}_l||^2)^{-1}} $$
+                     Minimize Kullback-Leibler (KL) divergence between $P$ (distribution of $p_{ij}$) and $Q$ (distribution of $q_{ij}$):
+                     $$ C = KL(P||Q) = \sum_{i \ne j} p_{ij} \log \frac{p_{ij}}{q_{ij}} $$
+                     </div>
+                     <h4>Properties & Use Cases</h4>
+                     <ul>
+                         <li><strong>Non-linear:</strong> Can capture complex, non-linear relationships.</li>
+                         <li><strong>Local Structure:</strong> Excels at preserving similarities between nearby points, revealing clusters.</li>
+                         <li><strong>Stochastic:</strong> Results can vary slightly between runs due to random initialization and optimization.</li>
+                         <li><strong>Visualization Focus:</strong> Primarily used for 2D/3D visualization and exploratory data analysis. Not typically used for feature extraction for downstream ML tasks.</li>
+                         <li><strong>Computationally Intensive:</strong> Can be slow on very large datasets compared to PCA.</li>
+                         <li><strong>Hyperparameter Sensitive:</strong> Performance depends significantly on parameters like perplexity (related to number of neighbors, typically 5-50), learning rate, and number of iterations.</li>
+                         <li><strong>Output Interpretation:</strong> Cluster sizes and distances between clusters in the t-SNE plot may not accurately reflect densities or separations in the original space.</li>
+                         <li><strong>Use Cases:</strong> Visualizing high-dimensional data (e.g., image embeddings, gene expression data, NLP word embeddings), cluster identification, anomaly detection.</li>
+                     </ul>
+                </section>
+
+                <section class="content-section" id="comparison">
+                    <h2 class="section-title"><i class="fas fa-balance-scale"></i>PCA vs. t-SNE: A Head-to-Head Comparison</h2>
+                    <p>While both reduce dimensionality, PCA and t-SNE have different goals and characteristics:</p>
+                    <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>PCA (Principal Component Analysis)</th>
+                                <th>t-SNE (t-Distributed Stochastic Neighbor Embedding)</th>
+                            </tr>
+                         </thead>
+                        <tbody>
+                            <tr>
+                                <td>**Primary Goal**</td>
+                                <td>Maximize variance, preserve global structure</td>
+                                <td>Visualize data, preserve local structure (neighborhoods)</td>
+                            </tr>
+                            <tr>
+                                <td>**Linearity**</td>
+                                <td>Linear transformation</td>
+                                <td>Non-linear transformation</td>
+                            </tr>
+                            <tr>
+                                <td>**Structure Preserved**</td>
+                                <td>Global variance, large pairwise distances</td>
+                                <td>Local similarities, neighborhood structure</td>
+                            </tr>
+                             <tr>
+                                <td>**Output Determinism**</td>
+                                <td>Deterministic (same output every run)</td>
+                                <td>Stochastic (output can vary slightly between runs)</td>
+                            </tr>
+                             <tr>
+                                <td>**Computational Cost**</td>
+                                <td>Relatively low (based on eigen-decomposition)</td>
+                                <td>High (especially for large N, involves pairwise calculations and optimization)</td>
+                            </tr>
+                             <tr>
+                                <td>**Output Interpretation**</td>
+                                <td>Axes (PCs) represent directions of variance; distances meaningful.</td>
+                                <td>Cluster separation visually informative; absolute distances/sizes less meaningful.</td>
+                            </tr>
+                             <tr>
+                                <td>**Hyperparameters**</td>
+                                <td>Number of components ($k$)</td>
+                                <td>Perplexity, learning rate, iterations (requires tuning)</td>
+                            </tr>
+                             <tr>
+                                <td>**Typical Use Case**</td>
+                                <td>Feature extraction, noise reduction, data compression, initial visualization</td>
+                                <td>High-dimensional data visualization, cluster identification, data exploration</td>
+                             </tr>
+                        </tbody>
+                    </table>
+                    <p class="figure-caption">Table 4: Key differences between PCA and t-SNE.</p>
+                    <p>In essence, PCA gives you a low-dimensional view that best captures the overall spread of your data, while t-SNE gives you a map that tries to keep points that were originally close together, still close together, making it excellent for seeing clusters.</p>
+
+                      <svg viewBox="0 0 550 200" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="visualCompareTitle">
+                        <title id="visualCompareTitle">Visual Comparison of PCA and t-SNE on Clustered Data</title>
+                        <style>
+                            .point-a { fill: #0d6efd; } .point-b { fill: #198754; } .point-c { fill: #dc3545; }
+                            .text-vis { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                            .boundary { fill: none; stroke: #adb5bd; stroke-width: 1; }
+                        </style>
+                         <text x="75" y="25" class="text-vis" font-weight="bold">Original High-D Data</text>
+                        <g id="original-cluster">
+                            <circle cx="60" cy="70" r="4" class="point-a"/> <circle cx="50" cy="80" r="4" class="point-a"/> <circle cx="70" cy="85" r="4" class="point-a"/>
+                            <circle cx="100" cy="60" r="4" class="point-b"/> <circle cx="110" cy="75" r="4" class="point-b"/> <circle cx="95" cy="80" r="4" class="point-b"/>
+                             <circle cx="80" cy="120" r="4" class="point-c"/> <circle cx="70" cy="130" r="4" class="point-c"/> <circle cx="95" cy="135" r="4" class="point-c"/>
+                         </g>
+
+                        <text x="250" y="25" class="text-vis" font-weight="bold">PCA Projection (2D)</text>
+                        <rect x="175" y="40" width="150" height="120" class="boundary"/>
+                         <circle cx="210" cy="70" r="4" class="point-a"/> <circle cx="200" cy="80" r="4" class="point-a"/> <circle cx="220" cy="85" r="4" class="point-a"/>
+                          <circle cx="240" cy="75" r="4" class="point-b"/> <circle cx="250" cy="90" r="4" class="point-b"/> <circle cx="235" cy="95" r="4" class="point-b"/>
+                          <circle cx="260" cy="100" r="4" class="point-c"/> <circle cx="250" cy="110" r="4" class="point-c"/> <circle cx="275" cy="115" r="4" class="point-c"/>
+                         <text x="250" y="175" class="text-vis">Preserves global variance;</text>
+                          <text x="250" y="185" class="text-vis">Clusters might overlap.</text>
+
+
+                         <text x="425" y="25" class="text-vis" font-weight="bold">t-SNE Projection (2D)</text>
+                           <rect x="350" y="40" width="150" height="120" class="boundary"/>
+                         <circle cx="380" cy="60" r="4" class="point-a"/> <circle cx="370" cy="70" r="4" class="point-a"/> <circle cx="390" cy="75" r="4" class="point-a"/>
+                          <circle cx="440" cy="70" r="4" class="point-b"/> <circle cx="450" cy="85" r="4" class="point-b"/> <circle cx="435" cy="90" r="4" class="point-b"/>
+                          <circle cx="390" cy="125" r="4" class="point-c"/> <circle cx="380" cy="135" r="4" class="point-c"/> <circle cx="405" cy="140" r="4" class="point-c"/>
+                           <text x="425" y="175" class="text-vis">Preserves local neighborhoods;</text>
+                            <text x="425" y="185" class="text-vis">Clusters well separated (visually).</text>
+                    </svg>
+                    <p class="figure-caption">Figure 4: Conceptual difference in how PCA and t-SNE might visualize the same clustered dataset.</p>
+                </section>
+
+                 <section class="content-section" id="practical">
+                    <h2 class="section-title"><i class="fas fa-cogs"></i>Practical Considerations & Best Practices</h2>
+                    <ul>
+                        <li><strong>When to Use PCA:</strong> Use PCA when you need linear feature extraction for downstream ML tasks, noise filtering, data compression, or an initial, fast overview of the data's primary variance directions.</li>
+                        <li><strong>When to Use t-SNE:</strong> Use t-SNE primarily for visualization and exploratory data analysis, especially when you suspect non-linear structures or want to identify potential clusters. Avoid using t-SNE outputs as direct input features for other ML models.</li>
+                        <li><strong>PCA before t-SNE:</strong> Due to t-SNE's computational cost and sensitivity to noise, it's a common practice to first reduce dimensions using PCA (e.g., down to 50 dimensions) and then apply t-SNE to the PCA output for visualization. This speeds up t-SNE and can sometimes improve results by removing noise first.</li>
+                        <li><strong>t-SNE Hyperparameter Tuning:</strong> Experiment with different perplexity values (e.g., 5, 30, 50) as the visualization can change significantly. Run t-SNE multiple times to ensure the observed structures are stable.</li>
+                        <li><strong>Interpretation Caution:</strong> Remember that t-SNE cluster sizes and inter-cluster distances don't reliably correspond to actual cluster densities or separations in the original space. Focus on which points cluster together.</li>
+                    </ul>
+                      <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="choiceFlowchartTitle">
+                        <title id="choiceFlowchartTitle">Choosing Between PCA and t-SNE</title>
+                        <style>
+                           .decision { fill:#e2e3e5; stroke:#adb5bd; transform: rotate(45deg); transform-origin: center center; }
+                           .decision-txt { transform: rotate(-45deg); font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle;}
+                           .process { fill:#cfe2ff; stroke:#b8daff; rx:5; }
+                           .result { fill:#d4edda; stroke:#c3e6cb; rx:5; }
+                            .flow-text { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                            .arrow-flow { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-dim); }
+                        </style>
+                         <text x="200" y="20" font-weight="bold" font-size="14" text-anchor="middle">Choosing PCA vs. t-SNE</text>
+
+                         <rect x="150" y="30" width="100" height="30" class="process"/> <text x="200" y="50" class="flow-text">Start: High-Dim Data</text>
+                          <line x1="200" y1="60" x2="200" y2="80" class="arrow-flow"/>
+
+                         <g transform="translate(200 105)"> <rect x="-25" y="-25" width="50" height="50" class="decision"/> <text x="0" y="5" class="decision-txt">Primary Goal?</text> </g>
+                          <line x1="200" y1="130" x2="100" y2="150" class="arrow-flow"/> <text x="140" y="145" class="flow-text">Feature Extraction /</text><text x="140" y="155" class="flow-text">Noise Reduction /</text><text x="140" y="165" class="flow-text">Global Structure</text>
+                          <line x1="200" y1="130" x2="300" y2="150" class="arrow-flow"/> <text x="260" y="145" class="flow-text">Visualization /</text><text x="260" y="155" class="flow-text">Cluster Finding /</text><text x="260" y="165" class="flow-text">Local Structure</text>
+
+                           <rect x="50" y="180" width="100" height="30" class="result"/> <text x="100" y="200" class="flow-text">Use PCA</text>
+
+                           <g transform="translate(300 185)"> <rect x="-25" y="-25" width="50" height="50" class="decision"/> <text x="0" y="5" class="decision-txt">Dataset Size Large?</text> </g>
+                            <line x1="300" y1="210" x2="250" y2="230" class="arrow-flow"/> <text x="275" y="225" class="flow-text">Yes</text>
+                            <line x1="300" y1="210" x2="350" y2="230" class="arrow-flow"/> <text x="325" y="225" class="flow-text">No</text>
+
+                            <rect x="180" y="230" width="100" height="30" class="result"/> <text x="230" y="250" class="flow-text">Use PCA first, then t-SNE</text>
+                            <rect x="320" y="230" width="100" height="30" class="result"/> <text x="370" y="250" class="flow-text">Use t-SNE directly</text>
+
+                      </svg>
+                      <p class="figure-caption">Figure 5: A simplified flowchart to help decide between PCA and t-SNE.</p>
+                 </section>
+
+                <section class="content-section" id="conclusion">
+                    <h2 class="section-title"><i class="fas fa-check-circle"></i>Conclusion: Choosing the Right Lens</h2>
+                    <p>
+                        Both PCA and t-SNE are invaluable tools for navigating the complexities of high-dimensional data, but they offer different perspectives or "lenses". PCA provides a linear, global view focused on variance, making it ideal for pre-processing, noise reduction, and feature extraction. t-SNE offers a non-linear, local view focused on revealing neighborhood structures and clusters, excelling at data visualization and exploration.
+                    </p>
+                    <p>
+                        Understanding their distinct mathematical underpinnings, goals, and limitations is crucial for selecting the appropriate technique. Often, they are used complementarily – PCA for initial reduction and noise filtering, followed by t-SNE for detailed visualization of the reduced data. By choosing the right lens for the task, data scientists can effectively simplify complexity, uncover hidden patterns, and gain deeper insights from their high-dimensional datasets.
+                    </p>
+                </section>
+
+                <section class="author-box" id="author">
+                    <h3><i class="fas fa-user-tie"></i>About the Author, Architect & Developer</h3>
+                    <p>
+                        <strong>Loveleen Narang</strong> is a distinguished leader and visionary in the fields of Data Science, Machine Learning, and Artificial Intelligence. With over two decades of experience in designing and architecting cutting-edge AI solutions, he excels at leveraging advanced technologies to tackle complex challenges across diverse industries. His strategic mindset not only resolves critical issues but also enhances operational efficiency, reinforces regulatory compliance, and delivers tangible value—especially within government and public sector initiatives.
+                    </p>
+                    <p>
+                        Widely recognized for his commitment to excellence, Loveleen focuses on building robust, scalable, and secure systems that align with global standards and ethical principles. His approach seamlessly integrates cross-functional collaboration with innovative methodologies, ensuring every solution is both forward-looking and aligned with organizational goals. A driving force behind industry best practices, Loveleen continues to shape the future of technology-led transformation, earning a reputation as a catalyst for impactful and sustainable innovation.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Loveleen Narang. All Rights Reserved.
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

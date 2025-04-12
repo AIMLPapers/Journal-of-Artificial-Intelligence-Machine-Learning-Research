@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsupervised Learning Methods Exploration: Discovering Patterns in Unlabeled Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .hero-section {
+             background: linear-gradient(to right, #f12711, #f5af19); /* Red/Orange gradient */
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hero-section .catchy-phrase {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #eee;
+        }
+        .article-meta {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #f12711;
+            padding-bottom: 10px;
+            display: inline-block;
+            color: #f12711;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #f5af19;
+        }
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .table-stylish {
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .table-stylish thead {
+            background-color: #f12711;
+            color: white;
+        }
+        .formula-box {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #f12711;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+        .author-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .author-box h3 {
+            margin-bottom: 20px;
+            color: #f12711;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        .highlight {
+             color: #f12711;
+             font-weight: 600;
+        }
+         .figure-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+         .text-sm { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section .catchy-phrase {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Unsupervised Learning Methods Exploration</h1>
+        <p class="catchy-phrase">Finding Hidden Structure in Data Without Labels</p>
+        <p class="article-meta">Authored by Loveleen Narang | Published: December 19, 2023</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+                <section class="content-section" id="introduction">
+                    <h2 class="section-title"><i class="fas fa-search-plus"></i>Introduction: Learning Without a Teacher</h2>
+                    <p>
+                        Machine Learning (ML) has revolutionized how we extract insights and make predictions from data. Much of the attention often goes to Supervised Learning, where models learn from labeled examples (input-output pairs) to make predictions on new, unseen inputs. However, a vast amount of the world's data is <span class="highlight">unlabeled</span>. Manually labeling large datasets is often expensive, time-consuming, or requires domain expertise that isn't readily available.
+                    </p>
+                    <p>
+                        This is where <span class="highlight">Unsupervised Learning</span> steps in. It's a fascinating branch of ML where algorithms are tasked with finding patterns, structures, and relationships within data *without* any predefined labels or explicit guidance. Instead of predicting a known output, unsupervised methods aim to understand the inherent structure of the data itself. This exploration can reveal hidden groupings, reduce complexity, identify anomalies, or even generate new data instances. This article delves into the world of unsupervised learning, exploring its core tasks, common methods, applications, and inherent challenges.
+                    </p>
+                </section>
+
+                <section class="content-section" id="what-is-unsupervised">
+                    <h2 class="section-title"><i class="fas fa-question"></i>What is Unsupervised Learning?</h2>
+                    <p>
+                        Unsupervised learning is a type of machine learning where models work with unlabeled data. The primary goal is not to predict a specific output based on input features (like in supervised learning), but rather to <span class="highlight">discover underlying patterns, structures, or distributions</span> within the data itself. The algorithm explores the data and finds interesting relationships or groupings on its own.
+                    </p>
+                     <svg viewBox="0 0 450 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="supUnsipTitle">
+                        <title id="supUnsipTitle">Supervised vs. Unsupervised Learning Data</title>
+                         <style>
+                            .data-point { opacity: 0.8; }
+                            .label-box { font-family: Arial, sans-serif; font-size: 9px; fill: #6c757d;}
+                            .box-sup { fill:#cfe2ff; stroke:#0d6efd; }
+                            .box-unsup { fill:#d4edda; stroke:#198754; }
+                            .text-supunsup { font-family: Arial, sans-serif; font-size: 11px; text-anchor: middle; }
+                        </style>
+                         <text x="100" y="35" font-weight="bold" font-size="12" text-anchor="middle">Supervised Learning</text>
+                         <rect x="20" y="50" width="160" height="100" class="box-sup" rx="5"/>
+                         <circle cx="50" cy="80" r="5" class="data-point" fill="red"/> <text x="50" y="95" class="label-box">Label: A</text>
+                         <circle cx="80" cy="110" r="5" class="data-point" fill="red"/> <text x="80" y="125" class="label-box">Label: A</text>
+                         <circle cx="110" cy="70" r="5" class="data-point" fill="blue"/> <text x="110" y="85" class="label-box">Label: B</text>
+                         <circle cx="130" cy="100" r="5" class="data-point" fill="blue"/> <text x="130" y="115" class="label-box">Label: B</text>
+                         <text x="100" y="160" class="text-supunsup">Learns mapping from</text>
+                         <text x="100" y="170" class="text-supunsup">Input to Known Output (Labels)</text>
+
+                        <text x="330" y="35" font-weight="bold" font-size="12" text-anchor="middle">Unsupervised Learning</text>
+                         <rect x="250" y="50" width="160" height="100" class="box-unsup" rx="5"/>
+                         <circle cx="280" cy="80" r="5" class="data-point" fill="gray"/>
+                         <circle cx="310" cy="110" r="5" class="data-point" fill="gray"/>
+                         <circle cx="340" cy="70" r="5" class="data-point" fill="gray"/>
+                         <circle cx="360" cy="100" r="5" class="data-point" fill="gray"/>
+                          <circle cx="295" cy="75" r="5" class="data-point" fill="gray"/>
+                          <circle cx="345" cy="105" r="5" class="data-point" fill="gray"/>
+                          <text x="330" y="160" class="text-supunsup">Learns patterns/structure</text>
+                         <text x="330" y="170" class="text-supunsup">directly from Input Data (No Labels)</text>
+                     </svg>
+                     <p class="figure-caption">Figure 1: Supervised learning uses labeled data (inputs paired with correct outputs), while unsupervised learning works with unlabeled data.</p>
+                    <p>Think of it like sorting a mixed bag of fruits without knowing the names of the fruits beforehand. You might group them based on color, shape, or size – discovering the categories (apples, oranges, bananas) yourself based on their inherent similarities.</p>
+                 </section>
+
+                 <section class="content-section" id="goals-tasks">
+                     <h2 class="section-title"><i class="fas fa-bullseye"></i>Goals and Tasks in Unsupervised Learning</h2>
+                     <p>Unsupervised learning encompasses a variety of tasks, each aiming to uncover different kinds of structure in the data:</p>
+                      <table class="table table-bordered table-striped table-hover table-stylish">
+                        <thead>
+                           <tr>
+                               <th>Task</th>
+                               <th>Goal</th>
+                               <th>Example Output</th>
+                               <th>Common Algorithms</th>
+                           </tr>
+                        </thead>
+                       <tbody>
+                           <tr>
+                               <td><i class="fas fa-object-group me-2"></i>Clustering</td>
+                               <td>Group similar data points together.</td>
+                               <td>Cluster assignments for each data point (e.g., customer segments).</td>
+                               <td>K-Means, DBSCAN, Hierarchical Clustering, Gaussian Mixture Models (GMM).</td>
+                           </tr>
+                           <tr>
+                               <td><i class="fas fa-compress-arrows-alt me-2"></i>Dimensionality Reduction</td>
+                               <td>Reduce the number of features while preserving important information.</td>
+                               <td>Lower-dimensional representation of the data (e.g., 2D coordinates for visualization).</td>
+                               <td>PCA, t-SNE, UMAP, Autoencoders.</td>
+                           </tr>
+                           <tr>
+                               <td><i class="fas fa-exclamation-circle me-2"></i>Anomaly Detection</td>
+                               <td>Identify data points that are significantly different from the norm.</td>
+                               <td>Labels indicating normal vs. anomalous points, or an anomaly score.</td>
+                               <td>Isolation Forest, One-Class SVM, Autoencoders, Clustering-based methods.</td>
+                           </tr>
+                            <tr>
+                               <td><i class="fas fa-link me-2"></i>Association Rule Mining</td>
+                               <td>Discover rules describing relationships between items in large datasets.</td>
+                               <td>Rules like "If {Milk, Diapers} then {Beer}".</td>
+                               <td>Apriori, Eclat, FP-Growth.</td>
+                           </tr>
+                            <tr>
+                               <td><i class="fas fa-magic me-2"></i>Generative Modeling</td>
+                               <td>Learn the underlying data distribution to generate new, synthetic data samples.</td>
+                               <td>New images, text, or other data resembling the training data.</td>
+                               <td>Generative Adversarial Networks (GANs), Variational Autoencoders (VAEs).</td>
+                           </tr>
+                            <tr>
+                               <td><i class="fas fa-chart-area me-2"></i>Density Estimation</td>
+                               <td>Model the probability distribution from which the data was generated.</td>
+                               <td>A probability density function (PDF).</td>
+                               <td>Kernel Density Estimation (KDE), Gaussian Mixture Models (GMM).</td>
+                           </tr>
+                       </tbody>
+                    </table>
+                     <p class="figure-caption">Table 1: Major tasks and goals within unsupervised learning.</p>
+                 </section>
+
+
+                 <section class="content-section" id="methods-exploration">
+                     <h2 class="section-title"><i class="fas fa-search-location"></i>Exploring Key Unsupervised Learning Methods</h2>
+
+                     <div class="mb-4 p-3 border rounded">
+                        <h4>1. Clustering</h4>
+                        <p>Clustering algorithms partition data points into groups (clusters) such that points within a cluster are more similar to each other than to those in other clusters. Similarity is often based on distance metrics (like Euclidean distance).</p>
+                         <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="clusteringTitle">
+                            <title id="clusteringTitle">Clustering Concept</title>
+                             <style>
+                                .point-c1 { fill: #0d6efd; } .point-c2 { fill: #198754; } .point-c3 { fill: #dc3545; }
+                                .cluster-bound { fill: none; stroke: #adb5bd; stroke-width: 1; stroke-dasharray: 4,4; }
+                                .text-clust { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                             </style>
+                              <text x="200" y="25" font-weight="bold" font-size="14" text-anchor="middle">Clustering: Grouping Similar Data Points</text>
+                               <circle cx="80" cy="80" r="5" class="point-c1"/> <circle cx="70" cy="95" r="5" class="point-c1"/>
+                                <circle cx="100" cy="85" r="5" class="point-c1"/> <circle cx="90" cy="70" r="5" class="point-c1"/>
+                                <ellipse cx="85" cy="85" rx="35" ry="30" class="cluster-bound"/> <text x="85" y="125" class="text-clust">Cluster 1</text>
+
+                               <circle cx="200" cy="60" r="5" class="point-c2"/> <circle cx="220" cy="75" r="5" class="point-c2"/>
+                               <circle cx="190" cy="80" r="5" class="point-c2"/> <circle cx="215" cy="55" r="5" class="point-c2"/>
+                                <ellipse cx="205" cy="70" rx="30" ry="25" class="cluster-bound"/> <text x="205" y="105" class="text-clust">Cluster 2</text>
+
+                                <circle cx="300" cy="100" r="5" class="point-c3"/> <circle cx="320" cy="115" r="5" class="point-c3"/>
+                                <circle cx="290" cy="120" r="5" class="point-c3"/> <circle cx="315" cy="95" r="5" class="point-c3"/>
+                                 <ellipse cx="305" cy="110" rx="30" ry="25" class="cluster-bound"/> <text x="305" y="145" class="text-clust">Cluster 3</text>
+
+                                <text x="200" y="170" class="text-clust">Algorithm groups unlabeled points based on similarity (e.g., distance).</text>
+                         </svg>
+                         <p class="figure-caption">Figure 2: Clustering algorithms group similar, unlabeled data points together.</p>
+                        <ul>
+                            <li><strong>K-Means:</strong> Partitions data into a pre-specified number (K) of clusters by iteratively assigning points to the nearest cluster centroid (mean) and updating the centroids. Assumes clusters are spherical and roughly equal in size.</li>
+                            <li><strong>DBSCAN (Density-Based Spatial Clustering of Applications with Noise):</strong> Groups points that are closely packed together (high-density regions), marking outliers in low-density regions as noise. Doesn't require specifying K and can find arbitrarily shaped clusters.</li>
+                            <li><strong>Hierarchical Clustering:</strong> Builds a hierarchy of clusters either agglomeratively (bottom-up: starting with individual points and merging clusters) or divisively (top-down: starting with one cluster and splitting). Results can be visualized as a dendrogram.</li>
+                        </ul>
+                    </div>
+
+                     <div class="mb-4 p-3 border rounded">
+                        <h4>2. Dimensionality Reduction</h4>
+                        <p>These techniques reduce the number of features (dimensions) while trying to preserve important structural information from the original high-dimensional data.</p>
+                        <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="dimReductTitle2">
+                            <title id="dimReductTitle2">Concept of Dimensionality Reduction</title>
+                            <style> .highD { fill: #cfe2ff; } .lowD { fill: #d1e7dd; } .point { fill: #dc3545; opacity: 0.7; } .text-dim { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; } .arrow-dim { stroke: #6c757d; stroke-width: 1.5; marker-end: url(#arrowhead-dim2); } #arrowhead-dim2 polygon { points:"0 0, 7 2.5, 0 5"; fill: #6c757d; } </style>
+                            <defs> <marker id="arrowhead-dim2" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d"/></marker> </defs>
+                            <ellipse cx="80" cy="75" rx="60" ry="40" class="highD" transform="rotate(-20 80 75)"/> <text x="80" y="25" class="text-dim" font-weight="bold">High-Dimensional Space</text> <circle cx="70" cy="60" r="3" class="point"/> <circle cx="90" cy="70" r="3" class="point"/> <circle cx="60" cy="85" r="3" class="point"/>
+                            <line x1="150" y1="75" x2="230" y2="75" class="arrow-dim"/> <text x="190" y="65" class="text-dim">Mapping</text>
+                            <rect x="240" y="45" width="150" height="60" class="lowD" rx="5"/> <text x="315" y="35" class="text-dim" font-weight="bold">Low-Dimensional Space</text> <circle cx="270" cy="60" r="3" class="point"/> <circle cx="290" cy="80" r="3" class="point"/> <circle cx="260" cy="90" r="3" class="point"/>
+                        </svg>
+                         <p class="figure-caption">Figure 3: Reducing dimensions while preserving structure (global variance for PCA, local neighborhoods for t-SNE).</p>
+                        <ul>
+                            <li><strong>Principal Component Analysis (PCA):</strong> A linear technique that finds orthogonal axes (principal components) capturing the maximum variance in the data. Projects data onto a lower-dimensional subspace defined by the top components. (See <a href="#pca-details">Mathematical Underpinnings</a>).</li>
+                            <li><strong>t-SNE (t-Distributed Stochastic Neighbor Embedding):</strong> A non-linear technique primarily used for visualizing high-dimensional data in 2D or 3D. Focuses on preserving local similarities between points.</li>
+                            <li><strong>Autoencoders:</strong> Neural networks trained to reconstruct their input. They consist of an encoder (compressing data to a lower-dimensional latent representation/bottleneck) and a decoder (reconstructing the original data from the latent representation). The bottleneck layer provides the dimensionality reduction.</li>
+                        </ul>
+                          <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="aeTitle">
+                           <title id="aeTitle">Autoencoder Architecture</title>
+                            <style>
+                               .input-ae { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                               .encoder-ae { fill:#f8d7da; stroke:#dc3545; }
+                               .bottleneck-ae { fill:#fff3cd; stroke:#ffeeba; stroke-width:2; }
+                               .decoder-ae { fill:#d1e7dd; stroke:#198754; }
+                               .output-ae { fill:#cfe2ff; stroke:#0d6efd; rx:5; opacity:0.8;}
+                               .text-ae { font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; }
+                                .arrow-ae { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-fsl); }
+                           </style>
+                            <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle">Autoencoder Architecture</text>
+                            <rect x="10" y="55" width="80" height="40" class="input-ae"/> <text x="50" y="80" class="text-ae">Input Data (X)</text>
+                             <line x1="90" y1="75" x2="110" y2="75" class="arrow-ae"/>
+
+                             <polygon points="110,50 170,70 170,80 110,100" class="encoder-ae"/> <text x="140" y="78" class="text-ae">Encoder</text>
+                              <line x1="170" y1="75" x2="190" y2="75" class="arrow-ae"/>
+
+                             <rect x="190" y="65" width="40" height="20" class="bottleneck-ae"/> <text x="210" y="78" class="text-ae">Latent</text><text x="210" y="88" class="text-ae">Space (Z)</text>
+                             <line x1="230" y1="75" x2="250" y2="75" class="arrow-ae"/>
+
+                             <polygon points="250,100 310,80 310,70 250,50" class="decoder-ae"/> <text x="280" y="78" class="text-ae">Decoder</text>
+                            <line x1="310" y1="75" x2="330" y2="75" class="arrow-ae"/>
+
+                            <rect x="330" y="55" width="80" height="40" class="output-ae"/> <text x="370" y="80" class="text-ae">Reconstruction (X')</text>
+
+                            <text x="200" y="135" class="text-ae">Goal: Minimize Reconstruction Error L = ||X - X'||²</text>
+                            <text x="200" y="145" class="text-ae">Latent Space Z provides reduced dimensionality.</text>
+                        </svg>
+                        <p class="figure-caption">Figure 4: An Autoencoder learns to compress data (Encoder) into a latent space and reconstruct it (Decoder).</p>
+                     </div>
+
+                     <div class="mb-4 p-3 border rounded">
+                        <h4>3. Anomaly Detection</h4>
+                        <p>These methods identify rare data points (outliers) that differ significantly from the majority of the data. Unsupervised approaches are common as anomalies are often unknown beforehand.</p>
+                         <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="anomalyConceptTitle">
+                            <title id="anomalyConceptTitle">Anomaly Detection Concept</title>
+                           <style>
+                                .normal-point { fill: #0d6efd; opacity: 0.6; }
+                                .anomaly-point { fill: #dc3545; }
+                                .normal-region { fill: #cfe2ff; opacity: 0.3; stroke: #0d6efd; stroke-dasharray: 4,4;}
+                                 .text-ad { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                            </style>
+                            <text x="200" y="25" font-weight="bold" font-size="12" text-anchor="middle">Anomaly Detection: Identifying Outliers</text>
+                             <ellipse cx="200" cy="90" rx="100" ry="50" class="normal-region"/>
+                             <text x="200" y="150" class="text-ad">Region of Normal Data</text>
+
+                             <circle cx="180" cy="80" r="4" class="normal-point"/> <circle cx="220" cy="100" r="4" class="normal-point"/>
+                             <circle cx="150" cy="105" r="4" class="normal-point"/> <circle cx="250" cy="75" r="4" class="normal-point"/>
+                             <circle cx="210" cy="115" r="4" class="normal-point"/> <circle cx="190" cy="65" r="4" class="normal-point"/>
+
+                            <circle cx="70" cy="50" r="6" class="anomaly-point"/> <text x="70" y="40" class="text-ad" fill="#dc3545">Anomaly</text>
+                             <circle cx="330" cy="120" r="6" class="anomaly-point"/> <text x="330" y="140" class="text-ad" fill="#dc3545">Anomaly</text>
+                              <circle cx="240" cy="45" r="6" class="anomaly-point"/> <text x="240" y="35" class="text-ad" fill="#dc3545">Anomaly</text>
+                        </svg>
+                         <p class="figure-caption">Figure 5: Anomaly detection aims to identify points lying far outside the distribution of normal data.</p>
+                        <ul>
+                            <li><strong>Isolation Forest:</strong> Builds an ensemble of random trees. Anomalies are typically easier to isolate (require fewer splits) and thus end up in shallower parts of the trees, yielding a higher anomaly score.</li>
+                            <li><strong>One-Class SVM:</strong> Learns a boundary around the normal data points. Points falling outside this boundary are considered anomalies.</li>
+                            <li><strong>Autoencoders:</strong> Trained on normal data, autoencoders will have high reconstruction errors when trying to reconstruct anomalous data points which they haven't seen during training.</li>
+                        </ul>
+                     </div>
+
+                      <div class="mb-4 p-3 border rounded">
+                        <h4>4. Association Rule Mining</h4>
+                        <p>Used to discover interesting relationships or "rules" between variables in large datasets, often transactional data (e.g., market basket analysis).</p>
+                         <ul>
+                            <li><strong>Apriori Algorithm:</strong> A classic algorithm that identifies frequent itemsets (items that often appear together) by iteratively generating candidate sets and pruning those that don't meet a minimum support threshold (frequency). It then generates association rules (e.g., {Bread, Butter} -> {Milk}) from these frequent itemsets based on a minimum confidence threshold (conditional probability).</li>
+                         </ul>
+                         <p><strong>Example Rule:</strong> If a customer buys diapers, they are 80% likely (confidence) to also buy beer, and this combination occurs in 5% of all transactions (support).</p>
+                      </div>
+
+                       <div class="mb-4 p-3 border rounded">
+                        <h4>5. Generative Modeling</h4>
+                        <p>These models learn the underlying distribution of the training data and can then generate new data samples that resemble the original data.</p>
+                         <ul>
+                             <li><strong>Generative Adversarial Networks (GANs):</strong> Consist of two networks, a Generator (creates fake data) and a Discriminator (tries to distinguish real from fake data), trained in competition.</li>
+                             <li><strong>Variational Autoencoders (VAEs):</strong> A type of autoencoder that learns a probabilistic latent space, allowing for generation of new data by sampling from this latent distribution.</li>
+                         </ul>
+                         <p>While often used for generating impressive images or text, the learned representations can also be useful for other unsupervised tasks like anomaly detection or feature extraction.</p>
+                      </div>
+                 </section>
+
+
+                <section class="content-section" id="maths">
+                     <h2 class="section-title"><i class="fas fa-square-root-alt"></i>Mathematical Underpinnings</h2>
+                     <p>Unsupervised methods often rely on distance metrics, optimization objectives, or probabilistic modeling.</p>
+                     <p><strong>Distance Metrics:</strong> Crucial for clustering and some anomaly detection methods.</p>
+                      <div class="formula-box">
+                      Euclidean Distance ($L_2$ norm) between points $\mathbf{x}_1, \mathbf{x}_2$:
+                      $$ d(\mathbf{x}_1, \mathbf{x}_2) = ||\mathbf{x}_1 - \mathbf{x}_2||_2 = \sqrt{\sum_{i=1}^{d} (x_{1,i} - x_{2,i})^2} $$
+                      Other metrics like Manhattan ($L_1$) or Cosine distance are also used depending on the data and algorithm.
+                      </div>
+                     <p><strong>K-Means Clustering Objective:</strong> Aims to partition $n$ observations into $K$ clusters $C_k$ by minimizing the within-cluster sum of squares (WCSS), also known as inertia.</p>
+                     <div class="formula-box">
+                     Minimize: $ J = \sum_{k=1}^{K} \sum_{\mathbf{x}_i \in C_k} ||\mathbf{x}_i - \boldsymbol{\mu}_k||^2 $ <br/>
+                     Where $\boldsymbol{\mu}_k = \frac{1}{|C_k|} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i$ is the centroid (mean) of cluster $C_k$.
+                     </div>
+                     <p><strong>Principal Component Analysis (PCA) - Variance Maximization View:</strong> Finds projection directions (principal components) $\mathbf{w}$ that maximize the variance of the projected data.</p>
+                     <div class="formula-box">
+                      Maximize: $ \text{Var}(X\mathbf{w}) = \mathbf{w}^T C \mathbf{w} $ subject to $||\mathbf{w}||_2 = 1$. <br/>
+                      Where $X$ is the centered data matrix and $C$ is the covariance matrix ($C = \frac{1}{n-1} X^T X$). The solution involves finding the eigenvectors of $C$.
+                     </div>
+                     <p><strong>Autoencoder Reconstruction Loss:</strong> Aims to minimize the difference between the input $x$ and its reconstruction $x'$.</p>
+                     <div class="formula-box">
+                      Minimize: $ L(x, x') = ||x - x'||^2_2 = ||x - \text{Decoder}(\text{Encoder}(x))||^2_2 $ <br/>
+                      This is often the Mean Squared Error (MSE) between the input and output.
+                     </div>
+                 </section>
+
+
+                 <section class="content-section" id="applications">
+                     <h2 class="section-title"><i class="fas fa-industry"></i>Applications Across Industries</h2>
+                     <p>Unsupervised learning finds applications in diverse fields:</p>
+                      <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                            <tr>
+                                <th>Application Area</th>
+                                <th>Unsupervised Task</th>
+                                <th>Example Use Case</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>E-commerce & Marketing</td>
+                                 <td>Clustering, Association Rules</td>
+                                 <td>Customer segmentation based on purchase history, market basket analysis ("people who bought X also bought Y"), recommender systems.</td>
+                             </tr>
+                              <tr>
+                                 <td>Finance</td>
+                                 <td>Anomaly Detection, Clustering</td>
+                                 <td>Fraudulent transaction detection, identifying unusual trading patterns, customer risk profiling.</td>
+                             </tr>
+                             <tr>
+                                 <td>Healthcare</td>
+                                 <td>Clustering, Anomaly Detection, Dimensionality Reduction</td>
+                                 <td>Grouping patients with similar symptoms, detecting anomalies in medical images or sensor readings, visualizing complex patient data.</td>
+                             </tr>
+                              <tr>
+                                 <td>Natural Language Processing (NLP)</td>
+                                 <td>Clustering, Dimensionality Reduction, Generative Modeling</td>
+                                 <td>Topic modeling (grouping documents by topic), generating text summaries (via embeddings), creating word embeddings (like Word2Vec - initially unsupervised).</td>
+                             </tr>
+                              <tr>
+                                 <td>Image Processing</td>
+                                 <td>Clustering, Dimensionality Reduction, Generative Modeling, Anomaly Detection</td>
+                                 <td>Image compression (PCA/Autoencoders), image segmentation (clustering pixels), generating synthetic images (GANs), detecting defective products from images.</td>
+                             </tr>
+                              <tr>
+                                 <td>Cybersecurity</td>
+                                 <td>Anomaly Detection</td>
+                                 <td>Network intrusion detection (identifying unusual network traffic patterns).</td>
+                             </tr>
+                              <tr>
+                                 <td>Biology & Genomics</td>
+                                 <td>Clustering, Dimensionality Reduction</td>
+                                 <td>Clustering gene expression data, visualizing relationships between species or samples.</td>
+                             </tr>
+                         </tbody>
+                     </table>
+                     <p class="figure-caption">Table 3: Examples of unsupervised learning applications across various domains.</p>
+                 </section>
+
+                <section class="content-section" id="benefits-challenges">
+                     <h2 class="section-title"><i class="fas fa-balance-scale-right"></i>Benefits and Limitations</h2>
+                      <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                            <tr>
+                                <th>Benefits</th>
+                                <th>Limitations / Challenges</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                            <tr>
+                                <td><i class="fas fa-search text-success me-2"></i> Discovers Hidden Patterns & Structures</td>
+                                <td><i class="fas fa-question-circle text-danger me-2"></i> Difficulty in Evaluation (No ground truth labels)</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-tag text-success me-2"></i> No Need for Labeled Data (Less costly/time-consuming)</td>
+                                 <td><i class="fas fa-ruler-combined text-danger me-2"></i> Interpretation of Results can be Subjective (What does a cluster *mean*?)</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-binoculars text-success me-2"></i> Excellent for Exploratory Data Analysis</td>
+                                <td><i class="fas fa-sliders-h text-danger me-2"></i> Sensitivity to Hyperparameters and Feature Scaling</td>
+                             </tr>
+                             <tr>
+                                <td><i class="fas fa-compress text-success me-2"></i> Useful for Dimensionality Reduction & Noise Filtering</td>
+                                <td><i class="fas fa-chart-line text-danger me-2"></i> Potential for Overfitting (Finding patterns in noise)</td>
+                             </tr>
+                              <tr>
+                                <td><i class="fas fa-robot text-success me-2"></i> Foundation for Semi-Supervised Learning</td>
+                                 <td><i class="fas fa-expand-arrows-alt text-danger me-2"></i> Scalability can be an issue for some algorithms on massive datasets</td>
+                             </tr>
+                              <tr>
+                                <td><i class="fas fa-exclamation-triangle text-success me-2"></i> Effective for Anomaly Detection</td>
+                                <td><i class="fas fa-map-signs text-danger me-2"></i> No guarantee that found patterns are meaningful or useful</td>
+                             </tr>
+                         </tbody>
+                    </table>
+                      <p class="figure-caption">Table 4: Key benefits and limitations of unsupervised learning approaches.</p>
+                 </section>
+
+
+                <section class="content-section" id="conclusion">
+                    <h2 class="section-title"><i class="fas fa-check-double"></i>Conclusion: The Power of Unlabeled Discovery</h2>
+                    <p>
+                       Unsupervised learning represents a vital and powerful part of the machine learning toolkit. By operating directly on unlabeled data, it allows us to explore vast datasets, uncover hidden structures, group similar items, reduce complexity, identify anomalies, and even generate new data instances, all without the need for explicit human guidance in the form of labels.
+                    </p>
+                    <p>
+                        While evaluating and interpreting the results of unsupervised methods can be more challenging than their supervised counterparts, their ability to automatically find patterns makes them indispensable for exploratory data analysis, feature extraction, and tackling problems where labeled data is scarce or non-existent. From customer segmentation and fraud detection to data visualization and generative art, unsupervised learning continues to drive insights and innovation across countless domains, truly showcasing the machine's ability to learn and discover on its own.
+                    </p>
+                </section>
+
+                <section class="author-box" id="author">
+                    <h3><i class="fas fa-user-tie"></i>About the Author, Architect & Developer</h3>
+                    <p>
+                        <strong>Loveleen Narang</strong> is a distinguished leader and visionary in the fields of Data Science, Machine Learning, and Artificial Intelligence. With over two decades of experience in designing and architecting cutting-edge AI solutions, he excels at leveraging advanced technologies to tackle complex challenges across diverse industries. His strategic mindset not only resolves critical issues but also enhances operational efficiency, reinforces regulatory compliance, and delivers tangible value—especially within government and public sector initiatives.
+                    </p>
+                    <p>
+                        Widely recognized for his commitment to excellence, Loveleen focuses on building robust, scalable, and secure systems that align with global standards and ethical principles. His approach seamlessly integrates cross-functional collaboration with innovative methodologies, ensuring every solution is both forward-looking and aligned with organizational goals. A driving force behind industry best practices, Loveleen continues to shape the future of technology-led transformation, earning a reputation as a catalyst for impactful and sustainable innovation.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2023 Loveleen Narang. All Rights Reserved. </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

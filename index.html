@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal of Artificial Intelligence and Machine Learning</title>
+    <title>JAIML - Journal of Artificial Intelligence and Machine Learning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
@@ -23,10 +23,11 @@
             --footer-text: #6c757d; /* Muted footer text */
             --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.06); /* Slightly softer shadow */
             --shadow-hover: 0 7px 14px rgba(0, 0, 0, 0.09); /* Adjusted hover shadow */
-            --border-radius: 8px;
+            --border-radius: 8px; /* Consistent border radius */
             --font-primary: 'Lato', sans-serif;
             --font-secondary: 'Montserrat', sans-serif;
             --grid-gap: 25px; /* Gap for grid layout */
+            --spacing-unit: 8px; /* Base spacing unit */
         }
 
         /* --- Global Styles & Resets --- */
@@ -35,7 +36,8 @@
         }
 
         html {
-             scroll-behavior: smooth;
+            scroll-behavior: smooth;
+            font-size: 100%; /* Base font size */
         }
 
         body {
@@ -44,7 +46,7 @@
             color: var(--text-color);
             background-color: var(--bg-light);
             margin: 0;
-            font-size: 16px;
+            font-size: 1rem; /* Equivalent to 16px by default */
             -webkit-font-smoothing: antialiased; /* Smoother fonts */
             -moz-osx-font-smoothing: grayscale;
         }
@@ -52,7 +54,7 @@
         a {
             color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
         }
         a:hover {
             color: var(--primary-darker);
@@ -63,19 +65,29 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 calc(var(--spacing-unit) * 2.5); /* 20px */
         }
+
+        /* --- Utility Classes --- */
+        .mb-1 { margin-bottom: var(--spacing-unit); }
+        .mb-2 { margin-bottom: calc(var(--spacing-unit) * 2); }
+        .mb-3 { margin-bottom: calc(var(--spacing-unit) * 3); }
+        .mb-4 { margin-bottom: calc(var(--spacing-unit) * 4); }
+        .mt-1 { margin-top: var(--spacing-unit); }
+        .mt-2 { margin-top: calc(var(--spacing-unit) * 2); }
+        .mt-3 { margin-top: calc(var(--spacing-unit) * 3); }
+        .mt-4 { margin-top: calc(var(--spacing-unit) * 4); }
 
         /* --- Header Styles --- */
         .site-header {
-            background: var(--bg-white); /* Solid white header */
-            padding: 20px 0; /* Adjusted padding */
+            background: var(--bg-white);
+            padding: calc(var(--spacing-unit) * 2.5) 0; /* 20px */
             border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Slightly stronger header shadow */
-            position: sticky; /* Make header sticky */
+            margin-bottom: calc(var(--spacing-unit) * 5); /* 40px */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
             top: 0;
-            z-index: 1000; /* Ensure header is above other content */
+            z-index: 1000;
         }
         .header-content {
             display: flex;
@@ -86,19 +98,20 @@
         .logo-area {
             display: flex;
             align-items: center;
+            gap: calc(var(--spacing-unit) * 2); /* 16px */
         }
         .logo svg {
-            width: 50px; /* Slightly smaller logo */
+            width: 50px;
             height: 50px;
-            margin-right: 15px;
         }
+        /* SVG gradient definition (moved styles here) */
         #grad1 stop:first-child { stop-color: var(--primary-color); }
         #grad1 stop:last-child { stop-color: var(--primary-darker); }
-        .logo svg line { stroke: #bdc3c7; }
+        .logo svg line { stroke: #bdc3c7; } /* Kept specific color for visual effect */
 
         .site-title h1 {
             font-family: var(--font-secondary);
-            font-size: 1.8em; /* Adjusted size */
+            font-size: 1.8em;
             margin: 0;
             font-weight: 700;
             line-height: 1.2;
@@ -106,6 +119,7 @@
         .site-title h1 a {
             color: var(--text-color);
             text-decoration: none;
+            transition: color 0.3s ease;
         }
         .site-title h1 a:hover {
             color: var(--primary-darker);
@@ -113,110 +127,119 @@
         }
         .tagline {
             font-family: var(--font-primary);
-            font-size: 0.95em; /* Adjusted size */
+            font-size: 0.95em;
             color: var(--text-muted);
-            margin: 4px 0 0 0;
+            margin: calc(var(--spacing-unit) * 0.5) 0 0 0; /* 4px */
             font-weight: 400;
         }
 
         /* --- Main Content Styles --- */
         main {
-            padding: 20px 0 40px 0; /* Add padding top */
+            padding: calc(var(--spacing-unit) * 2.5) 0 calc(var(--spacing-unit) * 5) 0; /* 20px 0 40px 0 */
         }
         /* Titles for sections within main */
-        main > section > h2 {
+        main section > h2 { /* Apply to main section titles */
             font-family: var(--font-secondary);
-            font-size: 1.9em; /* Larger section titles */
+            font-size: 1.9em;
             color: var(--primary-darker);
             margin-top: 0;
-            margin-bottom: 15px; /* Reduced margin below title */
-            padding-bottom: 10px;
+            margin-bottom: calc(var(--spacing-unit) * 2); /* 16px */
+            padding-bottom: calc(var(--spacing-unit) * 1.25); /* 10px */
             border-bottom: 2px solid var(--primary-color);
             font-weight: 600;
         }
-        main > section > h2 i {
-            margin-right: 12px;
+         /* Styling specifically for Eligibility Criteria sub-headings (h3) */
+         #eligibility-criteria h3 {
+             font-family: var(--font-secondary);
+             font-size: 1.5em;
+             color: var(--primary-darker);
+             margin-top: calc(var(--spacing-unit) * 4); /* 32px */
+             margin-bottom: calc(var(--spacing-unit) * 2); /* 16px */
+             padding-bottom: calc(var(--spacing-unit) * 1); /* 8px */
+             border-bottom: 1px solid var(--border-color);
+             font-weight: 600;
+         }
+        main section > h2 i, #eligibility-criteria h3 i { /* Target icons in both h2 and criteria h3 */
+            margin-right: calc(var(--spacing-unit) * 1.5); /* 12px */
             color: var(--primary-color);
         }
-        /* Subtitle specific styling */
         .section-subtitle {
             font-size: 1.05em;
             color: var(--text-muted);
-            margin-top: -5px; /* Pull up slightly */
-            margin-bottom: 35px; /* Space before grid */
-            max-width: 700px; /* Limit width for readability */
+            margin-top: calc(var(--spacing-unit) * -0.625); /* -5px */
+            margin-bottom: calc(var(--spacing-unit) * 4); /* 32px */
+            max-width: 700px;
         }
-
 
         /* --- Shared Card Styling --- */
         .card {
             background-color: var(--bg-white);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
-            padding: 20px; /* Adjusted padding */
+            padding: calc(var(--spacing-unit) * 2.5); /* 20px */
             box-shadow: var(--shadow-soft);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100%; /* Important for grid layout */
         }
         .card:hover {
             box-shadow: var(--shadow-hover);
-            transform: translateY(-4px); /* Slightly more lift */
+            transform: translateY(-5px); /* Slightly increased lift */
         }
+        /* Highlight using pseudo-element for better control */
         .card-highlight {
-             /* Using padding instead of border for highlight */
-             padding-left: 20px;
-             position: relative;
+            position: relative;
+            padding-left: calc(var(--spacing-unit) * 3); /* Adjust padding for the highlight */
         }
-        .card-highlight::before { /* Pseudo-element for highlight */
-             content: '';
-             position: absolute;
-             left: 0;
-             top: 0;
-             bottom: 0;
-             width: 5px;
-             background-color: var(--primary-color);
-             border-radius: var(--border-radius) 0 0 var(--border-radius); /* Match rounding */
+        .card-highlight::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background-color: var(--primary-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
         }
 
-        /* --- "About" Section List (Still single column list) --- */
+        /* --- "About" Section List --- */
         .about-list {
             list-style: none;
             padding: 0;
-            margin: 20px 0 40px 0;
+            margin: calc(var(--spacing-unit) * 2.5) 0 calc(var(--spacing-unit) * 5) 0; /* 20px 0 40px 0 */
         }
         .about-list li {
             background-color: var(--bg-white);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
-            padding: 20px 25px;
-            margin-bottom: 18px; /* Slightly reduced margin */
+            padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3); /* 20px 24px */
+            margin-bottom: calc(var(--spacing-unit) * 2.25); /* 18px */
             box-shadow: var(--shadow-soft);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
             border-left: 4px solid var(--primary-color);
             display: flex;
             align-items: flex-start;
+            gap: calc(var(--spacing-unit) * 2); /* 16px */
         }
-         .about-list li:hover {
+        .about-list li:hover {
             box-shadow: var(--shadow-hover);
-            transform: translateY(-3px);
-         }
+            transform: translateY(-4px); /* Consistent lift */
+        }
         .about-list .icon-container {
-            font-size: 1.4em;
+            font-size: 1.5em; /* Slightly larger icon */
             color: var(--primary-color);
-            margin-right: 18px;
-            padding-top: 3px;
-            width: 25px;
+            padding-top: calc(var(--spacing-unit) * 0.5); /* Align icon nicely */
+            width: calc(var(--spacing-unit) * 3); /* 24px */
             text-align: center;
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            flex-shrink: 0;
         }
         .about-list .text-content { flex: 1; }
         .about-list strong {
             font-family: var(--font-secondary);
-            font-size: 1.1em;
+            font-size: 1.15em; /* Slightly larger title */
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: var(--spacing-unit); /* 8px */
             color: var(--text-color);
             font-weight: 600;
         }
@@ -226,30 +249,35 @@
         .article-list {
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 0 0 calc(var(--spacing-unit) * 5) 0; /* Add margin bottom */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--grid-gap);
         }
-        .article-item { /* is also .card */ }
-        .article-item-highlight { /* is also .card-highlight */ }
+        .article-item { /* inherits .card styles */ }
+        .article-item-highlight { /* inherits .card-highlight styles */ }
+         .article-item p:not(.article-metadata) { /* Style for the abstract/excerpt */
+            color: var(--text-light);
+            font-size: 0.95em;
+            margin-bottom: calc(var(--spacing-unit) * 2); /* 16px */
+         }
 
         .article-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            gap: calc(var(--spacing-unit) * 1.5); /* 12px */
+            margin-bottom: calc(var(--spacing-unit) * 2); /* 16px */
         }
         .article-icon {
-            font-size: 1.5em;
+            font-size: 1.6em; /* Slightly larger */
             color: var(--primary-color);
-            margin-right: 12px;
-            width: 25px;
+            width: calc(var(--spacing-unit) * 3.5); /* ~28px */
             text-align: center;
             flex-shrink: 0;
         }
-        .article-item h3 {
+        .article-item h3 { /* Title inside article card */
             font-family: var(--font-secondary);
-            font-size: 1.2em; /* Increased title size slightly */
+            font-size: 1.25em;
             margin: 0;
             font-weight: 600;
             line-height: 1.4;
@@ -268,135 +296,208 @@
             font-family: var(--font-primary);
             font-size: 0.9em;
             color: var(--text-muted);
-            margin-top: auto; /* Push whole block to bottom */
-            padding-top: 15px; /* Space above metadata block */
-            display: flex;
-            flex-direction: column; /* Stack info block and stats block */
-            align-items: flex-start; /* Align blocks left */
+            margin-top: auto; /* Push to bottom */
+            padding-top: calc(var(--spacing-unit) * 2); /* 16px Space above */
         }
-
         /* Block for Author/Date */
         .author-date-block {
+            margin-bottom: calc(var(--spacing-unit) * 1.5); /* 12px Space before stats */
+        }
+        .author-name, .publish-date {
             display: flex;
-            flex-direction: column; /* Stack author and date */
-            align-items: flex-start; /* Align left */
-            margin-bottom: 12px; /* Space before separator */
-            width: 100%; /* Ensure it takes width */
-        }
-        .author-name {
-            /* font-weight applied via strong tag in HTML */
-            color: var(--text-light); /* Slightly darker than muted */
-            margin-bottom: 3px; /* Space between author and date */
-            display: flex; /* Align icon with text */
             align-items: center;
+            gap: calc(var(--spacing-unit) * 0.8); /* 6px */
+            margin-bottom: calc(var(--spacing-unit) * 0.5); /* 4px */
+            color: var(--text-light);
         }
-        .publish-date {
-            font-size: 0.95em; /* Slightly smaller date */
-            display: flex; /* Align icon with text */
-            align-items: center;
-        }
-        .author-date-block i { /* Style icons within this block */
-            margin-right: 7px;
+        .author-name strong { color: var(--text-color); font-weight: 700; }
+        .publish-date { font-size: 0.95em; }
+        .author-date-block i {
             color: var(--text-muted);
-            width: 14px; /* Align icons */
+            width: 14px;
+            text-align: center;
+        }
+        /* Span containing Views/Likes/Downloads (Added by JS) */
+        .article-metadata .stats-span {
+            display: flex;
+            gap: calc(var(--spacing-unit) * 2); /* 16px */
+            width: 100%;
+            justify-content: flex-start; /* Align left */
+            padding-top: calc(var(--spacing-unit) * 1.5); /* 12px */
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            margin-top: calc(var(--spacing-unit) * 1.5); /* Add margin top to ensure separation */
+        }
+        /* Individual Stat item */
+        .stats-span span {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 0.5); /* 4px */
+            white-space: nowrap;
+            font-size: 0.95em; /* Slightly larger stat text */
+            color: var(--text-muted);
+        }
+        .stats-span span strong { /* Make number stand out */
+            color: var(--text-light);
+            font-weight: 700;
+        }
+        .stats-span i {
+            font-size: 1.1em;
+            color: var(--primary-color); /* Uniform color for stat icons */
+            width: 16px; /* Align icons */
             text-align: center;
         }
 
-        /* Span containing Views/Likes/Downloads (Added by JS) */
-        .article-metadata .stats-span {
-             display: flex;
-             gap: 10px;
-             width: 100%;
-             justify-content: space-between; /* Spread stats */
-             padding-top: 12px; /* Space above stats */
-             border-top: 1px solid var(--border-color); /* Separator line */
-             flex-wrap: wrap; /* Allow stats to wrap */
+        /* --- Eligibility Criteria Section --- */
+        /* h3 title is styled above */
+        .criteria-section {
+            margin-bottom: calc(var(--spacing-unit) * 4); /* Add space below each criteria sub-section */
         }
-         /* Individual Stat item */
-         .stats-span span {
-              display: flex;
-              align-items: center;
-              white-space: nowrap;
-              font-size: 0.9em; /* Make stat text slightly smaller */
-              color: var(--text-muted); /* Muted color for stat text */
+
+        .criteria-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0; /* Removed bottom margin here, handled by .criteria-section */
+        }
+        .criteria-section > ul > li { /* Style top-level list items */
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5); /* 16px 20px */
+            margin-bottom: calc(var(--spacing-unit) * 1.5); /* 12px */
+            box-shadow: var(--shadow-soft);
+             border-left: 3px solid var(--primary-darker); /* Subtle left border */
+        }
+         .criteria-section > ul > li strong:first-child { /* Style the point number/title */
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            color: var(--primary-darker);
+            margin-right: var(--spacing-unit);
+            display: block; /* Make title block for spacing */
+            margin-bottom: var(--spacing-unit); /* Space below title */
          }
-         .stats-span span strong { /* Make number stand out */
-              color: var(--text-light);
-              font-weight: 700;
-              margin-left: 3px; /* Space after icon */
-              margin-right: 3px; /* Space before text label */
+         /* Adjust subsequent text alignment */
+         .criteria-section > ul > li p,
+         .criteria-section > ul > li > span { /* Adjust if needed */
+            display: block;
          }
 
-        /* Specific icon colors within stats */
-        .article-metadata .stats-span i {
-            margin-right: 0; /* Let space come from strong tag margin */
-            font-size: 1.1em; /* Slightly larger stat icons */
+
+        /* Nested lists (Exclusions / Examples) */
+        .criteria-section ul ul {
+            list-style: none;
+            padding-left: calc(var(--spacing-unit) * 3); /* 24px Indentation */
+            margin-top: var(--spacing-unit); /* 8px */
+            margin-bottom: 0; /* No extra margin below nested list */
         }
-        .article-metadata .stats-span i.fa-eye {
+        .criteria-section ul ul li {
+            margin-bottom: calc(var(--spacing-unit) * 0.75); /* 6px */
+            position: relative;
+            padding-left: calc(var(--spacing-unit) * 2.5); /* 20px Make space for icon */
+            color: var(--text-light); /* Slightly lighter text */
+            font-size: 0.95em; /* Slightly smaller nested items */
+        }
+        .criteria-section ul ul li::before {
+            content: "\f00c"; /* Font Awesome check icon (default) */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900; /* Solid style */
+            position: absolute;
+            left: 0;
+            top: 5px; /* Fine-tune vertical alignment */
             color: var(--primary-color);
+            font-size: 0.85em;
         }
-        .article-metadata .stats-span i.fa-thumbs-up {
-            color: var(--primary-color);
+         /* Specific icon for exclusions */
+        .criteria-section .exclusions-list li::before {
+             content: "\f00d"; /* Font Awesome times icon */
+             color: #e74c3c; /* Reddish color for exclusions */
+         }
+
+        /* Preamble and Conclusion Styling */
+        .preamble, .conclusion {
+            background-color: #eaf5fc; /* Lighter blue background */
+            border-left: 5px solid var(--primary-color);
+            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 2.5); /* 16px 20px */
+            margin-bottom: calc(var(--spacing-unit) * 4); /* 32px */
+            margin-top: calc(var(--spacing-unit) * 3); /* Add space above */
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            font-style: normal;
         }
-        .article-metadata .stats-span i.fa-file-arrow-down {
-            color: var(--primary-color);
+        .preamble p, .conclusion p {
+            margin: 0;
         }
+        .preamble strong:first-child, .conclusion strong:first-child {
+            font-family: var(--font-secondary);
+            color: var(--primary-darker);
+            font-weight: 700;
+            display: block;
+            margin-bottom: var(--spacing-unit);
+        }
+        .conclusion {
+             border-left-color: #c0392b; /* Darker red for conclusion */
+             background-color: #fdedec; /* Lighter red background */
+        }
+        .conclusion strong:first-child { color: #c0392b; }
+        .conclusion p { font-weight: 500; } /* Slightly bolder conclusion text */
+
 
         /* --- Footer Styles --- */
         .site-footer {
             background-color: var(--footer-bg);
             color: var(--footer-text);
             text-align: center;
-            padding: 30px 0; /* More padding */
-            margin-top: 50px;
+            padding: calc(var(--spacing-unit) * 4) 0; /* 32px */
+            margin-top: calc(var(--spacing-unit) * 6); /* 48px */
             border-top: 1px solid var(--border-color);
             font-family: var(--font-primary);
             font-size: 0.9em;
         }
+        .site-footer p { margin: 5px 0; }
 
         /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
-            .site-title h1 { font-size: 1.7em; }
-            .tagline { font-size: 0.95em; }
-            .header-content { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .logo svg { width: 45px; height: 45px; margin-right: 15px; }
-            main > section > h2 { font-size: 1.7em; }
-            .section-subtitle { font-size: 1em; margin-bottom: 30px; }
-            .article-item h3 { font-size: 1.15em; }
-
+            .site-title h1 { font-size: 1.6em; }
+            .tagline { font-size: 0.9em; }
+            .header-content { flex-direction: column; align-items: flex-start; gap: var(--spacing-unit); }
+            .logo svg { width: 45px; height: 45px; }
+            main section > h2 { font-size: 1.7em; }
+            #eligibility-criteria h3 { font-size: 1.4em; }
+            .section-subtitle { font-size: 1em; margin-bottom: calc(var(--spacing-unit) * 3.5); } /* 28px */
+            .article-item h3 { font-size: 1.2em; }
             .article-metadata .stats-span {
-                justify-content: flex-start; /* Align left on mobile */
-                gap: 15px; /* Adjust gap */
-             }
-
-             .about-list li { flex-direction: column; align-items: flex-start; }
-             .about-list .icon-container { margin-bottom: 10px; padding-top: 0; margin-right: 0; }
+                justify-content: flex-start;
+                gap: calc(var(--spacing-unit) * 1.5); /* 12px */
+            }
+            .about-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-unit);
+            }
+            .about-list .icon-container { margin-bottom: var(--spacing-unit); padding-top: 0; }
+             .criteria-section ul ul { padding-left: calc(var(--spacing-unit) * 2); } /* Reduce indent on mobile */
         }
-         @media (max-width: 480px) {
-             :root { --grid-gap: 15px; }
-             .container { padding: 0 15px; }
-             .site-title h1 { font-size: 1.5em; }
-             .card, .about-list li { padding: 18px; }
-             main > section > h2 { font-size: 1.5em; }
-             .section-subtitle { font-size: 0.95em;}
-             .article-item h3 { font-size: 1.1em; }
-             .article-metadata { font-size: 0.85em; }
-             .article-metadata .stats-span {
-                  gap: 10px;
-                  justify-content: space-between;
-             }
-             .stats-span span { font-size: 0.90em; } /* Smaller text */
-              .article-metadata .stats-span i { font-size: 1em; } /* Smaller icons */
-         }
-         @media (max-width: 380px) {
-              .article-list {
-                   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-              }
-               .article-metadata .stats-span {
-                     justify-content: flex-start;
-                     gap: 12px;
-               }
-         }
+        @media (max-width: 480px) {
+            :root { --grid-gap: calc(var(--spacing-unit) * 2); } /* 16px */
+            html { font-size: 95%; } /* Slightly smaller base font */
+            .container { padding: 0 calc(var(--spacing-unit) * 2); } /* 16px */
+            .site-title h1 { font-size: 1.4em; }
+            .card, .about-list li, .criteria-section > ul > li {
+                 padding: calc(var(--spacing-unit) * 2); /* 16px */
+            }
+            main section > h2 { font-size: 1.5em; }
+             #eligibility-criteria h3 { font-size: 1.3em; }
+            .section-subtitle { font-size: 0.95em;}
+            .article-item h3 { font-size: 1.1em; }
+            .article-metadata { font-size: 0.85em; }
+            .article-metadata .stats-span {
+                 gap: var(--spacing-unit); /* 8px */
+                 justify-content: space-between; /* Spread out a bit more on small screens */
+            }
+            .stats-span span { font-size: 0.9em; }
+            .stats-span i { font-size: 1em; }
+            .preamble, .conclusion { padding: calc(var(--spacing-unit)*1.5) calc(var(--spacing-unit)*2); }
+            .criteria-section > ul > li strong:first-child { font-size: 1.1em;}
+        }
     </style>
 </head>
 <body>
@@ -422,8 +523,8 @@
                         </svg>
                     </div>
                     <div class="site-title">
-                        <h1><a href="index.html">Journal of Artificial Intelligence and Machine Learning</a></h1>
-                        <p class="tagline">Advancing the frontiers of intelligent systems.</p>
+                        <h1><a href="#">Journal of Artificial Intelligence and Machine Learning</a></h1>
+                        <p class="tagline">Shaping the Future with Intelligent Insights.</p>
                     </div>
                 </div>
             </div>
@@ -433,55 +534,188 @@
     <div class="container">
         <main>
             <section id="about-journal">
-                <h2><i class="fa-solid fa-circle-info"></i> About JAIML</h2>
-                <p>The <strong>Journal of Artificial Intelligence and Machine Learning (JAIML)</strong> is widely regarded as a premier publication in its field due to its rigorous editorial standards, cutting-edge research contributions, and global influence. Its prestige stems from several key factors:</p>
+                <h2><i class="fa-solid fa-landmark"></i> JAIML: Setting the Standard</h2>
+                <p class="section-subtitle">JAIML is a premier publication renowned for rigorous standards, cutting-edge research, and global influence in AI and Machine Learning.</p>
                 <ul class="about-list">
                      <li>
-                         <div class="icon-container"><i class="fa-solid fa-clipboard-check"></i></div>
-                         <div class="text-content">
-                             <strong>Selective Peer-Review Process:</strong>
-                             <p>JAIML employs a stringent double-blind peer-review system...</p>
-                         </div>
-                     </li>
-                      <li>
-                          <div class="icon-container"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                          <div class="icon-container"><i class="fa-solid fa-clipboard-check"></i></div>
                           <div class="text-content">
-                             <strong>Impact on the Field:</strong>
-                             <p>The journal consistently features groundbreaking work...</p>
+                               <strong>Selective Peer-Review Process:</strong>
+                               <p>Employs a stringent double-blind peer-review system, ensuring objectivity and selecting only the highest quality contributions.</p>
                           </div>
                      </li>
-                      <li>
+                     <li>
+                          <div class="icon-container"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                           <div class="text-content">
+                               <strong>Impact on the Field:</strong>
+                               <p>Consistently features groundbreaking work that shapes the direction of AI/ML research and practice globally.</p>
+                          </div>
+                     </li>
+                     <li>
                           <div class="icon-container"><i class="fa-solid fa-users-gear"></i></div>
                            <div class="text-content">
-                             <strong>Esteemed Editorial Board:</strong>
-                             <p>JAIML’s editorial board comprises globally recognized experts...</p>
+                               <strong>Esteemed Editorial Board:</strong>
+                               <p>Comprises globally recognized experts dedicated to maintaining the journal's high standards and intellectual rigor.</p>
                           </div>
                      </li>
                       <li>
                           <div class="icon-container"><i class="fa-solid fa-network-wired"></i></div>
-                           <div class="text-content">
-                             <strong>Interdisciplinary Reach:</strong>
-                             <p>By bridging gaps between academia, industry, and emerging technologies...</p>
+                          <div class="text-content">
+                               <strong>Interdisciplinary Reach:</strong>
+                               <p>Bridges gaps between academia, industry, and emerging technologies, fostering collaboration and innovation.</p>
                           </div>
                      </li>
                      <li>
-                         <div class="icon-container"><i class="fa-solid fa-trophy"></i></div>
+                          <div class="icon-container"><i class="fa-solid fa-trophy"></i></div>
                           <div class="text-content">
-                             <strong>Global Recognition and Metrics:</strong>
-                             <p>The journal boasts a high impact factor, a testament to its influence...</p>
+                               <strong>Global Recognition and Metrics:</strong>
+                               <p>Boasts a high impact factor and significant citation metrics, reflecting its influence and the importance of published work.</p>
                           </div>
                      </li>
                       <li>
                           <div class="icon-container"><i class="fa-solid fa-book-open"></i></div>
                           <div class="text-content">
-                             <strong>Commitment to Open Science:</strong>
-                             <p>JAIML supports open-access initiatives and transparent research practices...</p>
+                               <strong>Commitment to Open Science:</strong>
+                               <p>Supports open-access initiatives and transparent research practices, promoting reproducibility and collaboration.</p>
                           </div>
                      </li>
-                 </ul>
-             </section>
+                </ul>
+            </section>
 
-             <section id="featured-publications">
+            <section id="eligibility-criteria">
+                <h2><i class="fas fa-tasks"></i> Manuscript Eligibility Criteria</h2>
+                <p class="section-subtitle">Strict guidelines ensuring the publication of significant, innovative, and rigorously validated AI/ML research.</p>
+
+                <div class="preamble">
+                    <p><strong>Preamble:</strong> The Journal of Artificial Intelligence and Machine Learning (JAIML) is committed to publishing only the most significant, innovative, and rigorously validated research that demonstrably advances the field. Submission standards are exceptionally high, reflecting the journal's status as a leading global publication. Manuscripts failing to meet <em>any</em> of the following criteria will not be considered for peer review.</p>
+                </div>
+
+                <div class="criteria-section">
+                    <h3><i class="fas fa-bullseye"></i> 1. Scope and Relevance</h3>
+                    <ul>
+                        <li>
+                            <strong>1.1. Core Focus:</strong>
+                            <p>The manuscript's primary contribution <strong>must</strong> fall squarely within the core theoretical, algorithmic, methodological, or application-driven areas of Artificial Intelligence (AI) and Machine Learning (ML).</p>
+                        </li>
+                        <li>
+                            <strong>1.2. Direct Alignment:</strong>
+                            <p>The work <strong>must</strong> align explicitly with the current Aims and Scope as detailed on the JAIML website. Submissions exploring tangential fields <strong>must</strong> demonstrate a profound and novel integration with, or contribution to, AI/ML principles.</p>
+                        </li>
+                        <li>
+                            <strong>1.3. Exclusions:</strong>
+                            <span>Manuscripts focused solely on the following are generally unsuitable:</span>
+                            <ul class="exclusions-list"> <li>Minor variations of existing algorithms without substantial theoretical or empirical justification.</li>
+                                <li>Routine applications of standard ML techniques to new datasets without demonstrating significant methodological novelty or yielding transformative insights.</li>
+                                <li>Purely theoretical mathematics or statistics lacking a clear and immediate connection to AI/ML challenges.</li>
+                                <li>Software descriptions, dataset introductions, or system demonstrations unless they are integral to presenting a major research breakthrough meeting other criteria.</li>
+                                <li>Opinion pieces, surveys, or literature reviews, unless explicitly solicited by the Editorial Board for special issues.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="criteria-section">
+                    <h3><i class="fas fa-lightbulb"></i> 2. Originality and Novelty</h3>
+                    <ul>
+                        <li>
+                            <strong>2.1. Substantive Contribution:</strong>
+                            <p>The manuscript <strong>must</strong> present original, unpublished research. It cannot be under consideration, accepted, or published elsewhere, in whole or in part, in any language (including conference proceedings that are substantially similar, preprint servers notwithstanding initial submission).</p>
+                        </li>
+                        <li>
+                            <strong>2.2. Groundbreaking Work:</strong>
+                            <span>The research <strong>must</strong> offer a significant leap forward, not merely an incremental improvement. This includes, but is not limited to:</span>
+                            <ul> <li>Introducing fundamentally new algorithms or theoretical frameworks.</li>
+                                <li>Developing novel methodologies that overcome major limitations of existing approaches.</li>
+                                <li>Presenting counter-intuitive or paradigm-shifting findings.</li>
+                                <li>Opening entirely new avenues of research or application within AI/ML.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>2.3. Clear Differentiation:</strong>
+                            <p>The manuscript <strong>must</strong> rigorously and comprehensively review relevant prior work and clearly articulate the distinct novelty and advantages of the presented research over <strong>all</strong> existing state-of-the-art approaches.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="criteria-section">
+                    <h3><i class="fas fa-chart-line"></i> 3. Significance and Impact</h3>
+                    <ul>
+                        <li>
+                            <strong>3.1. Advancement of the Field:</strong>
+                            <p>The research <strong>must</strong> possess the clear potential to significantly influence the direction of AI/ML research or practice. The contribution's importance and potential impact must be convincingly argued and substantiated.</p>
+                        </li>
+                        <li>
+                            <strong>3.2. Broad Interest:</strong>
+                            <p>The work should address challenges or questions of interest to a substantial segment of the JAIML readership, transcending niche applications unless the niche application demonstrates a breakthrough of broad methodological relevance.</p>
+                        </li>
+                        <li>
+                            <strong>3.3. Demonstrable Importance:</strong>
+                            <p>Significance <strong>must</strong> be demonstrated through compelling theoretical arguments, extensive and rigorous empirical validation on benchmark problems, or proof-of-concept results indicating transformative potential.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                 <div class="criteria-section">
+                    <h3><i class="fas fa-flask-vial"></i> 4. Methodological Rigor and Validation</h3> <ul>
+                        <li>
+                            <strong>4.1. Soundness:</strong>
+                            <p>Theoretical claims <strong>must</strong> be mathematically sound and rigorously proven. Empirical methodologies <strong>must</strong> be technically flawless, appropriate for the research questions, and meticulously described.</p>
+                        </li>
+                        <li>
+                            <strong>4.2. Reproducibility:</strong>
+                            <p>The methods, experimental setup, and evaluation procedures <strong>must</strong> be described in sufficient detail to allow independent replication by experts in the field.</p>
+                        </li>
+                        <li>
+                            <strong>4.3. Comprehensive Evaluation:</strong>
+                            <p>Empirical results <strong>must</strong> include thorough ablation studies, sensitivity analyses, and comparisons against multiple relevant, state-of-the-art baselines on standardized, challenging datasets (where applicable). Statistical significance and robustness of results <strong>must</strong> be appropriately established.</p>
+                        </li>
+                        <li>
+                            <strong>4.4. Critical Analysis:</strong>
+                            <p>The manuscript <strong>must</strong> include a critical discussion of the results, acknowledging limitations, potential biases, and scope of applicability. Claims <strong>must not</strong> be overstated relative to the evidence provided.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="criteria-section">
+                     <h3><i class="fas fa-file-signature"></i> 5. Clarity, Presentation, and Structure</h3> <ul>
+                        <li>
+                            <strong>5.1. Language:</strong>
+                            <p>The manuscript <strong>must</strong> be written in clear, precise, and unambiguous academic English, free from grammatical errors and jargon that obscures meaning.</p>
+                        </li>
+                        <li>
+                            <strong>5.2. Structure:</strong>
+                            <p>The manuscript <strong>must</strong> follow a logical structure, typically including Introduction, Comprehensive Related Work, Detailed Methodology, Rigorous Results, Insightful Discussion, and Conclusion.</p>
+                        </li>
+                        <li>
+                            <strong>5.3. Readability:</strong>
+                            <p>Figures, tables, and equations <strong>must</strong> be high-quality, clearly labeled, easily interpretable, and essential for conveying the core message. The overall presentation <strong>must</strong> meet the highest scholarly standards.</p>
+                        </li>
+                        <li>
+                            <strong>5.4. Conciseness:</strong>
+                            <p>While demanding thoroughness, the manuscript should be concise and avoid unnecessary verbosity. All included material must directly contribute to the core thesis of the paper.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="criteria-section">
+                    <h3><i class="fas fa-balance-scale-right"></i> 6. Ethical Considerations and Open Science</h3> <ul>
+                        <li>
+                            <strong>6.1. Ethical Compliance:</strong>
+                            <p>All research presented <strong>must</strong> adhere to the highest ethical standards, including (where applicable) institutional review board (IRB) approvals, informed consent, data anonymization, and responsible AI principles (addressing fairness, bias, transparency, and societal impact). A statement confirming ethical compliance is mandatory.</p>
+                        </li>
+                        <li>
+                            <strong>6.2. Data and Code Availability:</strong>
+                            <p>In line with JAIML's commitment to Open Science, authors are <strong>required</strong> to make associated code and datasets publicly available upon publication whenever ethically and legally possible. A statement regarding data/code availability <strong>must</strong> be included, and inability to share <strong>must</strong> be robustly justified (e.g., proprietary data with no public alternative). Lack of reproducibility resources without strong justification is grounds for rejection.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="conclusion">
+                    <p><strong>Conclusion:</strong> Only manuscripts that unequivocally satisfy all the above criteria, demonstrating exceptional quality, novelty, significance, and rigor, will be considered for publication in JAIML. The journal reserves the right to desk-reject submissions that clearly fail to meet these stringent standards without sending them for external peer review.</p>
+                </div>
+            </section>
+
+            <section id="featured-publications">
                 <h2 class="section-title">Featured Publications</h2>
                 <p class="section-subtitle">A curated collection of 500 highest-rated and best-loved works.</p>
                 <ul class="article-list">

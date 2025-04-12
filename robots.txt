@@ -1,0 +1,6 @@
+# Allow all web crawlers full access
+User-agent: *
+Disallow:
+
+# Specify the location of the sitemap
+Sitemap: https://jaimlr.github.io/Journal-of-Artificial-Intelligence-Machine-Learning-Research/sitemap.xml

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continual Learning without Catastrophic Forgetting: Enabling Lifelong AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+          },
+          options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+        };
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+        }
+        .hero-section {
+             background: linear-gradient(to right, #1d4350, #a43931); /* Dark Teal/Red gradient */
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .hero-section h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .hero-section .catchy-phrase {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #eee;
+        }
+        .article-meta {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #a43931;
+            padding-bottom: 10px;
+            display: inline-block;
+            color: #1d4350;
+        }
+        .section-title i {
+            margin-right: 10px;
+            color: #a43931;
+        }
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .svg-diagram {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .table-stylish {
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .table-stylish thead {
+            background-color: #1d4350;
+            color: white;
+        }
+        .formula-box {
+            background-color: #e9ecef;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #1d4350;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+        .author-box {
+            background-color: #f8f9fa;
+            padding: 30px;
+            margin-top: 50px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .author-box h3 {
+            margin-bottom: 20px;
+            color: #1d4350;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #d63384;
+        }
+        .highlight {
+             color: #a43931;
+             font-weight: 600;
+        }
+         .figure-caption {
+            text-align: center;
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+         .text-sm { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle;}
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section .catchy-phrase {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>Continual Learning without Catastrophic Forgetting</h1>
+        <p class="catchy-phrase">Teaching AI to Learn Sequentially, Like Humans Do</p>
+        <p class="article-meta">Authored by Loveleen Narang | Published: November 28, 2023</p>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+
+                <section class="content-section" id="introduction">
+                    <h2 class="section-title"><i class="fas fa-recycle"></i>Introduction: The Lifelong Learning Challenge</h2>
+                    <p>
+                        Humans possess a remarkable ability to learn continuously throughout their lives. We acquire new skills and knowledge sequentially, build upon past experiences, and adapt to changing environments without completely discarding what we've learned before. This capacity for <span class="highlight">lifelong learning</span> is fundamental to our intelligence.
+                    </p>
+                    <p>
+                        However, standard Artificial Intelligence (AI) models, particularly deep neural networks, often struggle with this concept. When trained sequentially on a series of tasks, they tend to suffer from a phenomenon known as <span class="highlight">Catastrophic Forgetting (CF)</span> – learning a new task often causes a drastic drop in performance on previously learned tasks. This limitation hinders the development of truly adaptive and versatile AI systems that can operate effectively in dynamic, real-world environments.
+                    </p>
+                    <p>
+                        <span class="highlight">Continual Learning (CL)</span>, also known as lifelong or incremental learning, is the subfield of machine learning dedicated to overcoming catastrophic forgetting. It aims to develop models and algorithms that can learn sequentially from a continuous stream of data or tasks, accumulating knowledge over time while preserving previously acquired skills. This article explores the challenge of catastrophic forgetting and the key strategies being developed to enable AI systems to learn continually.
+                    </p>
+                </section>
+
+                <section class="content-section" id="what-is-cl">
+                    <h2 class="section-title"><i class="fas fa-stream"></i>What is Continual Learning?</h2>
+                    <p>
+                        Continual Learning refers to the ability of an AI model to learn from a sequence of tasks or a continuous stream of data over time. The ideal CL system should exhibit:
+                    </p>
+                    <ul>
+                        <li><strong>Knowledge Accumulation:</strong> Ability to learn new information from new tasks/data.</li>
+                        <li><strong>Knowledge Retention:</strong> Ability to remember previously learned information without significant degradation (i.e., avoiding catastrophic forgetting).</li>
+                        <li><strong>Knowledge Transfer:</strong> Ability to leverage past knowledge to learn new tasks more efficiently (Forward Transfer) and potentially improve performance on old tasks after learning new ones (Backward Transfer - less common but desirable).</li>
+                        <li><strong>Scalability & Efficiency:</strong> Ability to learn new tasks without requiring excessive memory or computational resources, and without needing access to all previous data.</li>
+                    </ul>
+                    <p>The primary challenge in CL is balancing <span class="highlight">stability</span> (preserving old knowledge) with <span class="highlight">plasticity</span> (acquiring new knowledge).</p>
+                </section>
+
+                <section class="content-section" id="catastrophic-forgetting">
+                    <h2 class="section-title"><i class="fas fa-skull-crossbones text-danger"></i>The Nemesis: Catastrophic Forgetting</h2>
+                    <p>
+                        Catastrophic forgetting occurs when a neural network, trained sequentially on Task A and then Task B, loses its ability to perform Task A. The model's parameters (weights and biases) are adjusted during training on Task B to minimize the loss for that specific task. These adjustments often overwrite the parameter configurations crucial for performing Task A well.
+                    </p>
+                    <p>
+                        Imagine training a model to recognize cats (Task A), and then training the *same* model to recognize dogs (Task B). Without specific CL strategies, the model might become excellent at recognizing dogs but completely forget how to identify cats. This happens because the parameter updates during Task B training optimize solely for Task B's objective function, overriding the parameters essential for Task A.
+                    </p>
+                     <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="cfTitle">
+                       <title id="cfTitle">Illustration of Catastrophic Forgetting</title>
+                        <style>
+                            .model-box-cf { fill:#f8d7da; stroke:#dc3545; rx:5; }
+                            .task-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                            .perf-bar { fill:#198754; } /* Green for good performance */
+                            .perf-bar-bad { fill:#dc3545; } /* Red for poor performance */
+                            .text-cf { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                            .arrow-cf { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-cl); }
+                            #arrowhead-cl polygon { points:"0 0, 6 2, 0 4"; fill: #6c757d; }
+                       </style>
+                       <defs> <marker id="arrowhead-cl" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto"><polygon points="0 0, 6 2, 0 4" fill="#6c757d"/></marker> </defs>
+
+                        <rect x="10" y="40" width="80" height="40" class="model-box-cf"/> <text x="50" y="65" class="text-cf">Model</text>
+
+                        <line x1="90" y1="60" x2="130" y2="60" class="arrow-cf"/>
+                         <rect x="130" y="40" width="80" height="40" class="task-box"/> <text x="170" y="65" class="text-cf">Train on Task A</text>
+                         <line x1="210" y1="60" x2="250" y2="60" class="arrow-cf"/>
+
+                        <rect x="250" y="40" width="120" height="40" class="model-box-cf"/> <text x="310" y="55" class="text-cf">Model after Task A</text>
+                         <rect x="260" y="65" width="45" height="10" class="perf-bar"/> <text x="282.5" y="85" class="text-cf">Perf. Task A: Good</text>
+                         <rect x="325" y="65" width="45" height="10" fill="#e9ecef" stroke="#adb5bd" stroke-dasharray="2 2"/> <text x="347.5" y="85" class="text-cf">Perf. Task B: N/A</text>
+
+
+                         <line x1="310" y1="80" x2="310" y2="100" class="arrow-cf"/>
+                         <rect x="270" y="100" width="80" height="40" class="task-box"/> <text x="310" y="125" class="text-cf">Train on Task B</text>
+                         <line x1="310" y1="140" x2="170" y2="160" class="arrow-cf"/>
+
+
+                         <rect x="50" y="140" width="120" height="40" class="model-box-cf"/> <text x="110" y="155" class="text-cf">Model after Task B</text>
+                         <rect x="60" y="165" width="45" height="10" class="perf-bar-bad"/> <text x="82.5" y="185" class="text-cf">Perf. Task A: POOR!</text>
+                         <rect x="125" y="165" width="45" height="10" class="perf-bar"/> <text x="147.5" y="185" class="text-cf">Perf. Task B: Good</text>
+
+                         <text x="200" y="200" class="text-cf" fill="#dc3545">Knowledge of Task A is overwritten/forgotten.</text>
+                    </svg>
+                     <p class="figure-caption">Figure 1: Catastrophic Forgetting: Performance on Task A drops significantly after training on Task B.</p>
+                </section>
+
+                <section class="content-section" id="mitigation">
+                    <h2 class="section-title"><i class="fas fa-wrench"></i>Strategies to Combat Forgetting</h2>
+                    <p>Researchers have developed three main families of strategies to mitigate catastrophic forgetting:</p>
+
+                    <div class="mb-4 p-3 border rounded">
+                        <h4>1. Regularization Approaches</h4>
+                        <p>These methods add a penalty term to the loss function when training on a new task. This penalty discourages large changes to parameters identified as important for previous tasks, thus preserving old knowledge.</p>
+                         <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="regTitle">
+                            <title id="regTitle">Regularization Approach for Continual Learning</title>
+                            <style>
+                               .loss-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                               .param-space { fill:none; stroke:#adb5bd; }
+                               .opt-path { stroke:#dc3545; stroke-width:1.5; marker-end: url(#arrowhead-cl); }
+                               .reg-path { stroke:#198754; stroke-width:1.5; marker-end: url(#arrowhead-cl); stroke-dasharray: 4,4;}
+                               .important-param { fill:#ffc107; opacity:0.5; }
+                               .text-reg { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                           </style>
+                            <text x="200" y="20" font-weight="bold" font-size="12" text-anchor="middle">Regularization: Protecting Important Parameters</text>
+                            <ellipse cx="200" cy="90" rx="150" ry="50" class="param-space"/>
+                            <text x="200" y="150" class="text-reg">Parameter Space (θ)</text>
+
+                            <circle cx="100" cy="80" r="5" fill="#0d6efd"/> <text x="100" y="70" class="text-reg">Task A Optimum ($\theta^*_A$)</text>
+                            <circle cx="300" cy="100" r="5" fill="#dc3545"/> <text x="300" y="115" class="text-reg">Task B Optimum ($\theta^*_B$)</text>
+
+                            <ellipse cx="100" cy="80" rx="40" ry="25" class="important-param"/>
+                            <text x="150" y="60" class="text-reg" fill="#b5840d">Parameters Important for Task A</text>
+
+                            <path d="M 100 80 Q 200 110 300 100" fill="none" class="opt-path"/>
+                            <text x="220" y="120" class="text-reg" fill="#dc3545">Standard Training on Task B (Forgets A)</text>
+
+                            <path d="M 100 80 Q 150 70 180 90" fill="none" class="reg-path"/>
+                            <text x="150" y="95" class="text-reg" fill="#198754">Regularized Training on Task B</text>
+                             <text x="150" y="105" class="text-reg" fill="#198754">(Penalizes changes to important $\theta_A$)</text>
+                             <circle cx="180" cy="90" r="5" fill="#198754"/> <text x="180" y="80" class="text-reg">New Optimum</text>
+
+                        </svg>
+                        <p class="figure-caption">Figure 2: Regularization methods penalize changes to parameters important for previous tasks ($\theta^*_A$) when learning a new task (Task B).</p>
+                        <ul>
+                            <li><strong>Elastic Weight Consolidation (EWC):</strong> Estimates the importance of each parameter for a previous task using the Fisher Information Matrix and penalizes changes to important parameters quadratically.</li>
+                            <li><strong>Synaptic Intelligence (SI):</strong> Computes parameter importance online during training based on contribution to loss changes, requiring less storage than EWC.</li>
+                            <li><strong>Learning without Forgetting (LwF):</strong> Uses knowledge distillation. When learning a new task, it adds a loss term ensuring the new model's predictions on old task data (using only new task inputs) remain similar to the old model's predictions.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4 p-3 border rounded">
+                        <h4>2. Rehearsal / Replay Methods</h4>
+                        <p>These methods explicitly store a subset of data samples from previous tasks (or generate pseudo-samples using a generative model) and "rehearse" them alongside the data for the current task during training. This helps refresh the model's memory of old tasks.</p>
+                         <svg viewBox="0 0 450 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="replayTitle">
+                            <title id="replayTitle">Rehearsal/Replay Approach for Continual Learning</title>
+                           <style>
+                               .model-box-rep { fill:#f8d7da; stroke:#dc3545; rx:5; }
+                               .task-data { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                               .memory-box { fill:#fff3cd; stroke:#ffeeba; rx:5; }
+                               .combined-data { fill:#d1e7dd; stroke:#198754; rx:5; }
+                               .text-rep { font-family: Arial, sans-serif; font-size: 10px; text-anchor: middle; }
+                               .arrow-rep { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-cl); }
+                           </style>
+                            <text x="225" y="25" font-weight="bold" font-size="12" text-anchor="middle">Rehearsal/Replay Method</text>
+
+                            <rect x="10" y="50" width="80" height="30" class="task-data"/> <text x="50" y="70" class="text-rep">Task A Data</text>
+                             <line x1="90" y1="65" x2="120" y2="65" class="arrow-rep"/>
+                             <rect x="120" y="50" width="60" height="30" class="model-box-rep"/> <text x="150" y="70" class="text-rep">Train Model</text>
+                             <line x1="180" y1="65" x2="210" y2="65" class="arrow-rep"/>
+                             <rect x="210" y="50" width="80" height="30" class="model-box-rep"/> <text x="250" y="70" class="text-rep">Model Trained</text><text x="250" y="80" class="text-rep">on Task A</text>
+                             <line x1="50" y1="80" x2="50" y2="100" class="arrow-rep"/>
+                             <rect x="10" y="100" width="80" height="50" class="memory-box"/> <text x="50" y="120" class="text-rep">Replay Memory</text><text x="50" y="130" class="text-rep">(Store some</text><text x="50" y="140" class="text-rep">Task A samples)</text>
+
+                            <rect x="290" y="50" width="80" height="30" class="task-data"/> <text x="330" y="70" class="text-rep">Task B Data</text>
+
+                            <rect x="150" y="100" width="130" height="30" class="combined-data"/> <text x="215" y="120" class="text-rep">Combine Task B + Replayed A</text>
+                             <line x1="90" y1="125" x2="150" y2="115" class="arrow-rep"/> <line x1="290" y1="80" x2="280" y2="115" class="arrow-rep"/> <line x1="215" y1="130" x2="215" y2="150" class="arrow-rep"/>
+                              <rect x="185" y="150" width="60" height="30" class="model-box-rep"/> <text x="215" y="170" class="text-rep">Retrain Model</text>
+
+                         </svg>
+                        <p class="figure-caption">Figure 3: Rehearsal methods store past data (Task A) and mix it with new data (Task B) during retraining.</p>
+                        <ul>
+                            <li><strong>Experience Replay (ER):</strong> Stores raw data samples from past tasks in a limited-size memory buffer.</li>
+                            <li><strong>Generative Replay:</strong> Trains a generative model (like a GAN or VAE) on past task data. Instead of storing raw data, it generates pseudo-samples from the learned distribution for rehearsal, potentially saving memory.</li>
+                        </ul>
+                        <p>Rehearsal methods are often very effective but require storing or generating old data, which might raise privacy concerns or memory limitations.</p>
+                    </div>
+
+                    <div class="mb-4 p-3 border rounded">
+                        <h4>3. Dynamic Architectures / Parameter Isolation</h4>
+                        <p>These approaches modify the network architecture itself as new tasks arrive, often by allocating different parameters or network parts to different tasks. This explicitly prevents parameter overwriting.</p>
+                         <svg viewBox="0 0 450 180" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="dynArchTitle">
+                           <title id="dynArchTitle">Dynamic Architecture / Parameter Isolation Approach</title>
+                            <style>
+                                .shared-base { fill:#e2e3e5; stroke:#adb5bd; rx:5; }
+                                .task-head-a { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                                .task-head-b { fill:#d4edda; stroke:#198754; rx:5; }
+                                .task-head-c { fill:#fff3cd; stroke:#ffeeba; rx:5; }
+                                .text-dyn { font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; }
+                                .arrow-dyn { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-cl); }
+                            </style>
+                             <text x="225" y="25" font-weight="bold" font-size="12" text-anchor="middle">Dynamic Architecture / Parameter Isolation</text>
+
+                             <text x="225" y="50" class="text-dyn">Input Data</text>
+                             <line x1="225" y1="55" x2="225" y2="70" class="arrow-dyn"/>
+
+                            <rect x="150" y="70" width="150" height="30" class="shared-base"/>
+                            <text x="225" y="90" class="text-dyn">Shared Feature Extractor (Optional)</text>
+                             <line x1="225" y1="100" x2="225" y2="115" class="arrow-dyn"/>
+
+
+                             <rect x="30" y="115" width="100" height="40" class="task-head-a"/>
+                              <text x="80" y="135" class="text-dyn">Task A Specific</text>
+                              <text x="80" y="145" class="text-dyn">Parameters / Subnet</text>
+                              <line x1="190" y1="115" x2="130" y2="125" class="arrow-dyn"/>
+
+                              <rect x="175" y="115" width="100" height="40" class="task-head-b"/>
+                              <text x="225" y="135" class="text-dyn">Task B Specific</text>
+                               <text x="225" y="145" class="text-dyn">Parameters / Subnet</text>
+                              <line x1="225" y1="115" x2="225" y2="115" class="arrow-dyn"/> <rect x="320" y="115" width="100" height="40" class="task-head-c"/>
+                              <text x="370" y="135" class="text-dyn">Task C Specific</text>
+                              <text x="370" y="145" class="text-dyn">Parameters / Subnet</text>
+                              <line x1="260" y1="115" x2="320" y2="125" class="arrow-dyn"/>
+
+                             <text x="225" y="170" class="text-dyn">New tasks get new parameters, or masks select task-specific sub-networks.</text>
+                         </svg>
+                         <p class="figure-caption">Figure 4: Dynamic architectures allocate separate parameters or network paths for different tasks.</p>
+                        <ul>
+                            <li><strong>Network Expansion:</strong> Adding new neurons, layers, or entire sub-networks to accommodate new tasks while freezing parameters for old tasks.</li>
+                            <li><strong>Masking:</strong> Learning binary masks that select a subset of network parameters to use for each specific task.</li>
+                            <li><strong>Parameter Isolation:</strong> Architectures where distinct modules are dedicated to specific tasks, potentially sharing a common feature extractor.</li>
+                        </ul>
+                        <p>These methods effectively prevent overwriting but can lead to increased model size and complexity as more tasks are learned.</p>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-stylish">
+                         <thead>
+                            <tr>
+                                <th>Strategy Family</th>
+                                <th>Mechanism</th>
+                                <th>Pros</th>
+                                <th>Cons</th>
+                                <th>Examples</th>
+                            </tr>
+                         </thead>
+                        <tbody>
+                            <tr>
+                                <td>Regularization</td>
+                                <td>Penalize changes to important past parameters</td>
+                                <td>No need to store old data, often less memory intensive.</td>
+                                <td>Requires estimating parameter importance, may not fully prevent forgetting on very dissimilar tasks, finding optimal $\lambda$ can be hard.</td>
+                                <td>EWC, SI, LwF</td>
+                            </tr>
+                             <tr>
+                                <td>Rehearsal/Replay</td>
+                                <td>Retrain on mix of old (stored/generated) and new data</td>
+                                <td>Often very effective at preventing forgetting, conceptually simple.</td>
+                                <td>Requires memory for storing old data (or a generator), potential privacy issues, computational cost of retraining on more data.</td>
+                                <td>ER, GEM, Generative Replay</td>
+                             </tr>
+                             <tr>
+                                <td>Dynamic Architectures / Parameter Isolation</td>
+                                <td>Allocate distinct parameters/network parts per task</td>
+                                <td>Strongly prevents parameter interference/overwriting.</td>
+                                <td>Model size grows with tasks, requires mechanism to determine which parameters to use at inference, potential redundancy.</td>
+                                <td>Progressive Networks, PackNet, HAT</td>
+                             </tr>
+                        </tbody>
+                    </table>
+                     <p class="figure-caption">Table 1: Comparison of main strategies for mitigating catastrophic forgetting.</p>
+                </section>
+
+                <section class="content-section" id="maths">
+                     <h2 class="section-title"><i class="fas fa-calculator"></i>Mathematical Insights</h2>
+                     <p>The strategies often involve modifying the standard optimization objective.</p>
+                     <p><strong>Elastic Weight Consolidation (EWC) Loss:</strong> When learning Task B after Task A, EWC modifies the loss:</p>
+                     <div class="formula-box">
+                     $$ L(\theta) = L_B(\theta) + \sum_i \frac{\lambda}{2} F_i (\theta_i - \theta_{A,i}^*)^2 $$
+                     <ul>
+                         <li>$L_B(\theta)$: The standard loss function for the new task (Task B).</li>
+                         <li>$\theta$: The current model parameters.</li>
+                         <li>$\theta_{A,i}^*$: The optimal parameter value for parameter $i$ found after training on Task A.</li>
+                         <li>$F_i$: The estimated importance of parameter $i$ for Task A (diagonal element of the Fisher Information Matrix). It measures how sensitive the model's output for Task A is to changes in $\theta_i$.</li>
+                         <li>$\lambda$: A hyperparameter controlling the strength of the regularization (how much to penalize changes to important parameters).</li>
+                     </ul>
+                     The second term penalizes changes to parameters ($\theta_i$) that were deemed important ($F_i$ is large) for the previous task (Task A), relative to their optimal values ($\theta_{A,i}^*$).
+                     </div>
+
+                      <p><strong>Rehearsal Loss (Conceptual):</strong></p>
+                     <div class="formula-box">
+                     When using rehearsal, the loss is typically a combination of the loss on the new task data ($D_{new}$) and the loss on the replayed data from old tasks ($D_{replay}$):
+                     $$ L(\theta) = L_{new}(D_{new}; \theta) + \beta L_{replay}(D_{replay}; \theta) $$
+                     Where $\beta$ is a hyperparameter balancing the importance of learning the new task versus retaining performance on the old tasks represented by the replayed data.
+                     </div>
+                 </section>
+
+                 <section class="content-section" id="scenarios">
+                    <h2 class="section-title"><i class="fas fa-list-ol"></i>Continual Learning Scenarios</h2>
+                    <p>CL problems are often categorized based on how task information is provided:</p>
+                     <table class="table table-bordered table-striped table-hover table-stylish">
+                        <thead>
+                           <tr>
+                               <th>Scenario</th>
+                               <th>Description</th>
+                               <th>Challenge</th>
+                           </tr>
+                        </thead>
+                       <tbody>
+                           <tr>
+                               <td>Task-Incremental Learning (Task-IL)</td>
+                               <td>The model learns a sequence of distinct tasks, and crucially, the <span class="highlight">task identity is known</span> during both training and inference.</td>
+                               <td>Prevent forgetting task A while learning task B. Need to select the correct output head/parameters for the given task ID at test time.</td>
+                           </tr>
+                           <tr>
+                               <td>Domain-Incremental Learning (Domain-IL)</td>
+                               <td>The model learns the same task(s) but across different input data distributions (domains) arriving sequentially. The task identity might not change, but the input characteristics do.</td>
+                               <td>Adapt to new domains without forgetting performance on previous domains for the *same* task. Task ID usually not needed at test time.</td>
+                           </tr>
+                           <tr>
+                               <td>Class-Incremental Learning (Class-IL)</td>
+                               <td>The model learns to classify new classes arriving sequentially, without forgetting old classes. The model must be able to distinguish between <span class="highlight">all classes seen so far</span> at inference time, without being told which task/batch the input belongs to.</td>
+                               <td>Most challenging scenario. Avoids forgetting old classes AND avoids biasing predictions towards recently learned classes. Requires a single output head for all classes.</td>
+                           </tr>
+                       </tbody>
+                    </table>
+                     <p class="figure-caption">Table 2: Common scenarios studied in Continual Learning research.</p>
+                     <svg viewBox="0 0 550 150" xmlns="http://www.w3.org/2000/svg" class="svg-diagram" aria-labelledby="clScenarioTitle">
+                        <title id="clScenarioTitle">Continual Learning Scenarios</title>
+                        <style>
+                            .scenario-box { fill:#cfe2ff; stroke:#0d6efd; rx:5; }
+                            .data-box { fill:#d1e7dd; stroke:#198754; rx:3; }
+                            .text-cl { font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; }
+                            .arrow-cl { stroke:#6c757d; stroke-width:1; marker-end: url(#arrowhead-cl); }
+                        </style>
+                        <rect x="10" y="30" width="150" height="100" class="scenario-box"/>
+                         <text x="85" y="45" class="text-cl" font-weight="bold">Task-Incremental (Task-IL)</text>
+                         <rect x="20" y="60" width="50" height="20" class="data-box"/> <text x="45" y="74" class="text-cl">Task 1 Data</text>
+                          <rect x="90" y="60" width="50" height="20" class="data-box"/> <text x="115" y="74" class="text-cl">Task 2 Data</text>
+                         <text x="85" y="95" class="text-cl">Train T1 -> Train T2</text>
+                         <text x="85" y="110" class="text-cl">Test: Input + Task ID</text>
+                         <text x="85" y="120" class="text-cl">(e.g., "Classify this for Task 1")</text>
+
+                        <rect x="190" y="30" width="150" height="100" class="scenario-box"/>
+                          <text x="265" y="45" class="text-cl" font-weight="bold">Domain-Incremental (Domain-IL)</text>
+                           <rect x="200" y="60" width="50" height="20" class="data-box"/> <text x="225" y="74" class="text-cl">Task A (Domain 1)</text>
+                          <rect x="270" y="60" width="50" height="20" class="data-box"/> <text x="295" y="74" class="text-cl">Task A (Domain 2)</text>
+                           <text x="265" y="95" class="text-cl">Train D1 -> Train D2</text>
+                           <text x="265" y="110" class="text-cl">Test: Input (from any domain)</text>
+                           <text x="265" y="120" class="text-cl">(Perform Task A)</text>
+
+                         <rect x="370" y="30" width="150" height="100" class="scenario-box"/>
+                           <text x="445" y="45" class="text-cl" font-weight="bold">Class-Incremental (Class-IL)</text>
+                            <rect x="380" y="60" width="50" height="20" class="data-box"/> <text x="405" y="74" class="text-cl">Classes {1, 2}</text>
+                           <rect x="450" y="60" width="50" height="20" class="data-box"/> <text x="475" y="74" class="text-cl">Classes {3, 4}</text>
+                           <text x="445" y="95" class="text-cl">Train C1,2 -> Train C3,4</text>
+                           <text x="445" y="110" class="text-cl">Test: Input (from any class)</text>
+                            <text x="445" y="120" class="text-cl">(Classify into {1, 2, 3, 4})</text>
+                    </svg>
+                    <p class="figure-caption">Figure 5: Different continual learning scenarios impose different challenges.</p>
+                </section>
+
+                <section class="content-section" id="evaluation">
+                     <h2 class="section-title"><i class="fas fa-chart-line"></i>Evaluating Continual Learning</h2>
+                     <p>Evaluating CL models requires specific metrics beyond standard accuracy on the final task:</p>
+                     <ul>
+                         <li><strong>Average Accuracy (ACC):</strong> The average accuracy across all tasks seen so far, measured after learning the final task.</li>
+                         <li><strong>Backward Transfer (BWT):</strong> Measures the influence that learning a new task has on the performance of previous tasks. Negative BWT indicates forgetting. $ BWT = \frac{1}{T-1} \sum_{i=1}^{T-1} (R_{T,i} - R_{i,i}) $, where $R_{k,i}$ is the accuracy on task $i$ after learning task $k$.</li>
+                         <li><strong>Forward Transfer (FWT):</strong> Measures the influence that learning previous tasks has on the performance of future tasks (how well knowledge transfers). Positive FWT indicates faster/better learning on new tasks. $ FWT = \frac{1}{T-1} \sum_{i=2}^{T} (R_{i-1,i} - R_{b,i}) $, where $R_{b,i}$ is the accuracy of a model trained only on task $i$.</li>
+                         <li><strong>Memory Size:</strong> The amount of extra memory required by the CL strategy (e.g., for replay buffer or expanded parameters).</li>
+                         <li><strong>Computational Cost:</strong> The additional computation required compared to standard sequential fine-tuning.</li>
+                     </ul>
+                 </section>
+
+                 <section class="content-section" id="benefits-challenges">
+                     <h2 class="section-title"><i class="fas fa-balance-scale-left"></i>Benefits and Challenges</h2>
+                      <table class="table table-bordered table-striped table-hover table-stylish">
+                        <thead>
+                           <tr>
+                               <th>Benefits of Continual Learning</th>
+                               <th>Challenges</th>
+                           </tr>
+                        </thead>
+                       <tbody>
+                            <tr>
+                               <td><i class="fas fa-sync-alt text-success me-2"></i>Adaptability to dynamic environments</td>
+                               <td><i class="fas fa-brain text-danger me-2"></i>Stability-Plasticity Dilemma (Balancing memory & learning)</td>
+                             </tr>
+                             <tr>
+                               <td><i class="fas fa-tachometer-alt text-success me-2"></i>Efficiency (no need to retrain from scratch on all data)</td>
+                               <td><i class="fas fa-memory text-danger me-2"></i>Memory/Computational Overhead of mitigation strategies</td>
+                             </tr>
+                             <tr>
+                               <td><i class="fas fa-expand-arrows-alt text-success me-2"></i>Scalability for learning many tasks over time</td>
+                               <td><i class="fas fa-tasks text-danger me-2"></i>Difficulty of Class-Incremental scenario (shared output space)</td>
+                             </tr>
+                             <tr>
+                               <td><i class="fas fa-lightbulb text-success me-2"></i>Potential for knowledge transfer between tasks</td>
+                               <td><i class="fas fa-calendar-alt text-danger me-2"></i>Detecting task boundaries in continuous data streams</td>
+                             </tr>
+                              <tr>
+                               <td><i class="fas fa-database text-success me-2"></i>Reduced need to store all past data</td>
+                                <td><i class="fas fa-ruler-combined text-danger me-2"></i>Lack of standardized evaluation protocols and benchmarks (improving)</td>
+                             </tr>
+                               <tr>
+                               <td><i class="fas fa-user-secret text-success me-2"></i>Can potentially enhance privacy (less data movement)</td>
+                               <td><i class="fas fa-question-circle text-danger me-2"></i>Theoretical understanding still developing</td>
+                             </tr>
+                         </tbody>
+                    </table>
+                     <p class="figure-caption">Table 3: Balancing the benefits and ongoing challenges in the field of Continual Learning.</p>
+                 </section>
+
+
+                <section class="content-section" id="conclusion">
+                    <h2 class="section-title"><i class="fas fa-graduation-cap"></i>Conclusion: Towards Lifelong Learning Machines</h2>
+                    <p>
+                       Continual Learning represents a crucial step towards building truly intelligent and adaptive AI systems. Overcoming the fundamental challenge of catastrophic forgetting is essential for deploying AI that can learn and evolve over long periods in dynamic environments, much like humans do.
+                    </p>
+                    <p>
+                        While significant progress has been made through regularization, rehearsal, and architectural approaches, the quest for the perfect balance between stability and plasticity continues. Each strategy presents its own trade-offs regarding performance, computational cost, memory requirements, and ease of implementation. As research progresses, we can expect the development of more sophisticated and efficient CL techniques, potentially combining ideas from different approaches. Achieving robust continual learning will unlock AI applications previously impossible, enabling systems that truly learn and adapt throughout their operational lifetime.
+                    </p>
+                </section>
+
+                <section class="author-box" id="author">
+                    <h3><i class="fas fa-user-tie"></i>About the Author, Architect & Developer</h3>
+                    <p>
+                        <strong>Loveleen Narang</strong> is a distinguished leader and visionary in the fields of Data Science, Machine Learning, and Artificial Intelligence. With over two decades of experience in designing and architecting cutting-edge AI solutions, he excels at leveraging advanced technologies to tackle complex challenges across diverse industries. His strategic mindset not only resolves critical issues but also enhances operational efficiency, reinforces regulatory compliance, and delivers tangible value—especially within government and public sector initiatives.
+                    </p>
+                    <p>
+                        Widely recognized for his commitment to excellence, Loveleen focuses on building robust, scalable, and secure systems that align with global standards and ethical principles. His approach seamlessly integrates cross-functional collaboration with innovative methodologies, ensuring every solution is both forward-looking and aligned with organizational goals. A driving force behind industry best practices, Loveleen continues to shape the future of technology-led transformation, earning a reputation as a catalyst for impactful and sustainable innovation.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start mt-5">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2023 Loveleen Narang. All Rights Reserved. </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

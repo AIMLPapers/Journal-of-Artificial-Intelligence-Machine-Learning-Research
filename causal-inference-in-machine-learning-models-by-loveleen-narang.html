@@ -21,6 +21,7 @@
       </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
    <style>
+        /* Style from the GNN Example */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -50,7 +51,7 @@
             color: #2c3e50;
             margin-bottom: 10px;
         }
-        .intro-section .catch-phrase {
+        .intro-section .sub-title { /* Renamed from .catch-phrase for consistency */
             font-size: 1.2em;
             color: #3498db;
             margin-bottom: 15px;
@@ -71,17 +72,39 @@
             color: #2980b9;
             margin-top: 25px;
         }
+        /* Added icon style for h2 like in GNN example if needed */
+        h2 .icon {
+             color: #3498db; /* Match h2 color */
+             margin-right: 8px;
+        }
         p, li {
             color: #555;
+             /* Added text-align justify from Causal Inference style */
+            text-align: justify;
+        }
+        /* Added list style from Causal Inference */
+        ul {
+            padding-left: 30px;
+            list-style: none;
+        }
+         ul li::before {
+            content: "\f0c1"; /* FontAwesome link */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: #3498db; /* Match h2 color */
+            margin-left: -1.7em;
+            margin-right: 0.7em;
         }
         strong {
             color: #2c3e50;
+            font-weight: 700; /* Ensure strong tag provides bolding */
         }
         code {
             background-color: #eee;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em; /* Adjusted size slightly */
         }
         .formula {
             display: block;
@@ -91,22 +114,27 @@
             border-left: 5px solid #3498db;
             overflow-x: auto;
             font-size: 1.1em;
+            border-radius: 5px; /* Added slight radius */
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 25px 0;
             box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            font-size: 1.0em; /* Adjusted size */
         }
         th, td {
             padding: 12px 15px;
             border: 1px solid #ddd;
             text-align: left;
+            vertical-align: top; /* Added from Causal Inference */
         }
         th {
             background-color: #3498db;
             color: white;
             font-weight: bold;
+            text-transform: uppercase; /* Added */
+            letter-spacing: 0.5px; /* Added */
         }
         tr:nth-child(even) {
             background-color: #f2f2f2;
@@ -116,8 +144,40 @@
         }
         .svg-diagram {
             display: block;
-            margin: 20px auto;
+            margin: 20px auto; /* Adjusted margin */
             text-align: center;
+            padding: 20px; /* Adjusted padding */
+            background-color: #f8f9fa; /* Added background like Causal Inference */
+            border-radius: 8px; /* Added radius */
+            border: 1px solid #eee; /* Added border */
+        }
+         .svg-diagram svg { /* Added from Causal Inference */
+            max-width: 100%;
+            height: auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Match body font */
+        }
+        /* SVG Specific Styles (Copied from previous Causal Inference - needed for the enhanced SVGs) */
+        .svg-node { fill: #cfe2ff; stroke: #007bff; stroke-width: 1.5; }
+        .svg-node-text { font-size: 12px; fill: #0056b3; text-anchor: middle; dominant-baseline: central; font-weight: bold; }
+        .svg-edge { stroke: #495057; stroke-width: 2; }
+        .svg-edge-dashed { stroke: #6c757d; stroke-width: 1.5; stroke-dasharray: 4, 4; }
+        .svg-label { font-size: 11px; fill: #495057; text-anchor: middle; }
+        .svg-title { font-size: 14px; text-anchor: middle; font-weight: bold; fill: #343a40; }
+        .svg-highlight-red { fill: #dc3545; font-weight: bold; }
+        .svg-highlight-green { fill: #198754; font-weight: bold; }
+        .svg-highlight-blue { fill: #007bff; font-weight: bold; }
+        .svg-plot-line { stroke-width: 2.5; fill: none; }
+        .svg-plot-point { r: 4; }
+        .svg-axis { stroke: #6c757d; stroke-width: 1; }
+        .svg-axis-label { font-size: 10px; fill: #6c757d; }
+
+        .caption { /* Copied from Causal Inference */
+            text-align: center;
+            font-style: italic;
+            color: #6c757d; /* Gray */
+            margin-top: 5px; /* Adjusted margin */
+            margin-bottom: 30px;
+            font-size: 0.95em;
         }
         .author-box {
             background-color: #eaf2f8;
@@ -129,10 +189,26 @@
         .author-box h2 {
             border-bottom: none;
             margin-top: 0;
+            color: #2c3e50; /* Match H1 color */
+            font-size: 1.5em; /* Adjusted size */
         }
         .author-box p {
-            color: #333;
+            color: #333; /* Match body color */
+            font-size: 1.0em; /* Adjusted size */
         }
+        .note { /* Copied from Causal Inference */
+             background-color: #fff3cd; /* Light Yellow */
+             border-left: 5px solid #ffc107; /* Yellow */
+             padding: 15px;
+             margin: 20px 0;
+             font-size: 0.95em;
+             border-radius: 4px;
+         }
+         .challenge-icon { /* Copied from Causal Inference */
+             color: #dc3545; /* Red */
+             margin-right: 8px;
+         }
+
     </style>
 </head>
 <body>
@@ -151,9 +227,9 @@
         Machine learning models excel at identifying patterns and making predictions based on correlations in data (\( P(Y|X) \)). A classic mantra in statistics and data science, however, reminds us that <strong>"correlation does not imply causation."</strong> Just because two variables move together does not mean one causes the other. For example, ice cream sales and drowning incidents are correlated (both increase in summer), but ice cream doesn't cause drowning. Understanding true cause-and-effect relationships requires moving beyond standard predictive modeling to the realm of <strong>causal inference</strong>.
     </p>
     <p>
-        Causal inference aims to determine the effect of changing one variable (\( X \), the "treatment" or "cause") on another variable (\( Y \), the "outcome" or "effect"). This involves asking counterfactual questions: "What would have happened to Y if X had been different?" Answering such questions is crucial for effective decision-making in fields like medicine (Does this drug work?), policy (Does this program achieve its goal?), and business (Does this ad campaign drive sales?). We want to understand the effect of an *intervention*, represented notationally as \( P(Y|do(X=x)) \), which is distinct from the observational probability \( P(Y|X=x) \) (Formula 1). While Randomized Controlled Trials (RCTs) are the ideal way to establish causality, they are often impractical. This article explores frameworks and methods, including those enhanced by machine learning, for inferring causal effects primarily from observational data.
+        Causal inference aims to determine the effect of changing one variable (\( X \), the "treatment" or "cause") on another variable (\( Y \), the "outcome" or "effect"). This involves asking counterfactual questions: "What would have happened to Y if X had been different?" Answering such questions is crucial for effective decision-making in fields like medicine (Does this drug work?), policy (Does this program achieve its goal?), and business (Does this ad campaign drive sales?). We want to understand the effect of an <strong>intervention</strong>, represented notationally as \( P(Y|do(X=x)) \), which is distinct from the observational probability \( P(Y|X=x) \) (Formula 1). While Randomized Controlled Trials (RCTs) are the ideal way to establish causality, they are often impractical. This article explores frameworks and methods, including those enhanced by machine learning, for inferring causal effects primarily from observational data.
     </p>
-    <div class="svg-diagram">
+     <div class="svg-diagram">
          <h3>Correlation vs. Causation</h3>
          <svg width="550" height="200" viewBox="0 0 550 200" xmlns="http://www.w3.org/2000/svg">
              <defs>
@@ -164,10 +240,10 @@
                     .box { rx:8; ry:8; stroke-width:1.5; fill-opacity:0.95; }
                     .corr-box { fill:#fff9db; stroke:#fadb14; }
                     .caus-box { fill:#e6f7ff; stroke:#91d5ff; }
-                    .fig1-label { font-size:12px; text-anchor:middle; fill:#343a40; } /* Match body font */
-                    .arrow { stroke:#343a40; stroke-width:1.5; marker-end:url(#arrowhead-causal-fig1); }
+                    .fig1-label { font-size:12px; text-anchor:middle; fill:#333; } /* Adjusted fill */
+                    .arrow { stroke:#333; stroke-width:1.5; marker-end:url(#arrowhead-causal-fig1); } /* Adjusted stroke */
                     .assoc-line { stroke:#adb5bd; stroke-width:1.5; stroke-dasharray:5,5; }
-                    .fig1-title { font-size:14px; font-weight:bold; text-anchor:middle; fill:#000; } /* Match body font */
+                    .fig1-title { font-size:14px; font-weight:bold; text-anchor:middle; fill:#333; } /* Adjusted fill */
                     .confounder { fill:#f8f9fa; stroke:#adb5bd; }
                  </style>
              </defs>
@@ -212,8 +288,8 @@
         Therefore, we usually estimate average effects:
     </p>
     <ul>
-        <li><strong>Average Treatment Effect (ATE):** \( ATE = E[Y(1) - Y(0)] \) (Formula 6). The average effect over the population.</li>
-        <li><strong>Average Treatment Effect on the Treated (ATT): \( ATT = E[Y(1) - Y(0) | T=1] \) (Formula 7). The average effect specifically for those who received the treatment.</li>
+        <li><strong>Average Treatment Effect (ATE):</strong> \( ATE = E[Y(1) - Y(0)] \) (Formula 6). The average effect over the population.</li>
+        <li><strong>Average Treatment Effect on the Treated (ATT):</strong> \( ATT = E[Y(1) - Y(0) | T=1] \) (Formula 7). The average effect specifically for those who received the treatment.</li>
     </ul>
     <p>This framework relies on the Stable Unit Treatment Value Assumption (SUTVA), meaning no interference between units and only one version of the treatment.</p>
 
@@ -230,7 +306,7 @@
                     .world-box { fill: #e0f2fe; stroke: #7dd3fc; } /* Sky 100/300 */
                     .obs-box { fill: #dcfce7; stroke: #86efac; } /* Green 100/300 */
                     .cf-box { fill: #fee2e2; stroke: #fca5a5; } /* Red 100/300 */
-                    .fig2-label { font-size: 12px; text-anchor: middle; fill: #374151; } /* Gray 700 */
+                    .fig2-label { font-size: 12px; text-anchor: middle; fill: #333; } /* Match body text */
                     .value-text { font-size: 14px; font-weight: bold; text-anchor: middle; fill: #1e3a8a; } /* Blue 800 */
                     .arrow { stroke: #6b7280; stroke-width: 1.5; marker-end: url(#arrowhead-causal-fig2); }
                  </style>
@@ -256,7 +332,7 @@
               <text x="345" y="190" class="fig2-label">Unobserved: Y<tspan baseline-shift="sub">i</tspan>(0)</text>
               <text x="225" y="215" class="fig2-label" font-weight="bold">Fundamental Problem!</text>
          </svg>
-          <p class="caption">Fig 2: The Potential Outcomes framework considers what would happen under treatment vs. control, but only one is observed.</p>
+          <p class="caption">Fig 2: Only one potential outcome (Y(0) or Y(1)) is observed for any individual unit.</p>
      </div>
 
 
@@ -273,11 +349,11 @@
                </marker>
                <style>
                   .node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }
-                  .node-text { font-size: 12px; font-weight: bold; text-anchor: middle; dominant-baseline: central; fill: #34495e; }
-                  .edge { stroke: #34495e; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); }
-                  .backdoor-edge { stroke: #e74c3c; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); stroke-dasharray: 5,3; }
+                  .node-text { font-size: 12px; font-weight: bold; text-anchor: middle; dominant-baseline: central; fill: #333; } /* Match body text */
+                  .edge { stroke: #333; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); } /* Match body text */
+                  .backdoor-edge { stroke: #dc3545; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); stroke-dasharray: 5,3; }
                   .adjustment-box { fill: none; stroke: #198754; stroke-width: 2.5; stroke-dasharray: 6,3; rx:10; ry:10; }
-                  .fig3-label { font-size: 11px; text-anchor: middle; fill: #495057; }
+                  .fig3-label { font-size: 11px; text-anchor: middle; fill: #555; } /* Match body text */
                </style>
            </defs>
            <rect x="145" y="10" width="60" height="40" class="node"/>
@@ -308,11 +384,11 @@
     <h3>Observational Studies: Handling Confounding</h3>
     <p>Without randomization, we must account for confounders \( Z \).</p>
     <ul>
-        <li><strong>Adjustment (Back-door Criterion):** If measured confounders \( Z \) block all non-causal paths from T to Y, we can estimate the effect. Formula (9):
+        <li><strong>Adjustment (Back-door Criterion):** If measured confounders \( Z \) block all non-causal paths from T to Y, we can estimate the effect using the adjustment formula. Formula (9):
             <div class="formula">$$ P(Y|do(T=t)) = \sum_z P(Y|T=t, Z=z) P(Z=z) $$</div>
-            Requires **conditional ignorability**: \( (Y(1), Y(0)) \perp T | Z \) (Formula 10). Methods include stratification, regression, and propensity scores.
+            This requires the **conditional ignorability** assumption: \( (Y(1), Y(0)) \perp T | Z \) (Formula 10). Methods include stratification, regression, and propensity scores.
         </li>
-        <li><strong>Propensity Score Methods:** Model \( e(X) = P(T=1|X) \) (Formula 11). Methods include Matching, Stratification, and **Inverse Probability of Treatment Weighting (IPTW)**. Formula (12): \( \hat{ATE}_{IPTW} = \frac{1}{N} \sum_i [\frac{T_i Y_i}{\hat{e}(X_i)} - \frac{(1-T_i) Y_i}{1 - \hat{e}(X_i)}] \). Requires positivity (\( 0 < e(X) < 1 \)).</li>
+        <li><strong>Propensity Score Methods:** Model the probability of treatment \( e(X) = P(T=1|X) \) (Formula 11). Conditioning on \( e(X) \) can balance measured confounders \( X \). Methods include Matching, Stratification, and **Inverse Probability of Treatment Weighting (IPTW)**. Formula (12): \( \hat{ATE}_{IPTW} = \frac{1}{N} \sum_i [\frac{T_i Y_i}{\hat{e}(X_i)} - \frac{(1-T_i) Y_i}{1 - \hat{e}(X_i)}] \). Requires positivity (\( 0 < e(X) < 1 \)).</li>
     </ul>
 
     <h3>Observational Studies: Handling Unobserved Confounding</h3>
@@ -322,33 +398,33 @@
         <li><strong>Regression Discontinuity Design (RDD):** Exploits sharp assignment cutoffs. Compares units just above/below cutoff. (Formula 16: RDD limit).</li>
         <li><strong>Difference-in-Differences (DiD):** Requires panel data and parallel pre-treatment trends. Compares changes over time in treated vs. control groups. (Formula 17: DiD estimator).</li>
     </ul>
-      <div class="svg-diagram"><h3>Instrumental Variable (IV) Setup</h3><svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#34495e" /></marker><style>.node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }.unobs { fill: #f8f9fa; stroke: #ced4da; stroke-dasharray:4,4; rx:8; ry:8; }.edge { stroke: #34495e; stroke-width: 1.5; marker-end: url(#arrowhead-causal-fig4); }.no-edge { stroke: #dc3545; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#arrowhead-causal-fig4); }.fig4-label { font-size: 12px; text-anchor: middle; fill: #495057; }</style></defs> <rect x="120" y="10" width="60" height="35" class="node"/><text x="150" y="30" class="fig4-label">Z (IV)</text> <rect x="30" y="80" width="60" height="35" class="node"/><text x="60" y="100" class="fig4-label">T (Treat)</text> <rect x="210" y="80" width="60" height="35" class="node"/><text x="240" y="100" class="fig4-label">Y (Outcome)</text> <rect x="120" y="150" width="60" height="35" class="unobs"/><text x="150" y="170" class="fig4-label">U (Unobs.)</text> <line x1="150" y1="45" x2="75" y2="80" class="edge"/> <line x1="90" y1="97.5" x2="210" y2="97.5" class="edge"/> <line x1="150" y1="150" x2="75" y2="115" class="edge"/> <line x1="150" y1="150" x2="225" y2="115" class="edge"/> <line x1="150" y1="45" x2="225" y2="80" class="no-edge"/> <text x="215" y="55" font-size="9" fill="#dc3545">No Z->Y Path</text> <text x="40" y="140" font-size="9">(Z assumed indep. of U)</text> </svg><p class="caption">Fig 4: IV setup assumes Z affects T, T affects Y, U affects T and Y, but Z is independent of U and only affects Y through T.</p></div>
-      <div class="svg-diagram"><h3>Difference-in-Differences (DiD) Plot</h3><svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig5" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d" /></marker><style>.axis{stroke:#6c757d; stroke-width:1; marker-end:url(#arrowhead-causal-fig5);}.label{font-size:11px; fill:#495057;}.treat-line{stroke:#dc3545; stroke-width:2.5;}.control-line{stroke:#007bff; stroke-width:2.5;}.cf-line{stroke:#dc3545; stroke-width:2; stroke-dasharray:5,5;}.effect-line{stroke: #198754; stroke-width:2;}.intervention-line{stroke:#6c757d; stroke-width:1.5; stroke-dasharray:3,3;}</style></defs> <line x1="40" y1="180" x2="430" y2="180" class="axis"/> <text x="440" y="185" class="label">Time</text> <line x1="40" y1="180" x2="40" y2="10" class="axis"/> <text x="30" y="10" class="label">Outcome Y</text> <polyline points="60,150 220,130" class="control-line" fill="none"/> <polyline points="220,130 380,110" class="control-line" fill="none"/> <text x="390" y="105" class="label" fill="#007bff">Control Group</text> <polyline points="60,120 220,100" class="treat-line" fill="none"/> <polyline points="220,100 380,100" class="treat-line" fill="none"/> <text x="390" y="95" class="label" fill="#dc3545">Treatment Group</text> <line x1="220" y1="20" x2="220" y2="180" class="intervention-line"/> <text x="220" y="195" class="label">Intervention</text> <polyline points="220,100 380,80" class="cf-line" fill="none"/> <text x="390" y="75" class="label" fill="#dc3545" font-style="italic">Counterfactual Treated</text> <line x1="380" y1="100" x2="380" y2="80" class="effect-line"/> <text x="395" y="90" class="label" fill="#198754" font-weight="bold">DiD Effect</text> </svg><p class="caption">Fig 5: DiD estimates the treatment effect by comparing outcome changes, assuming parallel pre-treatment trends.</p></div>
+      <div class="svg-diagram"><h3>Instrumental Variable (IV) Setup</h3><svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#34495e" /></marker><style>.node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }.unobs { fill: #f8f9fa; stroke: #ced4da; stroke-dasharray:4,4; rx:8; ry:8; }.edge { stroke: #333; stroke-width: 1.5; marker-end: url(#arrowhead-causal-fig4); } /* Match body text */ .no-edge { stroke: #dc3545; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#arrowhead-causal-fig4); }.fig4-label { font-size: 12px; text-anchor: middle; fill: #555; } /* Match body text */</style></defs> <rect x="120" y="10" width="60" height="35" class="node"/><text x="150" y="30" class="fig4-label">Z (IV)</text> <rect x="30" y="80" width="60" height="35" class="node"/><text x="60" y="100" class="fig4-label">T (Treat)</text> <rect x="210" y="80" width="60" height="35" class="node"/><text x="240" y="100" class="fig4-label">Y (Outcome)</text> <rect x="120" y="150" width="60" height="35" class="unobs"/><text x="150" y="170" class="fig4-label">U (Unobs.)</text> <line x1="150" y1="45" x2="75" y2="80" class="edge"/> <line x1="90" y1="97.5" x2="210" y2="97.5" class="edge"/> <line x1="150" y1="150" x2="75" y2="115" class="edge"/> <line x1="150" y1="150" x2="225" y2="115" class="edge"/> <line x1="150" y1="45" x2="225" y2="80" class="no-edge"/> <text x="215" y="55" font-size="9" fill="#dc3545">No Direct Z->Y Path</text> <text x="40" y="140" font-size="9">(Z assumed indep. of U)</text> </svg><p class="caption">Fig 4: IV setup assumes Z affects T, T affects Y, U affects T and Y, but Z is independent of U and only affects Y through T.</p></div>
+      <div class="svg-diagram"><h3>Difference-in-Differences (DiD) Plot</h3><svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig5" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d" /></marker><style>.axis{stroke:#6c757d; stroke-width:1; marker-end:url(#arrowhead-causal-fig5);}.label{font-size:11px; fill:#555;}.treat-line{stroke:#dc3545; stroke-width:2.5;}.control-line{stroke:#007bff; stroke-width:2.5;}.cf-line{stroke:#dc3545; stroke-width:2; stroke-dasharray:5,5;}.effect-line{stroke: #198754; stroke-width:2;}.intervention-line{stroke:#6c757d; stroke-width:1.5; stroke-dasharray:3,3;}</style></defs> <line x1="40" y1="180" x2="430" y2="180" class="axis"/> <text x="440" y="185" class="label">Time</text> <line x1="40" y1="180" x2="40" y2="10" class="axis"/> <text x="30" y="10" class="label">Outcome Y</text> <polyline points="60,150 220,130" class="control-line" fill="none"/> <polyline points="220,130 380,110" class="control-line" fill="none"/> <text x="390" y="105" class="label" fill="#007bff">Control Group</text> <polyline points="60,120 220,100" class="treat-line" fill="none"/> <polyline points="220,100 380,100" class="treat-line" fill="none"/> <text x="390" y="95" class="label" fill="#dc3545">Treatment Group</text> <line x1="220" y1="20" x2="220" y2="180" class="intervention-line"/> <text x="220" y="195" class="label">Intervention</text> <polyline points="220,100 380,80" class="cf-line" fill="none"/> <text x="390" y="75" class="label" fill="#dc3545" font-style="italic">Counterfactual Treated</text> <line x1="380" y1="100" x2="380" y2="80" class="effect-line"/> <text x="395" y="90" class="label" fill="#198754" font-weight="bold">DiD Effect</text> </svg><p class="caption">Fig 5: DiD estimates the treatment effect by comparing outcome changes, assuming parallel pre-treatment trends.</p></div>
 
     <h2><i class="fas fa-laptop-code icon"></i> Causal Inference Meets Machine Learning</h2>
     <p>ML enhances causal inference, especially for:</p>
     <ul>
         <li><strong>Estimating Nuisance Functions:</strong> Using ML models (Random Forest, NNs) to flexibly estimate propensity scores \( \hat{e}(X) \) or conditional outcomes \( \hat{E}[Y|T, X] \).</li>
-        <li><strong>Estimating Conditional Average Treatment Effects (CATE):</strong> Identifying how effects vary with features \( X \). Formula (20): \( \tau(x) = E[Y(1) - Y(0) | X=x] \).
+        <li><strong>Estimating Conditional Average Treatment Effects (CATE):</strong> Identifying how effects vary with features \( X \). Formula (18): \( \tau(x) = E[Y(1) - Y(0) | X=x] \).
             <ul>
                 <li><strong>Meta-Learners:** Adapt standard ML models:
                     <ul>
-                        <li>T-Learner: Fits \( \hat{\mu}_1(x) \) and \( \hat{\mu}_0(x) \) separately; \( \hat{\tau}(x) = \hat{\mu}_1(x) - \hat{\mu}_0(x) \) (Formula 21).</li>
-                        <li>S-Learner: Fits single model \( \hat{\mu}(x, T) \); \( \hat{\tau}(x) = \hat{\mu}(x, 1) - \hat{\mu}(x, 0) \) (Formula 22).</li>
+                        <li>T-Learner: Fits \( \hat{\mu}_1(x) \) and \( \hat{\mu}_0(x) \) separately; \( \hat{\tau}(x) = \hat{\mu}_1(x) - \hat{\mu}_0(x) \) (Formula 19).</li>
+                        <li>S-Learner: Fits single model \( \hat{\mu}(x, T) \); \( \hat{\tau}(x) = \hat{\mu}(x, 1) - \hat{\mu}(x, 0) \) (Formula 20).</li>
                     </ul>
                 </li>
                 <li><strong>Causal Forests:** Modified random forests optimized for CATE estimation.</li>
             </ul>
         </li>
     </ul>
-    <p>Other formulas include: Basic Regression \( y = \beta X + \epsilon \) (Formula 23), Expectation \( E[\cdot] \) (Formula 24), Conditional Probability \( P(\cdot|\cdot) \) (Formula 25), Covariance \( Cov(\cdot, \cdot) \) (Formula 26).</p>
+    <p>Other relevant formulas: Basic Regression \( y = \beta X + \epsilon \) (Formula 21), Expectation \( E[\cdot] \) (Formula 22), Conditional Probability \( P(\cdot|\cdot) \) (Formula 23), Covariance \( Cov(\cdot, \cdot) \) (Formula 24), Basic Loss \( J(\theta) \) (Formula 25), Parameters \( \theta \) (Formula 26). </p>
 
     <h2><i class="fas fa-exclamation-triangle challenge-icon"></i> Challenges</h2>
     <ul>
-        <li><i class="fas fa-eye-slash challenge-icon"></i><strong>Unobserved Confounding:</strong> The major threat in observational studies.</li>
+        <li><i class="fas fa-eye-slash challenge-icon"></i><strong>Unobserved Confounding:</strong> The fundamental challenge in observational studies.</li>
         <li><i class="fas fa-question-circle challenge-icon"></i><strong>Untestable Assumptions:</strong> Identification strategies rely on assumptions (ignorability, parallel trends, IV validity) often unverifiable from data alone.</li>
         <li><i class="fas fa-cogs challenge-icon"></i><strong>Model Dependence:</strong> Results can be sensitive to the ML models used for nuisance function estimation.</li>
-        <li><i class="fas fa-map-marked-alt challenge-icon"></i><strong>Generalizability:</strong> Ensuring estimated effects apply beyond the study sample.</li>
+        <li><i class="fas fa-map-marked-alt challenge-icon"></i><strong>Generalizability:</strong> Ensuring effects estimated on one population apply to others.</li>
     </ul>
 
     <table border="1">
@@ -368,9 +444,9 @@
 
     <h2><i class="fas fa-flag-checkered icon"></i> Conclusion: Towards Causal Understanding</h2>
     <p>
-        Causal inference provides essential tools to move beyond correlation and understand the actual impact of actions or interventions. Frameworks like Potential Outcomes and Structural Causal Models offer rigorous ways to define causality, while methods such as adjustment, instrumental variables, RDD, and DiD allow estimation from observational data under specific assumptions. Machine learning significantly enhances these approaches, particularly in handling complex relationships and estimating heterogeneous effects. Despite challenges, primarily unobserved confounding and reliance on assumptions, the principled integration of causal inference and ML is vital for drawing reliable, actionable insights from data.
+        Causal inference provides the essential framework for moving beyond correlation to understand cause-and-effect, crucial for informed decision-making. By leveraging frameworks like Potential Outcomes and Structural Causal Models, and applying identification strategies such as adjustment based on the back-door criterion, instrumental variables, RDD, or DiD (often enhanced by ML techniques for estimating nuisance components or heterogeneous effects), we can rigorously estimate causal impacts even from observational data. However, this requires careful consideration of underlying assumptions and potential biases, particularly unobserved confounding. Integrating the predictive power of ML with the inferential rigor of causal methods is key to moving from simply observing patterns to understanding the mechanisms that drive them.
     </p>
-    <p><i>(Formula count check: Includes P(Y|X)!=P(Y|do(X)), Y(1), Y(0), tau_i, Y_obs, T_i, ATE, ATT, RCT ATE, Backdoor Adj P, Backdoor Adj E, Prop Score e(x), Ignorability Assumption, IPTW Est, IV Cov, IV Exclusion, IV Independence, 2SLS Stg1, 2SLS Stg2, beta_1, RDD limit, DiD Est, CATE tau(x), T-Learner tau, S-Learner tau, Basic Regression, E[], P(.|.), Cov. Total > 26).</i></p>
+    <p><i>(Formula count check: Includes P(Y|X)!=P(Y|do(X)), Y(1), Y(0), tau_i, Y_obs, ATE, ATT, RCT ATE formula, Backdoor Adj P, Cond. Ignorability (symbol), Prop Score e(x), IPTW Est, IV Cov, IV Exclusion, IV Independence, RDD limit, DiD Est, CATE tau(x), T-Learner tau, S-Learner tau, Basic Regression, E[], P(.|.), Cov, J(theta), theta. Total > 25).</i></p>
 
 
     <div class="author-box">

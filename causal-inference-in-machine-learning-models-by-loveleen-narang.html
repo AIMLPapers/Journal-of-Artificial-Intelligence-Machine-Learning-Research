@@ -89,11 +89,12 @@
         }
          ul li::before {
             content: "\f0c1"; /* FontAwesome link */
-            font-family: "Font Awesome 6 Free";
+            font-family: "Font Awesome 6 Free"; /* Corrected family name */
             font-weight: 900;
             color: #3498db; /* Match h2 color */
             margin-left: -1.7em;
             margin-right: 0.7em;
+            vertical-align: middle; /* Align icon better */
         }
         strong {
             color: #2c3e50;
@@ -156,20 +157,47 @@
             height: auto;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Match body font */
         }
-        /* SVG Specific Styles (Copied from previous Causal Inference - needed for the enhanced SVGs) */
+        /* SVG Specific Styles (Refined font sizes) */
         .svg-node { fill: #cfe2ff; stroke: #007bff; stroke-width: 1.5; }
-        .svg-node-text { font-size: 12px; fill: #0056b3; text-anchor: middle; dominant-baseline: central; font-weight: bold; }
+        .svg-node-text { font-size: 11px; fill: #0056b3; text-anchor: middle; dominant-baseline: central; font-weight: bold; }
         .svg-edge { stroke: #495057; stroke-width: 2; }
         .svg-edge-dashed { stroke: #6c757d; stroke-width: 1.5; stroke-dasharray: 4, 4; }
-        .svg-label { font-size: 11px; fill: #495057; text-anchor: middle; }
-        .svg-title { font-size: 14px; text-anchor: middle; font-weight: bold; fill: #343a40; }
+        .svg-label { font-size: 10px; fill: #495057; text-anchor: middle; } /* Smaller base */
+        .svg-title { font-size: 13px; text-anchor: middle; font-weight: bold; fill: #343a40; } /* Slightly smaller */
         .svg-highlight-red { fill: #dc3545; font-weight: bold; }
         .svg-highlight-green { fill: #198754; font-weight: bold; }
         .svg-highlight-blue { fill: #007bff; font-weight: bold; }
         .svg-plot-line { stroke-width: 2.5; fill: none; }
         .svg-plot-point { r: 4; }
         .svg-axis { stroke: #6c757d; stroke-width: 1; }
-        .svg-axis-label { font-size: 10px; fill: #6c757d; }
+        .svg-axis-label { font-size: 9.5px; fill: #6c757d; } /* Smaller */
+
+        /* Additional SVG text classes from diagrams */
+        .fig1-label, .fig2-label, .node-text, .fig3-label, .fig4-label, .label { font-size: 10px; fill: #333; } /* Consistent smaller size */
+        .value-text { font-size: 11px; font-weight: bold; text-anchor: middle; fill: #1e3a8a; } /* Slightly smaller */
+        .box { rx: 8; ry: 8; stroke-width: 1.5; }
+        .corr-box { fill:#fff9db; stroke:#fadb14; }
+        .caus-box { fill:#e6f7ff; stroke:#91d5ff; }
+        .arrow { stroke:#333; stroke-width:1.5; marker-end:url(#arrowhead-causal-fig1); } /* Check marker ID matches */
+        .assoc-line { stroke:#adb5bd; stroke-width:1.5; stroke-dasharray:5,5; }
+        .fig1-title { font-size:13px; font-weight:bold; text-anchor:middle; fill:#333; }
+        .confounder { fill:#f8f9fa; stroke:#adb5bd; }
+        .unit-box { fill: #f3f4f6; stroke: #d1d5db; }
+        .world-box { fill: #e0f2fe; stroke: #7dd3fc; }
+        .obs-box { fill: #dcfce7; stroke: #86efac; }
+        .cf-box { fill: #fee2e2; stroke: #fca5a5; }
+        .node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }
+        .edge { stroke: #333; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); }
+        .backdoor-edge { stroke: #dc3545; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); stroke-dasharray: 5,3; }
+        .adjustment-box { fill: none; stroke: #198754; stroke-width: 2.5; stroke-dasharray: 6,3; rx:10; ry:10; }
+        .unobs { fill: #f8f9fa; stroke: #ced4da; stroke-dasharray:4,4; rx:8; ry:8; }
+        .no-edge { stroke: #dc3545; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#arrowhead-causal-fig4); }
+        .axis{stroke:#6c757d; stroke-width:1; marker-end:url(#arrowhead-causal-fig5);}
+        .treat-line{stroke:#dc3545; stroke-width:2.5;}
+        .control-line{stroke:#007bff; stroke-width:2.5;}
+        .cf-line{stroke:#dc3545; stroke-width:2; stroke-dasharray:5,5;}
+        .effect-line{stroke: #198754; stroke-width:2;}
+        .intervention-line{stroke:#6c757d; stroke-width:1.5; stroke-dasharray:3,3;}
 
         .caption { /* Copied from Causal Inference */
             text-align: center;
@@ -236,25 +264,21 @@
                  <marker id="arrowhead-causal-fig1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                      <polygon points="0 0, 8 3, 0 6" fill="#555" />
                  </marker>
-                 <style>
-                    .box { rx:8; ry:8; stroke-width:1.5; fill-opacity:0.95; }
-                    .corr-box { fill:#fff9db; stroke:#fadb14; }
-                    .caus-box { fill:#e6f7ff; stroke:#91d5ff; }
-                    .fig1-label { font-size:12px; text-anchor:middle; fill:#333; } /* Adjusted fill */
-                    .arrow { stroke:#333; stroke-width:1.5; marker-end:url(#arrowhead-causal-fig1); } /* Adjusted stroke */
-                    .assoc-line { stroke:#adb5bd; stroke-width:1.5; stroke-dasharray:5,5; }
-                    .fig1-title { font-size:14px; font-weight:bold; text-anchor:middle; fill:#333; } /* Adjusted fill */
-                    .confounder { fill:#f8f9fa; stroke:#adb5bd; }
-                 </style>
-             </defs>
+                 </defs>
              <g transform="translate(0, 10)">
                  <text x="135" y="25" class="fig1-title">Correlation (Association)</text>
                  <rect x="20" y="60" width="110" height="50" class="box corr-box"/>
-                 <text x="75" y="90" class="fig1-label">Ice Cream Sales</text>
+                 <text x="75" y="85" class="fig1-label">
+                     <tspan x="75" dy="-0.5em">Ice Cream</tspan>
+                     <tspan x="75" dy="1.1em">Sales</tspan>
+                 </text>
                  <rect x="160" y="60" width="110" height="50" class="box corr-box"/>
-                 <text x="215" y="90" class="fig1-label">Drowning Incidents</text>
+                 <text x="215" y="85" class="fig1-label">
+                     <tspan x="215" dy="-0.5em">Drowning</tspan>
+                     <tspan x="215" dy="1.1em">Incidents</tspan>
+                 </text>
                  <rect x="90" y="130" width="110" height="40" class="box confounder"/>
-                 <text x="145" y="155" class="fig1-label">Hot Weather</text>
+                 <text x="145" y="150" class="fig1-label">Hot Weather</text>
                  <line x1="145" y1="130" x2="75" y2="110" class="assoc-line"/>
                  <line x1="145" y1="130" x2="215" y2="110" class="assoc-line"/>
                  <path d="M 75 110 Q 145 120 215 110" fill="none" class="assoc-line"/>
@@ -263,11 +287,20 @@
              <g transform="translate(300, 10)">
                  <text x="125" y="25" class="fig1-title">Causation</text>
                  <rect x="20" y="60" width="110" height="50" class="box caus-box"/>
-                 <text x="75" y="90" class="fig1-label">Applying Fertilizer</text>
+                 <text x="75" y="85" class="fig1-label">
+                     <tspan x="75" dy="-0.5em">Applying</tspan>
+                     <tspan x="75" dy="1.1em">Fertilizer</tspan>
+                 </text>
                  <rect x="160" y="60" width="110" height="50" class="box caus-box"/>
-                 <text x="215" y="90" class="fig1-label">Increased Crop Yield</text>
+                 <text x="215" y="85" class="fig1-label">
+                     <tspan x="215" dy="-0.5em">Increased</tspan>
+                     <tspan x="215" dy="1.1em">Crop Yield</tspan>
+                 </text>
                  <line x1="130" y1="85" x2="160" y2="85" class="arrow"/>
-                 <text x="145" y="120" class="fig1-label">(Fertilizer causes increased yield)</text>
+                 <text x="145" y="125" class="fig1-label svg-wrap-text">
+                     <tspan x="145" dy="-0.5em">(Fertilizer causes</tspan>
+                     <tspan x="145" dy="1.1em">increased yield)</tspan>
+                 </text>
              </g>
          </svg>
          <p class="caption">Fig 1: Correlation can arise from a common cause (confounder), while causation implies a direct influence.</p>
@@ -297,79 +330,65 @@
          <h3>Potential Outcomes Framework</h3>
          <svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg">
              <defs>
-                <marker id="arrowhead-causal-fig2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                 <marker id="arrowhead-causal-fig2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
                      <polygon points="0 0, 8 3, 0 6" fill="#6b7280" />
-                </marker>
-                <style>
-                    .box { rx: 8; ry: 8; stroke-width: 1.5; }
-                    .unit-box { fill: #f3f4f6; stroke: #d1d5db; } /* Gray 100/300 */
-                    .world-box { fill: #e0f2fe; stroke: #7dd3fc; } /* Sky 100/300 */
-                    .obs-box { fill: #dcfce7; stroke: #86efac; } /* Green 100/300 */
-                    .cf-box { fill: #fee2e2; stroke: #fca5a5; } /* Red 100/300 */
-                    .fig2-label { font-size: 12px; text-anchor: middle; fill: #333; } /* Match body text */
-                    .value-text { font-size: 14px; font-weight: bold; text-anchor: middle; fill: #1e3a8a; } /* Blue 800 */
-                    .arrow { stroke: #6b7280; stroke-width: 1.5; marker-end: url(#arrowhead-causal-fig2); }
-                 </style>
-             </defs>
+                 </marker>
+                 </defs>
              <circle cx="225" cy="40" r="20" class="unit-box"/>
-             <text x="225" y="45" class="fig2-label" font-weight="bold">Unit i</text>
+             <text x="225" y="44" class="fig2-label" font-weight="bold">Unit i</text>
              <g transform="translate(30, 80)">
                  <rect x="0" y="0" width="150" height="60" class="box world-box"/>
-                 <text x="75" y="15" class="fig2-label">World if Treated (T=1)</text>
-                 <text x="75" y="40" class="value-text">Y<tspan baseline-shift="sub">i</tspan>(1)</text>
+                 <text x="75" y="25" class="fig2-label">
+                     <tspan x="75" dy="-0.5em">World if Treated</tspan>
+                     <tspan x="75" dy="1.1em">(T=1)</tspan>
+                 </text>
+                 <text x="75" y="48" class="value-text">Y<tspan baseline-shift="sub">i</tspan>(1)</text>
              </g>
              <g transform="translate(270, 80)">
                  <rect x="0" y="0" width="150" height="60" class="box world-box"/>
-                 <text x="75" y="15" class="fig2-label">World if Control (T=0)</text>
-                 <text x="75" y="40" class="value-text">Y<tspan baseline-shift="sub">i</tspan>(0)</text>
+                 <text x="75" y="25" class="fig2-label">
+                     <tspan x="75" dy="-0.5em">World if Control</tspan>
+                     <tspan x="75" dy="1.1em">(T=0)</tspan>
+                 </text>
+                 <text x="75" y="48" class="value-text">Y<tspan baseline-shift="sub">i</tspan>(0)</text>
              </g>
              <line x1="225" y1="60" x2="150" y2="80" class="arrow" stroke-dasharray="3,3"/>
              <line x1="225" y1="60" x2="300" y2="80" class="arrow" stroke-dasharray="3,3"/>
-              <text x="225" y="160" class="fig2-label" font-style="italic">If Unit 'i' actually received Treatment (T<tspan baseline-shift="sub">i</tspan>=1):</text>
-              <rect x="30" y="170" width="150" height="40" class="box obs-box"/>
-              <text x="105" y="190" class="fig2-label">Observed: Y<tspan baseline-shift="sub">i</tspan>(1)</text>
-              <rect x="270" y="170" width="150" height="40" class="box cf-box"/>
-              <text x="345" y="190" class="fig2-label">Unobserved: Y<tspan baseline-shift="sub">i</tspan>(0)</text>
+              <text x="225" y="155" class="fig2-label" font-style="italic">If Unit 'i' actually received Treatment (T<tspan baseline-shift="sub">i</tspan>=1):</text>
+              <rect x="30" y="165" width="150" height="40" class="box obs-box"/>
+              <text x="105" y="185" class="fig2-label">Observed: Y<tspan baseline-shift="sub">i</tspan>(1)</text>
+              <rect x="270" y="165" width="150" height="40" class="box cf-box"/>
+              <text x="345" y="185" class="fig2-label">Unobserved: Y<tspan baseline-shift="sub">i</tspan>(0)</text>
               <text x="225" y="215" class="fig2-label" font-weight="bold">Fundamental Problem!</text>
          </svg>
-          <p class="caption">Fig 2: Only one potential outcome (Y(0) or Y(1)) is observed for any individual unit.</p>
+         <p class="caption">Fig 2: Only one potential outcome (Y(0) or Y(1)) is observed for any individual unit.</p>
      </div>
 
 
     <h2><i class="fas fa-project-diagram icon"></i> Framework 2: Structural Causal Models (SCMs) & DAGs</h2>
     <p>
-        Structural Causal Models use Directed Acyclic Graphs (DAGs) to visually represent assumptions about causal relationships between variables (nodes connected by directed edges). Key structures include chains, forks (confounding), and colliders. The <strong>do-operator</strong>, \( do(X=x) \), represents setting variable \( X \) to value \( x \) via intervention. DAGs help identify if a causal effect is **identifiable** from observational data using criteria like the back-door criterion.
+        Structural Causal Models use Directed Acyclic Graphs (DAGs) to visually represent assumptions about causal relationships between variables (nodes connected by directed edges). Key structures include chains, forks (confounding), and colliders. The <strong>do-operator</strong>, \( do(X=x) \), represents setting variable \( X \) to value \( x \) via intervention. DAGs help identify if a causal effect is <strong>identifiable</strong> from observational data using criteria like the back-door criterion.
     </p>
     <div class="svg-diagram">
       <h3>DAG Example: Confounding and Adjustment</h3>
       <svg width="350" height="180" viewBox="0 0 350 180" xmlns="http://www.w3.org/2000/svg">
-           <defs>
-               <marker id="arrowhead-dag-fig3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                   <polygon points="0 0, 8 3, 0 6" fill="#34495e" />
-               </marker>
-               <style>
-                  .node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }
-                  .node-text { font-size: 12px; font-weight: bold; text-anchor: middle; dominant-baseline: central; fill: #333; } /* Match body text */
-                  .edge { stroke: #333; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); } /* Match body text */
-                  .backdoor-edge { stroke: #dc3545; stroke-width: 1.5; marker-end: url(#arrowhead-dag-fig3); stroke-dasharray: 5,3; }
-                  .adjustment-box { fill: none; stroke: #198754; stroke-width: 2.5; stroke-dasharray: 6,3; rx:10; ry:10; }
-                  .fig3-label { font-size: 11px; text-anchor: middle; fill: #555; } /* Match body text */
-               </style>
-           </defs>
-           <rect x="145" y="10" width="60" height="40" class="node"/>
-           <text x="175" y="30" class="node-text">Z</text>
-           <text x="175" y="55" class="fig3-label">(Confounder)</text>
-           <rect x="40" y="90" width="60" height="40" class="node"/>
-           <text x="70" y="110" class="node-text">T</text>
-           <text x="70" y="135" class="fig3-label">(Treatment)</text>
-           <rect x="250" y="90" width="60" height="40" class="node"/>
-           <text x="280" y="110" class="node-text">Y</text>
-           <text x="280" y="135" class="fig3-label">(Outcome)</text>
-           <line x1="160" y1="50" x2="85" y2="90" class="edge"/> <line x1="190" y1="50" x2="265" y2="90" class="edge"/> <line x1="100" y1="110" x2="250" y2="110" class="edge"/> <path d="M 85 90 Q 130 50 180 50" stroke="#e74c3c" fill="none" class="backdoor-edge"/>
-           <path d="M 190 50 Q 270 50 265 90" stroke="#e74c3c" fill="none" class="backdoor-edge"/>
-           <text x="175" y="75" class="fig3-label" fill="#e74c3c">Backdoor Path: T &lt;- Z -> Y</text>
-           <rect x="140" y="5" width="70" height="50" class="adjustment-box"/>
-           <text x="175" y="165" class="fig3-label" fill="#198754">Adjusting for Z blocks backdoor path</text>
+          <defs>
+              <marker id="arrowhead-dag-fig3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                  <polygon points="0 0, 8 3, 0 6" fill="#34495e" />
+              </marker>
+              </defs>
+          <rect x="145" y="10" width="60" height="40" class="node"/>
+          <text x="175" y="30" class="node-text">Z</text>
+          <text x="175" y="55" class="fig3-label">(Confounder)</text>
+          <rect x="40" y="90" width="60" height="40" class="node"/>
+          <text x="70" y="110" class="node-text">T</text>
+          <text x="70" y="135" class="fig3-label">(Treatment)</text>
+          <rect x="250" y="90" width="60" height="40" class="node"/>
+          <text x="280" y="110" class="node-text">Y</text>
+          <text x="280" y="135" class="fig3-label">(Outcome)</text>
+          <line x1="175" y1="50" x2="70" y2="90" class="edge"/> <line x1="175" y1="50" x2="280" y2="90" class="edge"/> <line x1="100" y1="110" x2="250" y2="110" class="edge"/> <text x="175" y="75" class="fig3-label" fill="#e74c3c">Backdoor Path: T &lt;- Z -> Y</text>
+          <rect x="140" y="5" width="70" height="50" class="adjustment-box"/>
+          <text x="175" y="165" class="fig3-label" fill="#198754">Adjusting for Z blocks backdoor path</text>
       </svg>
       <p class="caption">Fig 3: A DAG showing Treatment (T), Outcome (Y), and Confounder (Z). Adjusting for Z blocks the non-causal path.</p>
     </div>
@@ -384,22 +403,22 @@
     <h3>Observational Studies: Handling Confounding</h3>
     <p>Without randomization, we must account for confounders \( Z \).</p>
     <ul>
-        <li><strong>Adjustment (Back-door Criterion):** If measured confounders \( Z \) block all non-causal paths from T to Y, we can estimate the effect using the adjustment formula. Formula (9):
-            <div class="formula">$$ P(Y|do(T=t)) = \sum_z P(Y|T=t, Z=z) P(Z=z) $$</div>
-            This requires the **conditional ignorability** assumption: \( (Y(1), Y(0)) \perp T | Z \) (Formula 10). Methods include stratification, regression, and propensity scores.
+        <li><strong>Adjustment (Back-door Criterion):</strong> If measured confounders \( Z \) block all non-causal paths from T to Y, we can estimate the effect using the adjustment formula. Formula (9):
+             <div class="formula">$$ P(Y|do(T=t)) = \sum_z P(Y|T=t, Z=z) P(Z=z) $$</div>
+             This requires the <strong>conditional ignorability</strong> assumption: \( (Y(1), Y(0)) \perp T | Z \) (Formula 10). Methods include stratification, regression, and propensity scores.
         </li>
-        <li><strong>Propensity Score Methods:** Model the probability of treatment \( e(X) = P(T=1|X) \) (Formula 11). Conditioning on \( e(X) \) can balance measured confounders \( X \). Methods include Matching, Stratification, and **Inverse Probability of Treatment Weighting (IPTW)**. Formula (12): \( \hat{ATE}_{IPTW} = \frac{1}{N} \sum_i [\frac{T_i Y_i}{\hat{e}(X_i)} - \frac{(1-T_i) Y_i}{1 - \hat{e}(X_i)}] \). Requires positivity (\( 0 < e(X) < 1 \)).</li>
+        <li><strong>Propensity Score Methods:</strong> Model the probability of treatment \( e(X) = P(T=1|X) \) (Formula 11). Conditioning on \( e(X) \) can balance measured confounders \( X \). Methods include Matching, Stratification, and <strong>Inverse Probability of Treatment Weighting (IPTW)</strong>. Formula (12): \( \hat{ATE}_{IPTW} = \frac{1}{N} \sum_i [\frac{T_i Y_i}{\hat{e}(X_i)} - \frac{(1-T_i) Y_i}{1 - \hat{e}(X_i)}] \). Requires positivity (\( 0 < e(X) < 1 \)).</li>
     </ul>
 
     <h3>Observational Studies: Handling Unobserved Confounding</h3>
     <p>Quasi-experimental designs for when confounders are unmeasured:</p>
     <ul>
-        <li><strong>Instrumental Variables (IV):** Requires an instrument \( Z \) affecting \( T \) only, independent of unobserved confounders \( U \), and affecting \( Y \) only via \( T \). (Formulas 13, 14, 15: IV conditions). Method: 2SLS.</li>
-        <li><strong>Regression Discontinuity Design (RDD):** Exploits sharp assignment cutoffs. Compares units just above/below cutoff. (Formula 16: RDD limit).</li>
-        <li><strong>Difference-in-Differences (DiD):** Requires panel data and parallel pre-treatment trends. Compares changes over time in treated vs. control groups. (Formula 17: DiD estimator).</li>
+        <li><strong>Instrumental Variables (IV):</strong> Requires an instrument \( Z \) affecting \( T \) only, independent of unobserved confounders \( U \), and affecting \( Y \) only via \( T \). (Formulas 13, 14, 15: IV conditions). Method: 2SLS.</li>
+        <li><strong>Regression Discontinuity Design (RDD):</strong> Exploits sharp assignment cutoffs. Compares units just above/below cutoff. (Formula 16: RDD limit).</li>
+        <li><strong>Difference-in-Differences (DiD):</strong> Requires panel data and parallel pre-treatment trends. Compares changes over time in treated vs. control groups. (Formula 17: DiD estimator).</li>
     </ul>
-      <div class="svg-diagram"><h3>Instrumental Variable (IV) Setup</h3><svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#34495e" /></marker><style>.node { fill: #e9ecef; stroke: #adb5bd; rx:8; ry:8; stroke-width:1.5; }.unobs { fill: #f8f9fa; stroke: #ced4da; stroke-dasharray:4,4; rx:8; ry:8; }.edge { stroke: #333; stroke-width: 1.5; marker-end: url(#arrowhead-causal-fig4); } /* Match body text */ .no-edge { stroke: #dc3545; stroke-width: 1.5; stroke-dasharray: 5,3; marker-end: url(#arrowhead-causal-fig4); }.fig4-label { font-size: 12px; text-anchor: middle; fill: #555; } /* Match body text */</style></defs> <rect x="120" y="10" width="60" height="35" class="node"/><text x="150" y="30" class="fig4-label">Z (IV)</text> <rect x="30" y="80" width="60" height="35" class="node"/><text x="60" y="100" class="fig4-label">T (Treat)</text> <rect x="210" y="80" width="60" height="35" class="node"/><text x="240" y="100" class="fig4-label">Y (Outcome)</text> <rect x="120" y="150" width="60" height="35" class="unobs"/><text x="150" y="170" class="fig4-label">U (Unobs.)</text> <line x1="150" y1="45" x2="75" y2="80" class="edge"/> <line x1="90" y1="97.5" x2="210" y2="97.5" class="edge"/> <line x1="150" y1="150" x2="75" y2="115" class="edge"/> <line x1="150" y1="150" x2="225" y2="115" class="edge"/> <line x1="150" y1="45" x2="225" y2="80" class="no-edge"/> <text x="215" y="55" font-size="9" fill="#dc3545">No Direct Z->Y Path</text> <text x="40" y="140" font-size="9">(Z assumed indep. of U)</text> </svg><p class="caption">Fig 4: IV setup assumes Z affects T, T affects Y, U affects T and Y, but Z is independent of U and only affects Y through T.</p></div>
-      <div class="svg-diagram"><h3>Difference-in-Differences (DiD) Plot</h3><svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig5" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d" /></marker><style>.axis{stroke:#6c757d; stroke-width:1; marker-end:url(#arrowhead-causal-fig5);}.label{font-size:11px; fill:#555;}.treat-line{stroke:#dc3545; stroke-width:2.5;}.control-line{stroke:#007bff; stroke-width:2.5;}.cf-line{stroke:#dc3545; stroke-width:2; stroke-dasharray:5,5;}.effect-line{stroke: #198754; stroke-width:2;}.intervention-line{stroke:#6c757d; stroke-width:1.5; stroke-dasharray:3,3;}</style></defs> <line x1="40" y1="180" x2="430" y2="180" class="axis"/> <text x="440" y="185" class="label">Time</text> <line x1="40" y1="180" x2="40" y2="10" class="axis"/> <text x="30" y="10" class="label">Outcome Y</text> <polyline points="60,150 220,130" class="control-line" fill="none"/> <polyline points="220,130 380,110" class="control-line" fill="none"/> <text x="390" y="105" class="label" fill="#007bff">Control Group</text> <polyline points="60,120 220,100" class="treat-line" fill="none"/> <polyline points="220,100 380,100" class="treat-line" fill="none"/> <text x="390" y="95" class="label" fill="#dc3545">Treatment Group</text> <line x1="220" y1="20" x2="220" y2="180" class="intervention-line"/> <text x="220" y="195" class="label">Intervention</text> <polyline points="220,100 380,80" class="cf-line" fill="none"/> <text x="390" y="75" class="label" fill="#dc3545" font-style="italic">Counterfactual Treated</text> <line x1="380" y1="100" x2="380" y2="80" class="effect-line"/> <text x="395" y="90" class="label" fill="#198754" font-weight="bold">DiD Effect</text> </svg><p class="caption">Fig 5: DiD estimates the treatment effect by comparing outcome changes, assuming parallel pre-treatment trends.</p></div>
+      <div class="svg-diagram"><h3>Instrumental Variable (IV) Setup</h3><svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#34495e" /></marker></defs> <rect x="120" y="10" width="60" height="35" class="node"/><text x="150" y="30" class="fig4-label">Z (IV)</text> <rect x="30" y="80" width="60" height="35" class="node"/><text x="60" y="100" class="fig4-label">T (Treat)</text> <rect x="210" y="80" width="60" height="35" class="node"/><text x="240" y="100" class="fig4-label">Y (Outcome)</text> <rect x="120" y="150" width="60" height="35" class="unobs"/><text x="150" y="170" class="fig4-label">U (Unobs.)</text> <line x1="150" y1="45" x2="75" y2="80" class="edge"/> <line x1="90" y1="97.5" x2="210" y2="97.5" class="edge"/> <line x1="150" y1="150" x2="75" y2="115" class="edge"/> <line x1="150" y1="150" x2="225" y2="115" class="edge"/> <line x1="150" y1="45" x2="225" y2="80" class="no-edge"/> <text x="215" y="55" font-size="9" fill="#dc3545">No Direct Z->Y Path</text> <text x="55" y="140" font-size="9">(Z indep. of U)</text> </svg><p class="caption">Fig 4: IV setup assumes Z affects T, T affects Y, U affects T and Y, but Z is independent of U and only affects Y through T.</p></div>
+      <div class="svg-diagram"><h3>Difference-in-Differences (DiD) Plot</h3><svg width="450" height="220" viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrowhead-causal-fig5" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#6c757d" /></marker></defs> <line x1="40" y1="180" x2="430" y2="180" class="axis"/> <text x="440" y="185" class="svg-axis-label">Time</text> <line x1="40" y1="180" x2="40" y2="10" class="axis"/> <text x="30" y="10" class="svg-axis-label" dominant-baseline="hanging">Outcome Y</text> <polyline points="60,150 220,130" class="control-line" fill="none"/> <polyline points="220,130 380,110" class="control-line" fill="none"/> <text x="390" y="105" class="label" fill="#007bff">Control Group</text> <polyline points="60,120 220,100" class="treat-line" fill="none"/> <polyline points="220,100 380,100" class="treat-line" fill="none"/> <text x="390" y="95" class="label" fill="#dc3545">Treatment Group</text> <line x1="220" y1="20" x2="220" y2="180" class="intervention-line"/> <text x="220" y="195" class="label">Intervention</text> <polyline points="220,100 380,80" class="cf-line" fill="none"/> <text x="390" y="75" class="label" fill="#dc3545" font-style="italic">Counterfactual</text> <line x1="380" y1="100" x2="380" y2="80" class="effect-line"/> <text x="395" y="90" class="label" fill="#198754" font-weight="bold">DiD Effect</text> </svg><p class="caption">Fig 5: DiD estimates the treatment effect by comparing outcome changes, assuming parallel pre-treatment trends.</p></div>
 
     <h2><i class="fas fa-laptop-code icon"></i> Causal Inference Meets Machine Learning</h2>
     <p>ML enhances causal inference, especially for:</p>
@@ -407,13 +426,13 @@
         <li><strong>Estimating Nuisance Functions:</strong> Using ML models (Random Forest, NNs) to flexibly estimate propensity scores \( \hat{e}(X) \) or conditional outcomes \( \hat{E}[Y|T, X] \).</li>
         <li><strong>Estimating Conditional Average Treatment Effects (CATE):</strong> Identifying how effects vary with features \( X \). Formula (18): \( \tau(x) = E[Y(1) - Y(0) | X=x] \).
             <ul>
-                <li><strong>Meta-Learners:** Adapt standard ML models:
+                <li><strong>Meta-Learners:</strong> Adapt standard ML models:
                     <ul>
                         <li>T-Learner: Fits \( \hat{\mu}_1(x) \) and \( \hat{\mu}_0(x) \) separately; \( \hat{\tau}(x) = \hat{\mu}_1(x) - \hat{\mu}_0(x) \) (Formula 19).</li>
                         <li>S-Learner: Fits single model \( \hat{\mu}(x, T) \); \( \hat{\tau}(x) = \hat{\mu}(x, 1) - \hat{\mu}(x, 0) \) (Formula 20).</li>
                     </ul>
                 </li>
-                <li><strong>Causal Forests:** Modified random forests optimized for CATE estimation.</li>
+                <li><strong>Causal Forests:</strong> Modified random forests optimized for CATE estimation.</li>
             </ul>
         </li>
     </ul>
@@ -427,8 +446,7 @@
         <li><i class="fas fa-map-marked-alt challenge-icon"></i><strong>Generalizability:</strong> Ensuring effects estimated on one population apply to others.</li>
     </ul>
 
-    <table border="1">
-        <caption>Comparison of Common Causal Inference Strategies</caption>
+    <table> <caption>Comparison of Common Causal Inference Strategies</caption>
         <thead>
             <tr><th>Method</th><th>Data Type</th><th>Key Assumption(s)</th><th>Handles Unobserved Confounding?</th></tr>
         </thead>
@@ -458,7 +476,5 @@
         </p>
     </div>
 
-</div>
-
-</body>
+</div></body>
 </html>

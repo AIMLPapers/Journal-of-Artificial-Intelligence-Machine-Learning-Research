@@ -18,11 +18,11 @@
             --text-light: #555;
             --bg-light: #f8f9fa;
             --bg-white: #ffffff;
-            --border-color: #e0e0e0;
-            --footer-bg: #ecf0f1;
-            --footer-text: #7f8c8d;
-            --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.07);
-            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.1);
+            --border-color: #e9ecef; /* Lighter border color */
+            --footer-bg: #e9ecef; /* Slightly darker footer */
+            --footer-text: #6c757d; /* Muted footer text */
+            --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.06); /* Slightly softer shadow */
+            --shadow-hover: 0 7px 14px rgba(0, 0, 0, 0.09); /* Adjusted hover shadow */
             --border-radius: 8px;
             --font-primary: 'Lato', sans-serif;
             --font-secondary: 'Montserrat', sans-serif;
@@ -34,6 +34,10 @@
             box-sizing: border-box;
         }
 
+        html {
+             scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-primary);
             line-height: 1.7;
@@ -41,6 +45,8 @@
             background-color: var(--bg-light);
             margin: 0;
             font-size: 16px;
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
         }
 
         a {
@@ -62,11 +68,14 @@
 
         /* --- Header Styles --- */
         .site-header {
-            background: linear-gradient(135deg, var(--bg-white) 0%, var(--bg-light) 100%);
-            padding: 25px 0;
+            background: var(--bg-white); /* Solid white header */
+            padding: 20px 0; /* Adjusted padding */
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 40px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Slightly stronger header shadow */
+            position: sticky; /* Make header sticky */
+            top: 0;
+            z-index: 1000; /* Ensure header is above other content */
         }
         .header-content {
             display: flex;
@@ -79,9 +88,9 @@
             align-items: center;
         }
         .logo svg {
-            width: 55px;
-            height: 55px;
-            margin-right: 20px;
+            width: 50px; /* Slightly smaller logo */
+            height: 50px;
+            margin-right: 15px;
         }
         #grad1 stop:first-child { stop-color: var(--primary-color); }
         #grad1 stop:last-child { stop-color: var(--primary-darker); }
@@ -89,7 +98,7 @@
 
         .site-title h1 {
             font-family: var(--font-secondary);
-            font-size: 2em;
+            font-size: 1.8em; /* Adjusted size */
             margin: 0;
             font-weight: 700;
             line-height: 1.2;
@@ -104,37 +113,47 @@
         }
         .tagline {
             font-family: var(--font-primary);
-            font-size: 1em;
+            font-size: 0.95em; /* Adjusted size */
             color: var(--text-muted);
-            margin: 5px 0 0 0;
+            margin: 4px 0 0 0;
             font-weight: 400;
         }
 
         /* --- Main Content Styles --- */
         main {
-            padding: 0 0 40px 0;
+            padding: 20px 0 40px 0; /* Add padding top */
         }
-        main > section > h2, .section-title {
+        /* Titles for sections within main */
+        main > section > h2 {
             font-family: var(--font-secondary);
-            font-size: 1.8em;
+            font-size: 1.9em; /* Larger section titles */
             color: var(--primary-darker);
             margin-top: 0;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* Reduced margin below title */
             padding-bottom: 10px;
             border-bottom: 2px solid var(--primary-color);
             font-weight: 600;
         }
         main > section > h2 i {
-            margin-right: 10px;
+            margin-right: 12px;
             color: var(--primary-color);
         }
+        /* Subtitle specific styling */
+        .section-subtitle {
+            font-size: 1.05em;
+            color: var(--text-muted);
+            margin-top: -5px; /* Pull up slightly */
+            margin-bottom: 35px; /* Space before grid */
+            max-width: 700px; /* Limit width for readability */
+        }
+
 
         /* --- Shared Card Styling --- */
         .card {
             background-color: var(--bg-white);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
-            padding: 25px;
+            padding: 20px; /* Adjusted padding */
             box-shadow: var(--shadow-soft);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
             display: flex;
@@ -143,10 +162,22 @@
         }
         .card:hover {
             box-shadow: var(--shadow-hover);
-            transform: translateY(-3px);
+            transform: translateY(-4px); /* Slightly more lift */
         }
         .card-highlight {
-            border-left: 5px solid var(--primary-color);
+             /* Using padding instead of border for highlight */
+             padding-left: 20px;
+             position: relative;
+        }
+        .card-highlight::before { /* Pseudo-element for highlight */
+             content: '';
+             position: absolute;
+             left: 0;
+             top: 0;
+             bottom: 0;
+             width: 5px;
+             background-color: var(--primary-color);
+             border-radius: var(--border-radius) 0 0 var(--border-radius); /* Match rounding */
         }
 
         /* --- "About" Section List (Still single column list) --- */
@@ -160,7 +191,7 @@
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             padding: 20px 25px;
-            margin-bottom: 20px;
+            margin-bottom: 18px; /* Slightly reduced margin */
             box-shadow: var(--shadow-soft);
             transition: box-shadow 0.3s ease, transform 0.3s ease;
             border-left: 4px solid var(--primary-color);
@@ -178,6 +209,7 @@
             padding-top: 3px;
             width: 25px;
             text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
         .about-list .text-content { flex: 1; }
         .about-list strong {
@@ -199,12 +231,8 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: var(--grid-gap);
         }
-        .article-item {
-           /* Uses shared .card styling */
-        }
-        .article-item-highlight {
-             /* Uses shared .card-highlight styling */
-        }
+        .article-item { /* is also .card */ }
+        .article-item-highlight { /* is also .card-highlight */ }
 
         .article-header {
             display: flex;
@@ -217,10 +245,11 @@
             margin-right: 12px;
             width: 25px;
             text-align: center;
+            flex-shrink: 0;
         }
         .article-item h3 {
             font-family: var(--font-secondary);
-            font-size: 1.15em;
+            font-size: 1.2em; /* Increased title size slightly */
             margin: 0;
             font-weight: 600;
             line-height: 1.4;
@@ -239,45 +268,78 @@
             font-family: var(--font-primary);
             font-size: 0.9em;
             color: var(--text-muted);
-            /* Removed border-top here */
             margin-top: auto; /* Push whole block to bottom */
             padding-top: 15px; /* Space above metadata block */
             display: flex;
-            flex-wrap: wrap; /* Allow wrapping */
-            gap: 5px 15px; /* Gap between author/date */
-            align-items: center;
-        }
-        /* Span containing Author/Date */
-        .article-metadata .info-span {
-             white-space: nowrap;
-             flex-shrink: 0;
-             padding-bottom: 10px; /* Add space below author/date before potential separator */
-        }
-         /* Span containing Views/Likes/Downloads (Added by JS) */
-        .article-metadata .stats-span {
-             display: flex;
-             gap: 10px; /* Adjust gap between stats */
-             /* Removed margin-left: auto */
-             width: 100%; /* Force to full width (new line) */
-             justify-content: space-between; /* Spread stats */
-             padding-top: 10px; /* Space above stats */
-             margin-top: 10px; /* Space below author/date */
-             border-top: 1px solid var(--border-color); /* Separator line */
+            flex-direction: column; /* Stack info block and stats block */
+            align-items: flex-start; /* Align blocks left */
         }
 
-        .article-metadata i {
-            margin-right: 5px;
-            color: var(--text-muted);
+        /* Block for Author/Date */
+        .author-date-block {
+            display: flex;
+            flex-direction: column; /* Stack author and date */
+            align-items: flex-start; /* Align left */
+            margin-bottom: 12px; /* Space before separator */
+            width: 100%; /* Ensure it takes width */
         }
+        .author-name {
+            /* font-weight applied via strong tag in HTML */
+            color: var(--text-light); /* Slightly darker than muted */
+            margin-bottom: 3px; /* Space between author and date */
+            display: flex; /* Align icon with text */
+            align-items: center;
+        }
+        .publish-date {
+            font-size: 0.95em; /* Slightly smaller date */
+            display: flex; /* Align icon with text */
+            align-items: center;
+        }
+        .author-date-block i { /* Style icons within this block */
+            margin-right: 7px;
+            color: var(--text-muted);
+            width: 14px; /* Align icons */
+            text-align: center;
+        }
+
+        /* Span containing Views/Likes/Downloads (Added by JS) */
+        .article-metadata .stats-span {
+             display: flex;
+             gap: 10px;
+             width: 100%;
+             justify-content: space-between; /* Spread stats */
+             padding-top: 12px; /* Space above stats */
+             border-top: 1px solid var(--border-color); /* Separator line */
+             flex-wrap: wrap; /* Allow stats to wrap */
+        }
+         /* Individual Stat item */
+         .stats-span span {
+              display: flex;
+              align-items: center;
+              white-space: nowrap;
+              font-size: 0.9em; /* Make stat text slightly smaller */
+              color: var(--text-muted); /* Muted color for stat text */
+         }
+         .stats-span span strong { /* Make number stand out */
+              color: var(--text-light);
+              font-weight: 700;
+              margin-left: 3px; /* Space after icon */
+              margin-right: 3px; /* Space before text label */
+         }
+
         /* Specific icon colors within stats */
+        .article-metadata .stats-span i {
+            margin-right: 0; /* Let space come from strong tag margin */
+            font-size: 1.1em; /* Slightly larger stat icons */
+        }
         .article-metadata .stats-span i.fa-eye {
             color: var(--primary-color);
         }
         .article-metadata .stats-span i.fa-thumbs-up {
-            color: var(--text-muted);
+            color: var(--primary-color);
         }
         .article-metadata .stats-span i.fa-file-arrow-down {
-            color: var(--text-muted);
+            color: var(--primary-color);
         }
 
         /* --- Footer Styles --- */
@@ -285,7 +347,7 @@
             background-color: var(--footer-bg);
             color: var(--footer-text);
             text-align: center;
-            padding: 25px 0;
+            padding: 30px 0; /* More padding */
             margin-top: 50px;
             border-top: 1px solid var(--border-color);
             font-family: var(--font-primary);
@@ -294,26 +356,19 @@
 
         /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
-            /* Grid adjusts automatically */
             .site-title h1 { font-size: 1.7em; }
             .tagline { font-size: 0.95em; }
             .header-content { flex-direction: column; align-items: flex-start; gap: 10px; }
             .logo svg { width: 45px; height: 45px; margin-right: 15px; }
-            main > section > h2, .section-title { font-size: 1.6em; }
-            .article-item h3 { font-size: 1.1em; }
+            main > section > h2 { font-size: 1.7em; }
+            .section-subtitle { font-size: 1em; margin-bottom: 30px; }
+            .article-item h3 { font-size: 1.15em; }
 
-            /* Metadata stacking on mobile */
-            .article-metadata {
-                /* Already flex-wrap: wrap; stats-span has width 100% */
-                 padding-top: 10px; /* Adjust top padding if needed */
-            }
-             .article-metadata .stats-span {
-                justify-content: space-around; /* Use space-around on mobile maybe? */
-                margin-top: 8px;
-                padding-top: 8px;
+            .article-metadata .stats-span {
+                justify-content: flex-start; /* Align left on mobile */
+                gap: 15px; /* Adjust gap */
              }
 
-             /* About list stacking */
              .about-list li { flex-direction: column; align-items: flex-start; }
              .about-list .icon-container { margin-bottom: 10px; padding-top: 0; margin-right: 0; }
         }
@@ -321,16 +376,26 @@
              :root { --grid-gap: 15px; }
              .container { padding: 0 15px; }
              .site-title h1 { font-size: 1.5em; }
-             .card, .about-list li { padding: 20px; }
-             main > section > h2, .section-title { font-size: 1.4em; }
-             .article-item h3 { font-size: 1.05em; }
+             .card, .about-list li { padding: 18px; }
+             main > section > h2 { font-size: 1.5em; }
+             .section-subtitle { font-size: 0.95em;}
+             .article-item h3 { font-size: 1.1em; }
              .article-metadata { font-size: 0.85em; }
-             .article-metadata .stats-span { gap: 8px; }
+             .article-metadata .stats-span {
+                  gap: 10px;
+                  justify-content: space-between;
+             }
+             .stats-span span { font-size: 0.90em; } /* Smaller text */
+              .article-metadata .stats-span i { font-size: 1em; } /* Smaller icons */
          }
          @media (max-width: 380px) {
               .article-list {
-                   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
               }
+               .article-metadata .stats-span {
+                     justify-content: flex-start;
+                     gap: 12px;
+               }
          }
     </style>
 </head>
@@ -418,6 +483,7 @@
 
              <section id="featured-publications">
                 <h2 class="section-title">Featured Publications</h2>
+                <p class="section-subtitle">A curated collection of 500 highest-rated and best-loved works.</p>
                 <ul class="article-list">
                     <li class="article-item card card-highlight">
                         <div class="article-header">
@@ -425,8 +491,10 @@
                             <h3><a href="advancements-in-reinforcement-learning-for-robotics-by-loveleen-narang.html">Advancements in Reinforcement Learning for Robotics</a></h3>
                         </div>
                         <p class="article-metadata">
-                            <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                            <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 10, 2025</span>
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 10, 2025</span>
+                            </span>
                             </p>
                     </li>
                     <li class="article-item card card-highlight">
@@ -434,9 +502,11 @@
                             <i class="fa-solid fa-newspaper article-icon"></i>
                             <h3><a href="ai-in-journalism-automation-and-fact-checking-by-lisa-williams.html">AI in Journalism: Automation and Fact-Checking</a></h3>
                         </div>
-                        <p class="article-metadata">
-                            <span class="info-span"><i class="fa-regular fa-user"></i> Lisa Williams</span>
-                            <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 25, 2023</span>
+                         <p class="article-metadata">
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lisa Williams</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 25, 2023</span>
+                            </span>
                             </p>
                     </li>
                      <li class="article-item card card-highlight">
@@ -445,8 +515,10 @@
                              <h3><a href="deep-learning-techniques-for-natural-language-understanding-by-loveleen-narang.html">Deep Learning Techniques for Natural Language Understanding</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 8, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 8, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -454,10 +526,12 @@
                              <i class="fa-solid fa-scale-balanced article-icon"></i>
                              <h3><a href="ai-and-democracy-challenges-and-opportunities-by-cheng-zhang.html">AI and Democracy: Challenges and Opportunities</a></h3>
                          </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Cheng Zhang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 1, 2024</span>
-                             </p>
+                          <p class="article-metadata">
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Cheng Zhang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 1, 2024</span>
+                            </span>
+                            </p>
                      </li>
                      <li class="article-item card card-highlight">
                          <div class="article-header">
@@ -465,8 +539,10 @@
                              <h3><a href="scalable-algorithms-for-big-data-analytics-by-loveleen-narang.html">Scalable Algorithms for Big Data Analytics</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 5, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 5, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -475,8 +551,10 @@
                              <h3><a href="ai-for-personalized-nutrition-and-fitness-plans-by-andra-vaduva.html">AI for Personalized Nutrition and Fitness Plans</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Andra Vaduva</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 15, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Andra Vaduva</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 15, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -484,19 +562,23 @@
                              <i class="fa-solid fa-shield-halved article-icon"></i>
                              <h3><a href="federated-learning-privacy-preserving-collaborative-models-by-loveleen-narang.html">Federated Learning: Privacy-Preserving Collaborative Models</a></h3>
                          </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 2, 2025</span>
-                             </p>
+                          <p class="article-metadata">
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 2, 2025</span>
+                            </span>
+                            </p>
                      </li>
                       <li class="article-item card card-highlight">
                          <div class="article-header">
                             <i class="fa-solid fa-user-secret article-icon"></i>
                              <h3><a href="ai-for-detecting-deepfakes-and-misinformation-by-jakub-tomczak.html">AI for Detecting Deepfakes and Misinformation</a></h3>
                          </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Jakub Tomczak</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> August 8, 2023</span>
+                          <p class="article-metadata">
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Jakub Tomczak</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>August 8, 2023</span>
+                            </span>
                               </p>
                     </li>
                      <li class="article-item card card-highlight">
@@ -504,10 +586,12 @@
                              <i class="fa-solid fa-magnifying-glass article-icon"></i>
                              <h3><a href="interpretable-ai-methods-and-challenges-by-loveleen-narang.html">Interpretable AI: Methods and Challenges</a></h3>
                          </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 30, 2025</span>
-                             </p>
+                          <p class="article-metadata">
+                            <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 30, 2025</span>
+                            </span>
+                            </p>
                      </li>
                      <li class="article-item card card-highlight">
                          <div class="article-header">
@@ -515,38 +599,46 @@
                              <h3><a href="ai-and-the-future-of-language-learning-tools-by-santhosh-vijayabaskar.html">AI and the Future of Language Learning Tools</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Santhosh Vijayabaskar</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 19, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Santhosh Vijayabaskar</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 19, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
-                         <div class="article-header">
-                             <i class="fa-solid fa-camera-retro article-icon"></i>
-                             <h3><a href="computer-vision-trends-object-detection-and-segmentation-by-loveleen-narang.html">Computer Vision Trends: Object Detection and Segmentation</a></h3>
-                         </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 02, 2025</span>
-                             </p>
-                     </li>
-                      <li class="article-item card card-highlight">
-                         <div class="article-header">
-                             <i class="fa-solid fa-bolt article-icon"></i>
-                             <h3><a href="ai-for-smart-grid-management-and-efficiency-by-nancy-chen.html">AI for Smart Grid Management and Efficiency</a></h3>
-                         </div>
-                         <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Nancy Chen</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 22, 2023</span>
-                             </p>
-                     </li>
+                        <div class="article-header">
+                            <i class="fa-solid fa-camera-retro article-icon"></i>
+                            <h3><a href="computer-vision-trends-object-detection-and-segmentation-by-loveleen-narang.html">Computer Vision Trends: Object Detection and Segmentation</a></h3>
+                        </div>
+                        <p class="article-metadata">
+                            <span class="author-date-block">
+                               <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                               <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 02, 2025</span>
+                            </span>
+                            </p>
+                    </li>
                      <li class="article-item card card-highlight">
+                        <div class="article-header">
+                            <i class="fa-solid fa-bolt article-icon"></i>
+                            <h3><a href="ai-for-smart-grid-management-and-efficiency-by-nancy-chen.html">AI for Smart Grid Management and Efficiency</a></h3>
+                        </div>
+                        <p class="article-metadata">
+                            <span class="author-date-block">
+                               <span class="author-name"><i class="fa-regular fa-user"></i><strong>Nancy Chen</strong></span>
+                               <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 22, 2023</span>
+                            </span>
+                            </p>
+                    </li>
+                    <li class="article-item card card-highlight">
                          <div class="article-header">
                              <i class="fa-solid fa-image article-icon"></i>
                              <h3><a href="generative-adversarial-networks-gans-for-image-synthesis-by-loveleen-narang.html">Generative Adversarial Networks (GANs) for Image Synthesis</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 02, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 02, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -555,8 +647,10 @@
                              <h3><a href="ai-for-personalized-advertising-effectiveness-and-ethics-by-bo-young-lee.html">AI for Personalized Advertising: Effectiveness and Ethics</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Bo Young Lee</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> May 5, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Bo Young Lee</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>May 5, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -565,8 +659,10 @@
                              <h3><a href="time-series-forecasting-using-recurrent-neural-networks-by-loveleen-narang.html">Time Series Forecasting using Recurrent Neural Networks</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 22, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 22, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -575,8 +671,10 @@
                              <h3><a href="ai-in-agriculture-optimizing-irrigation-systems-by-david-glick.html">AI in Agriculture: Optimizing Irrigation Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> David Glick</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 12, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>David Glick</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 12, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -585,8 +683,10 @@
                              <h3><a href="optimization-techniques-in-machine-learning-models-by-loveleen-narang.html">Optimization Techniques in Machine Learning Models</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 02, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 02, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -595,8 +695,10 @@
                              <h3><a href="ai-in-elderly-care-assistance-and-monitoring-by-ulrich-paquet.html">AI in Elderly Care: Assistance and Monitoring</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Ulrich Paquet</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 28, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Ulrich Paquet</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 28, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -605,8 +707,10 @@
                              <h3><a href="anomaly-detection-in-high-dimensional-data-by-loveleen-narang.html">Anomaly Detection in High-Dimensional Data</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 02, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 02, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -615,8 +719,10 @@
                              <h3><a href="ai-and-human-rights-risks-and-opportunities-by-lisa-gelobter.html">AI and Human Rights: Risks and Opportunities</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Lisa Gelobter</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 1, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lisa Gelobter</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 1, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -625,8 +731,10 @@
                              <h3><a href="explainable-ai-xai-frameworks-compared-by-loveleen-narang.html">Explainable AI (XAI) Frameworks Compared</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 02, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 02, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -635,8 +743,10 @@
                              <h3><a href="ai-powered-video-analysis-and-understanding-by-yixuan-even-xu.html">AI-Powered Video Analysis and Understanding</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Yixuan Even Xu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> September 19, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Yixuan Even Xu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>September 19, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -645,8 +755,10 @@
                              <h3><a href="transfer-learning-applications-in-medical-imaging-by-loveleen-narang.html">Transfer Learning Applications in Medical Imaging</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> September 04, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>September 04, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -655,8 +767,10 @@
                              <h3><a href="ai-for-personalized-investment-portfolio-management-by-nathaniel-palmer.html">AI for Personalized Investment Portfolio Management</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Nathaniel Palmer</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 4, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Nathaniel Palmer</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 4, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -665,8 +779,10 @@
                              <h3><a href="bayesian-methods-for-machine-learning-uncertainty-by-loveleen-narang.html">Bayesian Methods for Machine Learning Uncertainty</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> August 4, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>August 4, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -675,8 +791,10 @@
                              <h3><a href="ai-for-enhancing-virtual-assistants-capabilities-by-fei-fang.html">AI for Enhancing Virtual Assistants' Capabilities</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Fei Fang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 10, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Fei Fang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 10, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -685,8 +803,10 @@
                              <h3><a href="ethical-considerations-in-ai-development-by-loveleen-narang.html">Ethical Considerations in AI Development</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 4, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 4, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -695,8 +815,10 @@
                              <h3><a href="ai-in-music-recommendation-systems-by-ramnath-natarajan.html">AI in Music Recommendation Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Ramnath Natarajan</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 18, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Ramnath Natarajan</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 18, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -705,8 +827,10 @@
                              <h3><a href="graph-neural-networks-for-structured-data-by-loveleen-narang.html">Graph Neural Networks for Structured Data</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 1, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 1, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -715,8 +839,10 @@
                              <h3><a href="ai-for-personalized-content-creation-by-ginevra-castellano.html">AI for Personalized Content Creation</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Ginevra Castellano</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 3, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Ginevra Castellano</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 3, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -725,8 +851,10 @@
                              <h3><a href="self-supervised-learning-approaches-by-loveleen-narang.html">Self-Supervised Learning Approaches</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> May 26, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>May 26, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -735,8 +863,10 @@
                              <h3><a href="ai-and-the-future-of-art-curation-by-micheline-casey.html">AI and the Future of Art Curation</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Micheline Casey</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> August 27, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Micheline Casey</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>August 27, 2023</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -745,8 +875,10 @@
                              <h3><a href="causal-inference-in-machine-learning-models-by-loveleen-narang.html">Causal Inference in Machine Learning Models</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 23, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 23, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -755,8 +887,10 @@
                              <h3><a href="ai-for-assisting-legal-research-and-document-review-by-razvan-pascanu.html">AI for Assisting Legal Research and Document Review</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Razvan Pascanu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 11, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Razvan Pascanu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 11, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -765,8 +899,10 @@
                              <h3><a href="machine-learning-for-climate-change-modeling-by-loveleen-narang.html">Machine Learning for Climate Change Modeling</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 20, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 20, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -775,8 +911,10 @@
                              <h3><a href="ai-for-personalized-education-systems-by-daniel-hulme.html">AI for Personalized Education Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Daniel Hulme</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 14, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Daniel Hulme</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 14, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -785,8 +923,10 @@
                              <h3><a href="quantum-machine-learning-prospects-and-challenges-by-loveleen-narang.html">Quantum Machine Learning: Prospects and Challenges</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 17, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 17, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -795,8 +935,10 @@
                              <h3><a href="ai-and-the-future-of-remote-work-collaboration-tools-by-meg-risdal.html">AI and the Future of Remote Work Collaboration Tools</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Meg Risdal</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 2, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Meg Risdal</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 2, 2023</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -805,8 +947,10 @@
                              <h3><a href="automated-machine-learning-(automl)-systems-by-loveleen-narang.html">Automated Machine Learning (AutoML) Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 14, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 14, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -815,8 +959,10 @@
                              <h3><a href="ai-in-supply-chain-risk-management-by-walter-sun.html">AI in Supply Chain Risk Management</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Walter Sun</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 10, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Walter Sun</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 10, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -825,8 +971,10 @@
                              <h3><a href="ai-in-drug-discovery-and-development-by-loveleen-narang.html">AI in Drug Discovery and Development</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 11, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 11, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -835,8 +983,10 @@
                              <h3><a href="ai-for-optimizing-renewable-energy-integration-by-alex-yeh.html">AI for Optimizing Renewable Energy Integration</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Alex Yeh</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 2, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Alex Yeh</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 2, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -845,8 +995,10 @@
                              <h3><a href="robustness-and-adversarial-attacks-on-neural-networks-by-loveleen-narang.html">Robustness and Adversarial Attacks on Neural Networks</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 8, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 8, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -855,8 +1007,10 @@
                              <h3><a href="neuro-symbolic-ai-combining-learning-and-reasoning-by-amanda-crawford.html">Neuro-Symbolic AI: Combining Learning and Reasoning</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Amanda Crawford</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 5, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Amanda Crawford</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 5, 2023</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -865,8 +1019,10 @@
                              <h3><a href="deep-reinforcement-learning-for-game-playing-by-loveleen-narang.html">Deep Reinforcement Learning for Game Playing</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 5, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 5, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -875,8 +1031,10 @@
                              <h3><a href="ai-and-algorithmic-fairness-in-insurance-pricing-by-allie-k-miller.html">AI and Algorithmic Fairness in Insurance Pricing</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Allie K. Miller</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> May 29, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Allie K. Miller</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>May 29, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -885,8 +1043,10 @@
                              <h3><a href="multi-agent-systems-and-collaborative-ai-by-loveleen-narang.html">Multi-Agent Systems and Collaborative AI</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 2, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 2, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -895,8 +1055,10 @@
                              <h3><a href="ai-for-monitoring-and-protecting-endangered-species-by-konstantina-palla.html">AI for Monitoring and Protecting Endangered Species</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Konstantina Palla</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 11, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Konstantina Palla</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 11, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -905,8 +1067,10 @@
                              <h3><a href="sentiment-analysis-using-transformer-models-by-loveleen-narang.html">Sentiment Analysis using Transformer Models</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 30, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 30, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -915,8 +1079,10 @@
                              <h3><a href="ai-in-waste-management-and-recycling-optimization-by-dr-lynne-parker.html">AI in Waste Management and Recycling Optimization</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Dr. Lynne Parker</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> August 17, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Dr. Lynne Parker</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>August 17, 2023</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -925,8 +1091,10 @@
                              <h3><a href="dimensionality-reduction-techniques-pca-vs.-t-sne-by-loveleen-narang.html">Dimensionality Reduction Techniques: PCA vs. t-SNE</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 27, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 27, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -935,8 +1103,10 @@
                              <h3><a href="ai-ethics-frameworks-for-government-use-by-maria-luciana.html">AI Ethics Frameworks for Government Use</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Maria Luciana</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 22, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Maria Luciana</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 22, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -945,8 +1115,10 @@
                              <h3><a href="ai-for-personalized-education-systems-by-loveleen-narang.html">AI for Personalized Education Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 24, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 24, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -955,8 +1127,10 @@
                              <h3><a href="knowledge-graphs-in-ai-systems-by-lee-bogner.html">Knowledge Graphs in AI Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Lee Bogner</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 30, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lee Bogner</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 30, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -965,8 +1139,10 @@
                              <h3><a href="recommender-systems-collaborative-vs.-content-based-by-loveleen-narang.html">Recommender Systems: Collaborative vs. Content-Based</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 21, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 21, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -975,8 +1151,10 @@
                              <h3><a href="ai-for-precision-irrigation-in-farming-by-francesco-locatello.html">AI for Precision Irrigation in Farming</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Francesco Locatello</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 8, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Francesco Locatello</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 8, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -985,8 +1163,10 @@
                              <h3><a href="speech-recognition-technologies-and-models-by-loveleen-narang.html">Speech Recognition Technologies and Models</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 18, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 18, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -995,8 +1175,10 @@
                              <h3><a href="machine-learning-for-predictive-maintenance-in-aviation-by-hsuan-tien-lin.html">Machine Learning for Predictive Maintenance in Aviation</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Hsuan-Tien Lin</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 14, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Hsuan-Tien Lin</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 14, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1005,8 +1187,10 @@
                               <h3><a href="machine-learning-interpretability-tools-by-loveleen-narang.html">Machine Learning Interpretability Tools</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 15, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 15, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1015,8 +1199,10 @@
                              <h3><a href="ai-ethics-in-autonomous-driving-the-trolley-problem-revisited-by-junhao-dong.html">AI Ethics in Autonomous Driving: The Trolley Problem Revisited</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Junhao Dong</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> September 3, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Junhao Dong</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>September 3, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1025,8 +1211,10 @@
                               <h3><a href="bias-detection-and-mitigation-in-ai-algorithms-by-loveleen-narang.html">Bias Detection and Mitigation in AI Algorithms</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 12, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 12, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1035,8 +1223,10 @@
                              <h3><a href="ai-and-the-future-of-human-resources-management-by-azadeh-williams.html">AI and the Future of Human Resources Management</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Azadeh Williams</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> May 11, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Azadeh Williams</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>May 11, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1045,8 +1235,10 @@
                              <h3><a href="applications-of-ai-in-financial-modeling-by-loveleen-narang.html">Applications of AI in Financial Modeling</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 9, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 9, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1055,8 +1247,10 @@
                              <h3><a href="ai-for-personalized-tourism-recommendations-by-lisa-palmer.html">AI for Personalized Tourism Recommendations</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Lisa Palmer</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 28, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lisa Palmer</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 28, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1065,8 +1259,10 @@
                              <h3><a href="meta-learning-learning-to-learn-by-loveleen-narang.html">Meta-Learning: Learning to Learn</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 6, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 6, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1075,8 +1271,10 @@
                              <h3><a href="ai-generated-text-detecting-machine-vs-human-writing-by-po-yi-lu.html">AI-Generated Text: Detecting Machine vs. Human Writing</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Po-Yi Lu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 25, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Po-Yi Lu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 25, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1085,8 +1283,10 @@
                              <h3><a href="edge-computing-for-real-time-ai-applications-by-loveleen-narang.html">Edge Computing for Real-Time AI Applications</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 3, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 3, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1095,8 +1295,10 @@
                              <h3><a href="machine-learning-for-genomics-and-bioinformatics-by-jeff-winter.html">Machine Learning for Genomics and Bioinformatics</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Jeff Winter</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 20, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Jeff Winter</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 20, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1105,8 +1307,10 @@
                               <h3><a href="neuro-symbolic-ai-integration-by-loveleen-narang.html">Neuro-Symbolic AI Integration</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 31, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 31, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1115,8 +1319,10 @@
                              <h3><a href="ai-powered-cybersecurity-threat-hunting-by-amba-kak.html">AI-Powered Cybersecurity Threat Hunting</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Amba Kak</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 8, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Amba Kak</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 8, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1125,8 +1331,10 @@
                              <h3><a href="ai-in-cybersecurity-threat-detection-by-loveleen-narang.html">AI in Cybersecurity: Threat Detection</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 28, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 28, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1135,8 +1343,10 @@
                              <h3><a href="building-ai-applications-with-serverless-architectures-by-holly-foxcroft.html">Building AI Applications with Serverless Architectures</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Holly Foxcroft</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 29, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Holly Foxcroft</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 29, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1145,8 +1355,10 @@
                              <h3><a href="evolutionary-algorithms-for-optimization-by-loveleen-narang.html">Evolutionary Algorithms for Optimization</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 25, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 25, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1155,8 +1367,10 @@
                              <h3><a href="meta-learning-learning-to-learn-by-elena-burceanu.html">Meta-Learning: Learning to Learn</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Elena Burceanu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 4, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Elena Burceanu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 4, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1165,8 +1379,10 @@
                              <h3><a href="natural-language-generation-techniques-by-loveleen-narang.html">Natural Language Generation Techniques</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 22, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 22, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1175,8 +1391,10 @@
                              <h3><a href="ai-in-financial-trading-strategies-by-richard-dasselaar.html">AI in Financial Trading Strategies</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Richard Dasselaar</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> August 11, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Richard Dasselaar</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>August 11, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1185,8 +1403,10 @@
                              <h3><a href="unsupervised-learning-methods-exploration-by-loveleen-narang.html">Unsupervised Learning Methods Exploration</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 19, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 19, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1195,8 +1415,10 @@
                              <h3><a href="ai-and-algorithmic-bias-in-loan-applications-by-lora-aroyo.html">AI and Algorithmic Bias in Loan Applications</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Lora Aroyo</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 16, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lora Aroyo</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 16, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1205,8 +1427,10 @@
                              <h3><a href="human-in-the-loop-machine-learning-by-loveleen-narang.html">Human-in-the-Loop Machine Learning</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 16, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 16, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1215,8 +1439,10 @@
                              <h3><a href="ai-powered-tools-for-software-development-by-piotr-koniusz.html">AI-Powered Tools for Software Development</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Piotr Koniusz</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 29, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Piotr Koniusz</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 29, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1225,8 +1451,10 @@
                              <h3><a href="ai-for-autonomous-vehicle-navigation-by-loveleen-narang.html">AI for Autonomous Vehicle Navigation</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 13, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 13, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1235,8 +1463,10 @@
                              <h3><a href="ai-powered-tools-for-language-tutoring-by-danielle-belgrave.html">AI-Powered Tools for Language Tutoring</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Danielle Belgrave</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 5, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Danielle Belgrave</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 5, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1245,8 +1475,10 @@
                              <h3><a href="predictive-maintenance-using-ml-models-by-loveleen-narang.html">Predictive Maintenance using ML Models</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 10, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 10, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1255,8 +1487,10 @@
                              <h3><a href="building-fairer-recommendation-systems-by-marzyeh-ghassemi.html">Building Fairer Recommendation Systems</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Marzyeh Ghassemi</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> May 22, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Marzyeh Ghassemi</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>May 22, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1265,8 +1499,10 @@
                              <h3><a href="few-shot-learning-strategies-by-loveleen-narang.html">Few-Shot Learning Strategies</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 7, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 7, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1275,8 +1511,10 @@
                              <h3><a href="ai-for-adaptive-learning-systems-in-corporate-training-by-helen-yu.html">AI for Adaptive Learning Systems in Corporate Training</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Helen Yu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> January 8, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Helen Yu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>January 8, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1285,8 +1523,10 @@
                              <h3><a href="knowledge-graphs-and-reasoning-by-loveleen-narang.html">Knowledge Graphs and Reasoning</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 4, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 4, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1295,8 +1535,10 @@
                              <h3><a href="machine-learning-model-compression-techniques-by-irene-lyakovetsky.html">Machine Learning Model Compression Techniques</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Irene Lyakovetsky</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 1, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Irene Lyakovetsky</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 1, 2023</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1305,8 +1547,10 @@
                               <h3><a href="ai-ethics-frameworks-a-comparative-study-by-loveleen-narang.html">AI Ethics Frameworks: A Comparative Study</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 1, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 1, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1315,8 +1559,10 @@
                              <h3><a href="ai-and-the-ethics-of-emotional-ai-affective-computing-by-joaquin-vanschoren.html">AI and the Ethics of Emotional AI (Affective Computing)</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Joaquin Vanschoren</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 14, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Joaquin Vanschoren</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 14, 2025</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1325,8 +1571,10 @@
                               <h3><a href="continual-learning-without-catastrophic-forgetting-by-loveleen-narang.html">Continual Learning without Catastrophic Forgetting</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 28, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 28, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1335,8 +1583,10 @@
                              <h3><a href="the-future-of-human-ai-collaboration-by-rami-deeb.html">The Future of Human-AI Collaboration</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Rami Deeb</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 25, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Rami Deeb</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 25, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1345,8 +1595,10 @@
                              <h3><a href="machine-learning-operations-(mlops)-practices-by-loveleen-narang.html">Machine Learning Operations (MLOps) Practices</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 25, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 25, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1355,8 +1607,10 @@
                              <h3><a href="ai-for-personalized-game-difficulty-adjustment-by-lauren-dunford.html">AI for Personalized Game Difficulty Adjustment</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Lauren Dunford</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> June 19, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Lauren Dunford</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>June 19, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1365,8 +1619,10 @@
                              <h3><a href="privacy-enhancing-technologies-in-ai-by-loveleen-narang.html">Privacy Enhancing Technologies in AI</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 22, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 22, 2024</span>
+                             </span>
                              </p>
                      </li>
                       <li class="article-item card card-highlight">
@@ -1375,8 +1631,10 @@
                              <h3><a href="ai-for-enhancing-cybersecurity-defenses-by-sneha-revanur.html">AI for Enhancing Cybersecurity Defenses</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Sneha Revanur</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> February 28, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Sneha Revanur</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>February 28, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1385,8 +1643,10 @@
                              <h3><a href="transformer-architectures-beyond-nlp-by-loveleen-narang.html">Transformer Architectures Beyond NLP</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 19, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 19, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1395,8 +1655,10 @@
                              <h3><a href="ai-assisted-drug-repurposing-by-andreas-welsch.html">AI-Assisted Drug Repurposing</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Andreas Welsch</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> September 12, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Andreas Welsch</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>September 12, 2023</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1405,8 +1667,10 @@
                              <h3><a href="the-future-of-artificial-general-intelligence-agi-by-loveleen-narang.html">The Future of Artificial General Intelligence (AGI)</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Loveleen Narang</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> November 16, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Loveleen Narang</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>November 16, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1415,8 +1679,10 @@
                              <h3><a href="ai-generated-music-creative-potential-and-legal-issues-by-zhengyuan-liu.html">AI-Generated Music: Creative Potential and Legal Issues</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Zhengyuan Liu</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> April 5, 2025</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Zhengyuan Liu</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>April 5, 2025</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1425,8 +1691,10 @@
                              <h3><a href="quantum-machine-learning-an-overview-by-samuel-fraiberger.html">Quantum Machine Learning: An Overview</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Samuel Fraiberger</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> December 18, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Samuel Fraiberger</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>December 18, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1435,8 +1703,10 @@
                              <h3><a href="ai-for-monitoring-deforestation-by-isha-puri.html">AI for Monitoring Deforestation</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Isha Puri</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> July 29, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Isha Puri</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>July 29, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1445,8 +1715,10 @@
                              <h3><a href="understanding-causality-in-machine-learning-by-zhenyu-sherry-xue.html">Understanding Causality in Machine Learning</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Zhenyu Sherry Xue</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> March 8, 2024</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Zhenyu Sherry Xue</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>March 8, 2024</span>
+                             </span>
                              </p>
                      </li>
                      <li class="article-item card card-highlight">
@@ -1455,8 +1727,10 @@
                              <h3><a href="continual-learning-enabling-ai-to-learn-over-time-by-nathaniel-palmer.html">Continual Learning: Enabling AI to Learn Over Time</a></h3>
                          </div>
                          <p class="article-metadata">
-                             <span class="info-span"><i class="fa-regular fa-user"></i> Nathaniel Palmer</span>
-                             <span class="info-span"><i class="fa-regular fa-calendar-days"></i> October 21, 2023</span>
+                             <span class="author-date-block">
+                                <span class="author-name"><i class="fa-regular fa-user"></i><strong>Nathaniel Palmer</strong></span>
+                                <span class="publish-date"><i class="fa-regular fa-calendar-days"></i>October 21, 2023</span>
+                             </span>
                              </p>
                      </li>
                     </ul>
@@ -1503,27 +1777,24 @@
                 statsContainer.classList.add('stats-span');
 
                 const viewsSpan = document.createElement('span');
-                viewsSpan.innerHTML = `<i class="fa-solid fa-eye"></i> ${views.toLocaleString()}`;
+                // Added text label and bold number
+                viewsSpan.innerHTML = `<i class="fa-solid fa-eye"></i> <strong>${views.toLocaleString()}</strong> Views`;
 
                 const likesSpan = document.createElement('span');
-                likesSpan.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> ${likes.toLocaleString()}`;
+                 // Added text label and bold number
+                likesSpan.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> <strong>${likes.toLocaleString()}</strong> Likes`;
 
-                // Added Download Span
                 const downloadsSpan = document.createElement('span');
-                downloadsSpan.innerHTML = `<i class="fa-solid fa-file-arrow-down"></i> ${downloads.toLocaleString()}`;
+                 // Added text label and bold number
+                downloadsSpan.innerHTML = `<i class="fa-solid fa-file-arrow-down"></i> <strong>${downloads.toLocaleString()}</strong> Downloads`;
 
                 // --- Append Elements ---
                 statsContainer.appendChild(viewsSpan);
                 statsContainer.appendChild(likesSpan);
-                statsContainer.appendChild(downloadsSpan); // Append downloads
+                statsContainer.appendChild(downloadsSpan);
 
                 // Append the container span to the metadata paragraph
                 metadataEl.appendChild(statsContainer);
-
-                 // Add placeholder spans in HTML to ensure structure exists before JS runs
-                 // (Optional but can help prevent layout shifts)
-                 // Example: You could have empty spans like <span class="info-span"></span>
-                 // in the original HTML if needed, but current CSS handles wrapping well.
             });
         });
     </script>
